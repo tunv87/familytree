@@ -4,20 +4,11 @@
  *  - nothing overflows horizontally
  * Screenshots go to test-results/screens/<variant>-<screen>.png for a visual pass.
  */
-import { devices, expect, test, type Browser, type Page } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
+import { createFamily, fillPerson, newDevice, signInAdmin } from './helpers';
 
 const VARIANTS = { normal: false, big: true } as const;
 type Variant = keyof typeof VARIANTS;
-
-async function open(browser: Browser, variant: Variant) {
-  const ctx = await browser.newContext({ ...devices['iPhone 14'] });
-  await ctx.addInitScript((bigText) => {
-    localStorage.setItem('ft:settings', JSON.stringify({ bigText }));
-  }, VARIANTS[variant]);
-  const page = await ctx.newPage();
-  page.on('pageerror', (e) => console.error('[pageerror]', e.message));
-  return page;
-}
 
 async function checkScreen(page: Page, variant: Variant, screen: string) {
   await page.waitForTimeout(350); // let pop/fade animations finish
@@ -57,22 +48,40 @@ async function checkScreen(page: Page, variant: Variant, screen: string) {
 
 for (const variant of Object.keys(VARIANTS) as Variant[]) {
   test(`all screens look right (${variant} text)`, async ({ browser }) => {
-    const page = await open(browser, variant);
+    const page = await newDevice(browser, { bigText: VARIANTS[variant] });
+    await page.goto('/');
+    await checkScreen(page, variant, 'welcome');
+    await signInAdmin(page, `ui-${variant}`);
+    await checkScreen(page, variant, 'settings');
+    await page.getByRole('button', { name: /Nhật ký lỗi/ }).click();
+    await checkScreen(page, variant, 'debug');
+
+    await createFamily(page, 'Họ Nguyễn — làng Đông Ngạc, Hà Nội');
+    await checkScreen(page, variant, 'add-first');
+    await fillPerson(page, {
+      name: 'Nguyễn Văn Trường Giang',
+      birth: [1, 1, 1920],
+      death: { d: 10, m: 3, y: 1990 },
+    });
+    await checkScreen(page, variant, 'person');
+    await page.getByTestId('add-child').click();
+    await page.getByTestId('deceased').click();
+    await checkScreen(page, variant, 'person-form');
+    await page.getByRole('button', { name: 'Quay lại' }).click();
+
     await page.goto('/');
     await checkScreen(page, variant, 'home');
     for (const [id, screen] of [
+      ['home-people', 'people'],
       ['home-tree', 'tree'],
       ['home-calendar', 'calendar'],
       ['home-invite', 'invite'],
     ]) {
       await page.getByTestId(id).click();
-      await expect(page.getByTestId('coming-soon')).toBeVisible();
       await checkScreen(page, variant, screen);
       await page.getByRole('button', { name: 'Quay lại' }).click();
     }
-    await page.getByRole('button', { name: 'Cài đặt' }).click();
-    await checkScreen(page, variant, 'settings');
-    await page.getByRole('button', { name: /Nhật ký lỗi/ }).click();
-    await checkScreen(page, variant, 'debug');
+    await page.goto('/#/families');
+    await checkScreen(page, variant, 'families');
   });
 }

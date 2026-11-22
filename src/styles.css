@@ -253,18 +253,20 @@ input {
 /* ---------- home ---------- */
 .home-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
 .home-card {
   flex-direction: column;
+  justify-content: center;
   text-align: center;
-  padding: 24px 16px;
+  padding: 16px 8px;
+  gap: 8px;
 }
 
 .home-card .emoji {
-  font-size: 4em;
+  font-size: 3em;
 }
 
 /* ---------- settings / debug ---------- */
@@ -320,4 +322,209 @@ input {
 .account-row .btn {
   min-height: 52px;
   padding: 8px 16px;
+}
+
+/* ---------- lists & people ---------- */
+.section-title {
+  margin: 8px 0 0;
+  font-size: 1em;
+  color: var(--muted);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.person-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: var(--tap);
+  padding: 8px 12px;
+  border-radius: 16px;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  text-align: left;
+  cursor: pointer;
+}
+
+.person-row .name {
+  display: block;
+  font-weight: 700;
+}
+
+.person-row .sub {
+  display: block;
+  color: var(--muted);
+  font-size: 0.8em;
+}
+
+.person-row.deceased .avatar {
+  filter: grayscale(0.7);
+}
+
+.person-row .chev {
+  color: var(--muted);
+  font-size: 1.4em;
+}
+
+.avatar {
+  font-size: 1.4em;
+  width: 1.8em;
+  height: 1.8em;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  background: #fdf1d6;
+  flex: none;
+}
+
+.avatar.big {
+  font-size: 2.6em;
+}
+
+.profile-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.profile-head h2 {
+  margin: 4px 0 0;
+  font-size: 1.4em;
+}
+
+.detail-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  border: 2px solid var(--border);
+  background: var(--surface);
+}
+
+.detail-card:empty {
+  display: none;
+}
+
+.detail {
+  display: flex;
+  gap: 12px;
+}
+
+.detail .label {
+  flex: none;
+  min-width: 4.5em;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.detail.highlight {
+  background: #fdf1d6;
+  border-radius: 12px;
+  padding: 6px 8px;
+  margin: 0 -8px;
+}
+
+.small {
+  font-size: 0.8em;
+}
+
+.pre {
+  white-space: pre-wrap;
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.action-grid .btn {
+  padding: 8px 10px;
+  font-size: 0.95em;
+}
+
+.btn.danger {
+  color: var(--bad);
+}
+
+/* ---------- forms ---------- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 700;
+}
+
+.field > .muted {
+  font-weight: 400;
+}
+
+textarea.text-input {
+  min-height: 0;
+  font-weight: 400;
+  resize: vertical;
+}
+
+select.text-input {
+  background: var(--surface);
+}
+
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.date-input {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 400;
+}
+
+.dmy {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.5fr;
+  gap: 8px;
+}
+
+.dmy label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.8em;
+  color: var(--muted);
+}
+
+.dmy .text-input {
+  text-align: center;
+  padding: 8px 4px;
+  font-size: 1.25em;
+  color: var(--text);
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.check input {
+  width: 28px;
+  height: 28px;
+  accent-color: var(--primary);
+}
+
+.search {
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }

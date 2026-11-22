@@ -5,6 +5,7 @@ import {
   getAuth,
   onAuthStateChanged,
   signInAnonymously,
+  signInWithCredential,
   signInWithPopup,
   signInWithRedirect,
   signOut as fbSignOut,
@@ -51,6 +52,13 @@ function init() {
     connectAuthEmulator(auth, `http://${emuHost}:9099`, { disableWarnings: true });
     connectDatabaseEmulator(db, emuHost, 9000);
     log.info('using emulators', { emuHost });
+    // e2e tests sign in as a Google admin without the popup (the emulator accepts fake tokens)
+    (window as unknown as Record<string, unknown>).__testSignIn = async (name: string) => {
+      const cred = GoogleAuthProvider.credential(
+        JSON.stringify({ sub: name, email: `${name}@example.com`, email_verified: true, name }),
+      );
+      await signInWithCredential(auth!, cred);
+    };
   }
   onAuthStateChanged(auth, (u) => {
     current = u;

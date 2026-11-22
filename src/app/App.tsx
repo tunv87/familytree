@@ -1,5 +1,9 @@
 import { useEffect } from 'react';
 import { HashRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { FamiliesScreen, NewFamilyScreen, OpenFamilyLink } from '../family/FamiliesScreen';
+import { PeopleScreen } from '../family/PeopleScreen';
+import { PersonFormScreen } from '../family/PersonForm';
+import { PersonScreen } from '../family/PersonScreen';
 import { createLogger } from '../lib/logger';
 import { ComingSoon } from './ComingSoon';
 import { DebugScreen } from './DebugScreen';
@@ -26,6 +30,13 @@ export function App() {
       <RouteLogger />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/f/:fid" element={<OpenFamilyLink />} />
+        <Route path="/families" element={<FamiliesScreen />} />
+        <Route path="/new-family" element={<NewFamilyScreen />} />
+        <Route path="/people" element={<PeopleScreen />} />
+        <Route path="/p/:pid" element={<PersonScreen />} />
+        <Route path="/edit/:pid" element={<PersonFormScreen />} />
+        <Route path="/add" element={<PersonFormScreen />} />
         <Route path="/tree" element={<ComingSoon title="tree" />} />
         <Route path="/calendar" element={<ComingSoon title="calendar" />} />
         <Route path="/invite" element={<ComingSoon title="invite" />} />

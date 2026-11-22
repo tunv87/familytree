@@ -1,11 +1,12 @@
 import { expect, test } from '@playwright/test';
 
-test('home shows the main sections', async ({ page }) => {
+test('first open: invites to open a link or create a family', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { name: 'Gia phả' })).toBeVisible();
-  await expect(page.getByTestId('home-tree')).toContainText('Cây gia phả');
-  await expect(page.getByTestId('home-calendar')).toContainText('Lịch âm dương');
-  await expect(page.getByTestId('home-invite')).toBeVisible();
+  await expect(page.getByTestId('family-status')).toContainText('mở link');
+  await expect(page.getByTestId('home-new-family')).toBeVisible();
+  await page.getByTestId('home-new-family').click();
+  await expect(page.getByText('Cần đăng nhập Google')).toBeVisible();
 });
 
 test('large text setting is remembered after reload', async ({ page }) => {

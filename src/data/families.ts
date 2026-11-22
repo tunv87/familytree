@@ -1,6 +1,7 @@
-import { get, onValue, ref, serverTimestamp, set } from 'firebase/database';
+import { get, onValue, ref, serverTimestamp, set, update } from 'firebase/database';
 import { createLogger } from '../lib/logger';
 import { ensureSignedIn, getDb } from './firebase';
+import type { Updates } from './people';
 import type { Family, Person } from './types';
 
 const log = createLogger('families');
@@ -76,4 +77,9 @@ export async function savePerson(familyId: string, personId: string, person: Per
     ...clean,
     updatedAt: serverTimestamp(),
   });
+}
+
+/** Applies multi-path updates relative to the family root in one atomic write. */
+export async function applyFamilyUpdates(familyId: string, updates: Updates) {
+  await update(ref(getDb(), `families/${familyId}`), updates);
 }
