@@ -897,3 +897,21 @@ select.text-input {
   font-weight: 800;
   font-size: 1.1em;
 }
+
+.chip-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 6px 6px 14px;
+  border-radius: 14px;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  font-weight: 400;
+}
+
+.icon-btn.small {
+  width: 44px;
+  height: 44px;
+  font-size: 1em;
+  box-shadow: none;
+}

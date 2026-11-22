@@ -121,6 +121,12 @@ export const vi = {
   howTo2: 'Trên iPhone: mở bằng Safari → nút Chia sẻ → “Thêm vào MH chính”.',
   howTo3: 'Lần sau mở biểu tượng Gia phả trên màn hình là xem được, kể cả khi mất mạng.',
 
+  // relations
+  editRelations: 'Sửa quan hệ',
+  unlink: 'Gỡ liên kết',
+  pickExisting: 'Chọn người có sẵn…',
+  relationsHint: 'Dùng khi nhập nhầm cha/mẹ hoặc muốn nối hai người đã có sẵn thành vợ chồng.',
+
   // person form
   newPerson: 'Thêm người',
   editPerson: 'Sửa thông tin',
@@ -150,6 +156,10 @@ export const vi = {
   saveError: 'Không lưu được. Kiểm tra mạng hoặc quyền quản trị.',
   required: 'Cần nhập họ tên',
   viewOnly: 'Bạn đang xem. Chỉ quản trị mới sửa được.',
+
+  crashTitle: 'Có lỗi xảy ra',
+  crashHint:
+    'Dữ liệu không bị mất. Hãy về trang chủ; nếu lỗi lặp lại, gửi nhật ký lỗi cho người quản trị.',
 
   // editing
   discardConfirm: 'Bỏ thay đổi chưa lưu?',

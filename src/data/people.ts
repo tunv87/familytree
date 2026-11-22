@@ -192,6 +192,40 @@ export function unmarryUpdates(a: string, b: string): Updates {
   return { [`people/${a}/spouses/${b}`]: null, [`people/${b}/spouses/${a}`]: null };
 }
 
+export interface Relations {
+  fatherId?: string;
+  motherId?: string;
+  spouses: string[];
+}
+
+/** Ids that can't be someone's parent without creating a loop: the person and their descendants. */
+export function descendantsAndSelf(people: People, id: string): Set<string> {
+  const out = new Set<string>();
+  const walk = (x: string) => {
+    if (out.has(x)) return;
+    out.add(x);
+    for (const c of Object.keys(people))
+      if (people[c].fatherId === x || people[c].motherId === x) walk(c);
+  };
+  walk(id);
+  return out;
+}
+
+/** Updates that change a person's parents and spouses (both sides of each marriage). */
+export function relinkUpdates(people: People, id: string, rel: Relations): Updates {
+  const p = people[id];
+  const u: Updates = {};
+  if ((rel.fatherId ?? null) !== (p.fatherId ?? null))
+    u[`people/${id}/fatherId`] = rel.fatherId || null;
+  if ((rel.motherId ?? null) !== (p.motherId ?? null))
+    u[`people/${id}/motherId`] = rel.motherId || null;
+  const before = new Set(spousesOf(people, id));
+  const after = new Set(rel.spouses.filter((s) => s !== id && people[s]));
+  for (const s of after) if (!before.has(s)) Object.assign(u, marryUpdates(id, s));
+  for (const s of before) if (!after.has(s)) Object.assign(u, unmarryUpdates(id, s));
+  return u;
+}
+
 /** "1920 – 1995", "s. 1985", "" */
 export function lifespan(p: Person): string {
   const b = p.birth?.y;

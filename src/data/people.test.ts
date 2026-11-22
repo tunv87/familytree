@@ -6,7 +6,9 @@ import {
   childrenOf,
   deletePersonUpdates,
   editPersonUpdates,
+  descendantsAndSelf,
   lifespan,
+  relinkUpdates,
   normalize,
   parentsOf,
   searchPeople,
@@ -160,5 +162,38 @@ describe('lifespan', () => {
       '1900 – ?',
     );
     expect(lifespan(P('a', 'm'))).toBe('');
+  });
+});
+
+describe('relinking', () => {
+  it('changes parents and spouses on both sides', () => {
+    const u = relinkUpdates(base, 'dung', {
+      fatherId: 'an',
+      motherId: undefined,
+      spouses: ['giang'],
+    });
+    const after = applyUpdates(base, u);
+    expect(after.dung.motherId).toBeUndefined();
+    expect(after.dung.fatherId).toBe('an');
+    expect(spousesOf(after, 'giang')).toEqual(['dung']);
+  });
+
+  it('removes a marriage on both sides', () => {
+    const after = applyUpdates(
+      base,
+      relinkUpdates(base, 'cuong', { fatherId: 'an', motherId: 'binh', spouses: [] }),
+    );
+    expect(spousesOf(after, 'cuong')).toEqual([]);
+    expect(spousesOf(after, 'em')).toEqual([]);
+  });
+
+  it('writes nothing when nothing changed', () => {
+    expect(
+      relinkUpdates(base, 'cuong', { fatherId: 'an', motherId: 'binh', spouses: ['em'] }),
+    ).toEqual({});
+  });
+
+  it('knows who cannot be a parent (no loops)', () => {
+    expect([...descendantsAndSelf(base, 'an')].sort()).toEqual(['an', 'cuong', 'dung', 'giang']);
   });
 });

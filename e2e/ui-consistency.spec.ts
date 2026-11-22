@@ -64,6 +64,9 @@ for (const variant of Object.keys(VARIANTS) as Variant[]) {
       death: { d: 10, m: 3, y: 1990 },
     });
     await checkScreen(page, variant, 'person');
+    await page.getByTestId('edit-relations').click();
+    await checkScreen(page, variant, 'relations');
+    await page.getByRole('button', { name: 'Quay lại' }).click();
     await page.getByTestId('add-child').click();
     await page.getByTestId('deceased').click();
     await checkScreen(page, variant, 'person-form');

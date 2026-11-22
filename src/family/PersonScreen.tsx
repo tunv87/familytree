@@ -198,6 +198,13 @@ function PersonView({
             </button>
           )}
           <button
+            className="btn secondary"
+            data-testid="edit-relations"
+            onClick={() => navigate(`/relations/${pid}`)}
+          >
+            🔗 {t('editRelations')}
+          </button>
+          <button
             className="btn secondary danger"
             data-testid="delete-person"
             onClick={() => setConfirmDelete(true)}

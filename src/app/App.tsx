@@ -6,9 +6,11 @@ import { FamiliesScreen, NewFamilyScreen, OpenFamilyLink } from '../family/Famil
 import { PeopleScreen } from '../family/PeopleScreen';
 import { PersonFormScreen } from '../family/PersonForm';
 import { PersonScreen } from '../family/PersonScreen';
+import { RelationsScreen } from '../family/RelationsScreen';
 import { createLogger } from '../lib/logger';
 import { TreeScreen } from '../tree/TreeScreen';
 import { DebugScreen } from './DebugScreen';
+import { ErrorBoundary } from './ErrorBoundary';
 import { Home } from './Home';
 import { SettingsScreen } from './SettingsScreen';
 import { useSettings } from './settings';
@@ -30,22 +32,25 @@ export function App() {
   return (
     <HashRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <RouteLogger />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/f/:fid" element={<OpenFamilyLink />} />
-        <Route path="/families" element={<FamiliesScreen />} />
-        <Route path="/new-family" element={<NewFamilyScreen />} />
-        <Route path="/people" element={<PeopleScreen />} />
-        <Route path="/p/:pid" element={<PersonScreen />} />
-        <Route path="/edit/:pid" element={<PersonFormScreen />} />
-        <Route path="/add" element={<PersonFormScreen />} />
-        <Route path="/tree" element={<TreeScreen />} />
-        <Route path="/calendar" element={<CalendarScreen />} />
-        <Route path="/invite" element={<InviteScreen />} />
-        <Route path="/settings" element={<SettingsScreen />} />
-        <Route path="/debug" element={<DebugScreen />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <ErrorBoundary>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/f/:fid" element={<OpenFamilyLink />} />
+          <Route path="/families" element={<FamiliesScreen />} />
+          <Route path="/new-family" element={<NewFamilyScreen />} />
+          <Route path="/people" element={<PeopleScreen />} />
+          <Route path="/p/:pid" element={<PersonScreen />} />
+          <Route path="/edit/:pid" element={<PersonFormScreen />} />
+          <Route path="/relations/:pid" element={<RelationsScreen />} />
+          <Route path="/add" element={<PersonFormScreen />} />
+          <Route path="/tree" element={<TreeScreen />} />
+          <Route path="/calendar" element={<CalendarScreen />} />
+          <Route path="/invite" element={<InviteScreen />} />
+          <Route path="/settings" element={<SettingsScreen />} />
+          <Route path="/debug" element={<DebugScreen />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </ErrorBoundary>
     </HashRouter>
   );
 }
