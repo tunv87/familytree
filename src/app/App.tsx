@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { HashRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { CalendarScreen } from '../calendar/CalendarScreen';
 import { InviteScreen } from '../family/InviteScreen';
 import { FamiliesScreen, NewFamilyScreen, OpenFamilyLink } from '../family/FamiliesScreen';
 import { PeopleScreen } from '../family/PeopleScreen';
@@ -7,7 +8,6 @@ import { PersonFormScreen } from '../family/PersonForm';
 import { PersonScreen } from '../family/PersonScreen';
 import { createLogger } from '../lib/logger';
 import { TreeScreen } from '../tree/TreeScreen';
-import { ComingSoon } from './ComingSoon';
 import { DebugScreen } from './DebugScreen';
 import { Home } from './Home';
 import { SettingsScreen } from './SettingsScreen';
@@ -40,7 +40,7 @@ export function App() {
         <Route path="/edit/:pid" element={<PersonFormScreen />} />
         <Route path="/add" element={<PersonFormScreen />} />
         <Route path="/tree" element={<TreeScreen />} />
-        <Route path="/calendar" element={<ComingSoon title="calendar" />} />
+        <Route path="/calendar" element={<CalendarScreen />} />
         <Route path="/invite" element={<InviteScreen />} />
         <Route path="/settings" element={<SettingsScreen />} />
         <Route path="/debug" element={<DebugScreen />} />

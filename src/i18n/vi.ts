@@ -7,7 +7,6 @@ export const vi = {
   ok: 'OK',
   save: 'Lưu',
   loading: 'Đang tải…',
-  comingSoon: 'Đang làm, sắp có nhé!',
 
   // home
   tree: 'Cây gia phả',
@@ -80,6 +79,22 @@ export const vi = {
   showOnTree: 'Xem trên cây',
   rotateHint: 'Xoay ngang điện thoại để xem cây rõ hơn',
   showBranch: 'Xem nhánh này',
+
+  // calendar
+  monthTitle: 'Tháng {m}, {y}',
+  prevMonth: 'Tháng trước',
+  nextMonth: 'Tháng sau',
+  backToToday: 'Về hôm nay',
+  weekdayFull: 'Ngày {d}/{m}/{y}',
+  dayName: 'Ngày {name}',
+  birthdayShort: 'Sinh nhật',
+  birthdayN: 'Sinh nhật {n} tuổi',
+  gioN: 'Giỗ lần thứ {n}',
+  ram: 'Rằm',
+  tet: 'Tết',
+  upcoming30: 'Sắp tới (30 ngày)',
+  noUpcoming: 'Không có giỗ hay sinh nhật nào trong 30 ngày tới.',
+  converter: 'Đổi ngày âm ↔ dương',
 
   // pdf
   printPdf: 'In cây gia phả (PDF)',

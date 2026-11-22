@@ -757,3 +757,143 @@ select.text-input {
   display: flex;
   gap: 8px;
 }
+
+/* ---------- calendar ---------- */
+.cal-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cal-title {
+  flex: 1;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.2em;
+}
+
+.cal-title .muted {
+  font-weight: 700;
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.cal-wd {
+  text-align: center;
+  font-size: 0.75em;
+  font-weight: 800;
+  color: var(--muted);
+  padding: 2px 0;
+}
+
+.cal-wd.sun {
+  color: var(--bad);
+}
+
+.cal-day {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 2px 0 6px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background: var(--surface);
+  cursor: pointer;
+  line-height: 1.1;
+}
+
+.cal-day .sd {
+  font-weight: 800;
+  font-size: 1.05em;
+}
+
+.cal-day .ld {
+  font-size: 0.65em;
+  color: var(--muted);
+}
+
+.cal-day.out {
+  opacity: 0.35;
+}
+
+.cal-day.h-ram .ld,
+.cal-day.h-mung1 .ld {
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.cal-day.h-tet {
+  background: #fde2df;
+}
+
+.cal-day.h-tet .sd,
+.cal-day.h-tet .ld {
+  color: var(--primary);
+}
+
+.cal-day.today {
+  border-color: var(--accent);
+}
+
+.cal-day.sel {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(168, 50, 45, 0.25);
+}
+
+.dots {
+  position: absolute;
+  bottom: 3px;
+  display: flex;
+  gap: 3px;
+}
+
+.dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.dot.gio {
+  background: #6b4f2a;
+}
+
+.dot.bday {
+  background: #e76f51;
+}
+
+.cal-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  justify-content: center;
+}
+
+.cal-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.leg-ram,
+.leg-tet {
+  color: var(--primary);
+}
+
+.leg-tet {
+  background: #fde2df;
+  border-radius: 4px;
+  padding: 0 4px;
+}
+
+.day-title {
+  font-weight: 800;
+  font-size: 1.1em;
+}

@@ -9,7 +9,6 @@ export const en: Partial<Record<MessageKey, string>> = {
   close: 'Close',
   save: 'Save',
   loading: 'Loading…',
-  comingSoon: 'Coming soon!',
   tree: 'Family tree',
   treeHint: 'Browse every generation',
   calendar: 'Lunar calendar',
