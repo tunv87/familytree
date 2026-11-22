@@ -7,6 +7,7 @@ import { TopBar } from '../ui/components';
 import { FamilyGate } from '../family/useFamilyGate';
 import { CARD_H, CARD_W, layoutTree } from './layout';
 import { PanZoom, type PanZoomHandle } from './PanZoom';
+import { PdfDialog } from './PdfDialog';
 import { TreeSvg } from './TreeSvg';
 import type { CurrentFamily } from '../data/current';
 
@@ -29,6 +30,7 @@ function TreeView({ fam }: { fam: CurrentFamily & { isAdmin: boolean } }) {
   const [focusId, setFocusId] = useState<string | null>(focusParam);
   const [query, setQuery] = useState('');
   const [searching, setSearching] = useState(false);
+  const [printing, setPrinting] = useState(false);
   const pz = useRef<PanZoomHandle>(null);
 
   const layout = useMemo(
@@ -83,17 +85,39 @@ function TreeView({ fam }: { fam: CurrentFamily & { isAdmin: boolean } }) {
 
   return (
     <main className="screen tree-screen">
+      {printing && (
+        <PdfDialog
+          people={people}
+          rootId={rootId ?? undefined}
+          title={
+            rootId && people[rootId]
+              ? `${fam.family!.meta.name} — ${t('branchOf', { name: people[rootId].name })}`
+              : fam.family!.meta.name
+          }
+          onClose={() => setPrinting(false)}
+        />
+      )}
       <TopBar
         title={rootId && people[rootId] ? t('branchOf', { name: people[rootId].name }) : t('tree')}
         right={
-          <button
-            className="icon-btn"
-            aria-label={t('search')}
-            data-testid="tree-search-toggle"
-            onClick={() => setSearching((s) => !s)}
-          >
-            🔍
-          </button>
+          <div className="topbar-actions">
+            <button
+              className="icon-btn"
+              aria-label={t('printPdf')}
+              data-testid="print"
+              onClick={() => setPrinting(true)}
+            >
+              🖨️
+            </button>
+            <button
+              className="icon-btn"
+              aria-label={t('search')}
+              data-testid="tree-search-toggle"
+              onClick={() => setSearching((s) => !s)}
+            >
+              🔍
+            </button>
+          </div>
         }
       />
       {searching && (

@@ -748,3 +748,12 @@ select.text-input {
   flex: 1;
   min-width: 0;
 }
+
+.segmented.wrap {
+  flex-wrap: wrap;
+}
+
+.topbar-actions {
+  display: flex;
+  gap: 8px;
+}

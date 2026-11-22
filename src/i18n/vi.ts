@@ -81,6 +81,20 @@ export const vi = {
   rotateHint: 'Xoay ngang điện thoại để xem cây rõ hơn',
   showBranch: 'Xem nhánh này',
 
+  // pdf
+  printPdf: 'In cây gia phả (PDF)',
+  paper: 'Khổ giấy',
+  layoutMode: 'Cách in',
+  modeAuto: 'Tự động',
+  modeOne: 'Gói 1 tờ',
+  modeTiles: 'Nhiều tờ ghép',
+  pdfOneSheet: 'Vừa 1 tờ {paper} nằm ngang.',
+  pdfSheets: '{n} tờ {paper} nằm ngang ({rows} hàng × {cols} cột), in xong ghép lại.',
+  makePdf: 'Tạo file PDF',
+  pdfWorking: 'Đang tạo PDF…',
+  pdfProgress: 'Đang vẽ tờ {d}/{n}…',
+  pdfError: 'Không tạo được PDF. Thử lại hoặc chọn khổ A4.',
+
   // invite
   scanHint: 'Người thân quét mã này bằng camera điện thoại',
   qrLabel: 'Mã QR mở gia phả',
