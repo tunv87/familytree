@@ -35,3 +35,9 @@ test('tapping the title 5 times opens the error log', async ({ page }) => {
   for (let i = 0; i < 5; i++) await title.click();
   await expect(page.locator('.log-view')).toContainText('[nav] route');
 });
+
+test('settings offers Google sign-in for admins', async ({ page }) => {
+  await page.goto('/#/settings');
+  await expect(page.getByTestId('account')).toContainText('Quản trị gia phả');
+  await expect(page.getByTestId('sign-in-google')).toBeEnabled();
+});

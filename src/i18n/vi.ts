@@ -22,6 +22,15 @@ export const vi = {
   keepEditing: 'Sửa tiếp',
   discard: 'Bỏ thay đổi',
 
+  // account
+  account: 'Quản trị gia phả',
+  accountHint: 'Đăng nhập Google để nhập và sửa gia phả. Người xem không cần đăng nhập.',
+  signInGoogle: 'Đăng nhập Google',
+  signOut: 'Đăng xuất',
+  signedInAs: 'Đang đăng nhập: {name}',
+  signInError: 'Không đăng nhập được. Kiểm tra mạng rồi thử lại.',
+  notConfigured: 'Chưa cài đặt Firebase.',
+
   // settings
   bigText: 'Chữ to',
   language: 'Ngôn ngữ',

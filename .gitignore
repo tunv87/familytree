@@ -8,3 +8,5 @@ playwright-report
 .env.local
 .firebase
 *.tsbuildinfo
+database-debug.log
+firebase-debug.log

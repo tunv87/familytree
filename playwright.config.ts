@@ -24,6 +24,6 @@ export default defineConfig({
     command: `vite --port ${PORT} --strictPort --host 127.0.0.1`,
     url: `http://127.0.0.1:${PORT}/`,
     reuseExistingServer: !process.env.CI,
-    env: { VITE_BASE: '/' },
+    env: { VITE_USE_EMULATOR: '1', VITE_EMULATOR_HOST: '127.0.0.1', VITE_BASE: '/' },
   },
 });

@@ -2,6 +2,7 @@ import { useState, useSyncExternalStore } from 'react';
 import { useT } from '../i18n';
 import { clearLogs, formatLogs, getLogs, subscribeLogs } from '../lib/logger';
 import { TopBar } from '../ui/components';
+import { isFirebaseConfigured } from '../data/firebase';
 
 export function DebugScreen() {
   const t = useT();
@@ -9,6 +10,7 @@ export function DebugScreen() {
   const [copied, setCopied] = useState(false);
   const header = [
     `version ${__APP_VERSION__} built ${__BUILD_TIME__}`,
+    `firebase configured: ${isFirebaseConfigured}`,
     `ua: ${navigator.userAgent}`,
     `screen: ${window.innerWidth}x${window.innerHeight} @${window.devicePixelRatio}`,
   ].join('\n');

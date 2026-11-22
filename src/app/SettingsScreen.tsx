@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useT } from '../i18n';
 import { TopBar } from '../ui/components';
+import { AccountRow } from './AccountRow';
 import { setSettings, useSettings, type Lang } from './settings';
 
 function Toggle({ value, onChange }: { value: boolean; onChange: (v: boolean) => void }) {
@@ -24,6 +25,7 @@ export function SettingsScreen() {
   return (
     <main className="screen">
       <TopBar title={t('settings')} />
+      <AccountRow />
       <div className="setting-row">
         <span>🔠 {t('bigText')}</span>
         <Toggle value={s.bigText} onChange={(bigText) => setSettings({ bigText })} />
