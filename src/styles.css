@@ -718,8 +718,7 @@ select.text-input {
 }
 
 .link-box {
-  font-family: ui-monospace, Menlo, monospace;
-  font-size: 0.7em;
+  font-size: 0.75em;
   word-break: break-all;
   color: var(--muted);
   text-align: center;
