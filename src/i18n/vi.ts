@@ -70,6 +70,17 @@ export const vi = {
   cancel: 'Huỷ',
   personMissing: 'Không tìm thấy người này.',
 
+  // tree
+  branchOf: 'Nhánh {name}',
+  wholeTree: 'Xem cả cây',
+  zoomIn: 'Phóng to',
+  zoomOut: 'Thu nhỏ',
+  fullView: 'Xem toàn cây',
+  expandAll: 'Mở hết các nhánh',
+  showOnTree: 'Xem trên cây',
+  rotateHint: 'Xoay ngang điện thoại để xem cây rõ hơn',
+  showBranch: 'Xem nhánh này',
+
   // person form
   newPerson: 'Thêm người',
   editPerson: 'Sửa thông tin',

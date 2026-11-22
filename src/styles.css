@@ -528,3 +528,170 @@ select.text-input {
   top: 0;
   z-index: 2;
 }
+
+/* ---------- tree ---------- */
+.tree-screen {
+  max-width: none;
+  height: 100dvh;
+  gap: 8px;
+}
+
+.tree-screen .topbar {
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.tree-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border-radius: var(--radius);
+  border: 2px solid var(--border);
+  background: #fffdf8;
+  overflow: hidden;
+}
+
+.panzoom {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.panzoom-content {
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.tree-svg {
+  display: block;
+  font-family: var(--font-family);
+}
+
+.tree-lines polyline {
+  fill: none;
+  stroke: #9b8b6e;
+  stroke-width: 2;
+}
+
+.tree-marriages line {
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+
+.tree-card {
+  cursor: pointer;
+}
+
+.tree-card rect {
+  fill: #ffffff;
+  stroke: #9b8b6e;
+  stroke-width: 2;
+}
+
+.tree-card.g-m rect {
+  stroke: #2f6fae;
+}
+
+.tree-card.g-f rect {
+  stroke: #c0507a;
+}
+
+.tree-card.inlaw rect {
+  stroke-dasharray: 6 4;
+}
+
+.tree-card.dead rect {
+  fill: #f1ece2;
+}
+
+.tree-card.focus rect {
+  stroke: var(--primary);
+  stroke-width: 5;
+}
+
+.tree-name {
+  font-size: 15px;
+  font-weight: 800;
+  text-anchor: middle;
+  fill: var(--text);
+}
+
+.tree-years {
+  font-size: 12px;
+  text-anchor: middle;
+  fill: var(--muted);
+}
+
+.tree-toggle circle {
+  fill: var(--surface);
+  stroke: #9b8b6e;
+  stroke-width: 2;
+}
+
+.tree-toggle text {
+  font-size: 16px;
+  font-weight: 900;
+  text-anchor: middle;
+  fill: var(--text);
+}
+
+.tree-controls {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tree-controls .icon-btn {
+  width: 52px;
+  height: 52px;
+  font-size: 1.3em;
+}
+
+.tree-whole {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  min-height: 52px;
+  padding: 6px 14px;
+}
+
+.tree-search {
+  position: relative;
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.tree-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.tree-results button {
+  min-height: 52px;
+  padding: 8px 16px;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: none;
+  text-align: left;
+  font-weight: 700;
+  cursor: pointer;
+}

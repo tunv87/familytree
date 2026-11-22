@@ -141,6 +141,23 @@ function PersonView({
         )}
       </div>
 
+      <div className="row2">
+        <button
+          className="btn secondary"
+          data-testid="show-on-tree"
+          onClick={() => navigate(`/tree?focus=${pid}`)}
+        >
+          🌳 {t('showOnTree')}
+        </button>
+        <button
+          className="btn secondary"
+          data-testid="show-branch"
+          onClick={() => navigate(`/tree?root=${pid}`)}
+        >
+          🌿 {t('showBranch')}
+        </button>
+      </div>
+
       <Relatives title={t('parents')} ids={parents} people={people} />
       <Relatives title={t('spouses')} ids={spouses} people={people} />
       <Relatives title={t('children')} ids={children} people={people} label={childGenderLabel} />

@@ -1,0 +1,192 @@
+import { useMemo, useRef, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { searchPeople } from '../data/people';
+import { useT } from '../i18n';
+import { load, save } from '../lib/storage';
+import { TopBar } from '../ui/components';
+import { FamilyGate } from '../family/useFamilyGate';
+import { CARD_H, CARD_W, layoutTree } from './layout';
+import { PanZoom, type PanZoomHandle } from './PanZoom';
+import { TreeSvg } from './TreeSvg';
+import type { CurrentFamily } from '../data/current';
+
+export function TreeScreen() {
+  const t = useT();
+  return <FamilyGate title={t('tree')}>{(fam) => <TreeView fam={fam} />}</FamilyGate>;
+}
+
+function TreeView({ fam }: { fam: CurrentFamily & { isAdmin: boolean } }) {
+  const t = useT();
+  const navigate = useNavigate();
+  const [params, setParams] = useSearchParams();
+  const rootId = params.get('root');
+  const focusParam = params.get('focus');
+  const people = fam.people;
+  const key = `collapsed:${fam.id}`;
+  const [collapsed, setCollapsed] = useState<Set<string>>(
+    () => new Set(load<{ ids: string[] }>(key, { ids: [] }).ids),
+  );
+  const [focusId, setFocusId] = useState<string | null>(focusParam);
+  const [query, setQuery] = useState('');
+  const [searching, setSearching] = useState(false);
+  const pz = useRef<PanZoomHandle>(null);
+
+  const layout = useMemo(
+    () => layoutTree(people, { collapsed, rootId: rootId ?? undefined }),
+    [people, collapsed, rootId],
+  );
+  const nodeOf = (id: string | null) => (id ? layout.nodes.find((n) => n.id === id) : undefined);
+  const initialNode = nodeOf(focusParam);
+
+  const toggle = (id: string) => {
+    const next = new Set(collapsed);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
+    setCollapsed(next);
+    save(key, { ids: [...next] });
+  };
+
+  const focus = (id: string) => {
+    // make sure the person is visible: expand every collapsed ancestor
+    const next = new Set(collapsed);
+    let changed = false;
+    const expandUp = (x: string) => {
+      const p = people[x];
+      for (const par of [p?.fatherId, p?.motherId]) {
+        if (par && people[par]) {
+          if (next.delete(par)) changed = true;
+          expandUp(par);
+        }
+      }
+    };
+    expandUp(id);
+    if (changed) {
+      setCollapsed(next);
+      save(key, { ids: [...next] });
+    }
+    setFocusId(id);
+    setSearching(false);
+    setQuery('');
+    // wait for the new layout before centring
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        const n = layoutTree(people, { collapsed: next, rootId: rootId ?? undefined }).nodes.find(
+          (x) => x.id === id,
+        );
+        if (n) pz.current?.centerOn(n.x + CARD_W / 2, n.y + CARD_H / 2, 1);
+      }),
+    );
+  };
+
+  const results = query.trim() ? searchPeople(people, query).slice(0, 6) : [];
+  const count = Object.keys(people).length;
+
+  return (
+    <main className="screen tree-screen">
+      <TopBar
+        title={rootId && people[rootId] ? t('branchOf', { name: people[rootId].name }) : t('tree')}
+        right={
+          <button
+            className="icon-btn"
+            aria-label={t('search')}
+            data-testid="tree-search-toggle"
+            onClick={() => setSearching((s) => !s)}
+          >
+            🔍
+          </button>
+        }
+      />
+      {searching && (
+        <div className="tree-search">
+          <input
+            className="text-input"
+            type="search"
+            autoFocus
+            value={query}
+            placeholder={t('search')}
+            data-testid="tree-search"
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          {results.length > 0 && (
+            <div className="tree-results">
+              {results.map((id) => (
+                <button key={id} onClick={() => focus(id)} data-testid={`result-${id}`}>
+                  {people[id].name}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+      {count > 0 && layout.width > layout.height * 2 && window.innerHeight > window.innerWidth && (
+        <div className="muted small center" data-testid="rotate-hint">
+          📱↻ {t('rotateHint')}
+        </div>
+      )}
+      {count === 0 ? (
+        <div className="center grow muted">{t('emptyFamily')}</div>
+      ) : (
+        <div className="tree-wrap">
+          <PanZoom
+            width={layout.width}
+            height={layout.height}
+            handleRef={pz}
+            initial={
+              initialNode ? { x: initialNode.x + CARD_W / 2, y: initialNode.y + CARD_H / 2 } : null
+            }
+          >
+            <TreeSvg
+              layout={layout}
+              people={people}
+              focusId={focusId}
+              onSelect={(id) => navigate(`/p/${id}`)}
+              onToggle={toggle}
+            />
+          </PanZoom>
+          <div className="tree-controls">
+            <button
+              className="icon-btn"
+              aria-label={t('zoomIn')}
+              onClick={() => pz.current?.zoomBy(1.4)}
+            >
+              ＋
+            </button>
+            <button
+              className="icon-btn"
+              aria-label={t('zoomOut')}
+              onClick={() => pz.current?.zoomBy(1 / 1.4)}
+            >
+              －
+            </button>
+            <button
+              className="icon-btn"
+              aria-label={t('fullView')}
+              data-testid="fit"
+              onClick={() => pz.current?.fit()}
+            >
+              ⤢
+            </button>
+            {collapsed.size > 0 && (
+              <button
+                className="icon-btn"
+                aria-label={t('expandAll')}
+                data-testid="expand-all"
+                onClick={() => {
+                  setCollapsed(new Set());
+                  save(key, { ids: [] });
+                }}
+              >
+                ⇕
+              </button>
+            )}
+          </div>
+          {rootId && (
+            <button className="btn secondary tree-whole" onClick={() => setParams({})}>
+              🌳 {t('wholeTree')}
+            </button>
+          )}
+        </div>
+      )}
+    </main>
+  );
+}

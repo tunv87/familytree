@@ -57,3 +57,107 @@ export async function fillPerson(
   await page.getByTestId('save').click();
   await expect(page.getByTestId('person-name')).toHaveText(p.name);
 }
+
+type SeedPerson = {
+  name: string;
+  gender: 'm' | 'f' | 'u';
+  generation?: number;
+  fatherId?: string;
+  motherId?: string;
+  spouses?: Record<string, true>;
+  order?: number;
+  deceased?: boolean;
+  birth?: { cal: 's' | 'l'; d?: number; m?: number; y?: number };
+  death?: { cal: 's' | 'l'; d?: number; m?: number; y?: number };
+};
+
+/** Writes a family straight into the emulator (bypassing rules) and returns its id. */
+export async function seedFamily(name: string, people: Record<string, SeedPerson>) {
+  const id = Array.from(
+    { length: 20 },
+    () => 'ABCDEFGHJKLMNPQRSTUVWXYZ'[Math.floor(Math.random() * 24)],
+  ).join('');
+  const res = await fetch(
+    `http://127.0.0.1:9000/families/${id}.json?ns=demo-familytree-default-rtdb`,
+    {
+      method: 'PUT',
+      headers: { Authorization: 'Bearer owner' },
+      body: JSON.stringify({
+        meta: { name, owner: 'seed', createdAt: Date.now() },
+        admins: { seed: true },
+        people,
+      }),
+    },
+  );
+  if (!res.ok) throw new Error(`seed failed: ${res.status}`);
+  return id;
+}
+
+/**
+ * A 4-generation family of about 40 people with in-laws, for tree / PDF / calendar tests.
+ * Ông Nguyễn Văn Tổ (mất 10/3 âm) + bà Lê Thị Hiền → 3 sons, each with a wife and children…
+ */
+export function sampleFamily(): Record<string, SeedPerson> {
+  const p: Record<string, SeedPerson> = {
+    to00000001: {
+      name: 'Nguyễn Văn Tổ',
+      gender: 'm',
+      generation: 1,
+      deceased: true,
+      birth: { cal: 's', y: 1900 },
+      death: { cal: 'l', d: 10, m: 3, y: 1970 },
+      spouses: { ba00000001: true },
+    },
+    ba00000001: {
+      name: 'Lê Thị Hiền',
+      gender: 'f',
+      generation: 1,
+      deceased: true,
+      death: { cal: 'l', d: 1, m: 1, y: 1980 },
+      spouses: { to00000001: true },
+    },
+  };
+  const given = [
+    'An',
+    'Bình',
+    'Cường',
+    'Dũng',
+    'Hùng',
+    'Lan',
+    'Mai',
+    'Nam',
+    'Phúc',
+    'Quang',
+    'Sơn',
+    'Thảo',
+  ];
+  let n = 0;
+  const add = (fatherId: string, motherId: string, gen: number, kids: number) => {
+    for (let i = 0; i < kids; i++) {
+      const id = `p${String(++n).padStart(9, '0')}`;
+      const male = i % 3 !== 2;
+      p[id] = {
+        name: `Nguyễn ${male ? 'Văn' : 'Thị'} ${given[n % given.length]}`,
+        gender: male ? 'm' : 'f',
+        generation: gen,
+        fatherId,
+        motherId,
+        order: i + 1,
+        birth: { cal: 's', d: (n % 28) + 1, m: (n % 12) + 1, y: 1900 + gen * 25 + i },
+      };
+      if (male && gen < 4) {
+        const wife = `w${String(n).padStart(9, '0')}`;
+        p[wife] = {
+          name: `Trần Thị ${given[(n + 5) % given.length]}`,
+          gender: 'f',
+          generation: gen,
+          spouses: { [id]: true },
+        };
+        p[id].spouses = { [wife]: true };
+        add(id, wife, gen + 1, gen === 2 ? 3 : 2);
+      }
+    }
+  };
+  add('to00000001', 'ba00000001', 2, 3);
+  return p;
+}

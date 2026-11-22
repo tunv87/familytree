@@ -5,6 +5,7 @@ import { PeopleScreen } from '../family/PeopleScreen';
 import { PersonFormScreen } from '../family/PersonForm';
 import { PersonScreen } from '../family/PersonScreen';
 import { createLogger } from '../lib/logger';
+import { TreeScreen } from '../tree/TreeScreen';
 import { ComingSoon } from './ComingSoon';
 import { DebugScreen } from './DebugScreen';
 import { Home } from './Home';
@@ -37,7 +38,7 @@ export function App() {
         <Route path="/p/:pid" element={<PersonScreen />} />
         <Route path="/edit/:pid" element={<PersonFormScreen />} />
         <Route path="/add" element={<PersonFormScreen />} />
-        <Route path="/tree" element={<ComingSoon title="tree" />} />
+        <Route path="/tree" element={<TreeScreen />} />
         <Route path="/calendar" element={<ComingSoon title="calendar" />} />
         <Route path="/invite" element={<ComingSoon title="invite" />} />
         <Route path="/settings" element={<SettingsScreen />} />
