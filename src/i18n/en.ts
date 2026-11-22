@@ -1,0 +1,30 @@
+import type { MessageKey } from './vi';
+
+/** English is partial for now; missing keys fall back to Vietnamese. */
+export const en: Partial<Record<MessageKey, string>> = {
+  appName: 'Family Tree',
+  back: 'Back',
+  home: 'Home',
+  settings: 'Settings',
+  close: 'Close',
+  save: 'Save',
+  loading: 'Loading…',
+  comingSoon: 'Coming soon!',
+  tree: 'Family tree',
+  treeHint: 'Browse every generation',
+  calendar: 'Lunar calendar',
+  calendarHint: 'Death anniversaries, birthdays',
+  invite: 'Invite family',
+  inviteHint: 'Share a link via Zalo, Messenger',
+  discardConfirm: 'Discard unsaved changes?',
+  keepEditing: 'Keep editing',
+  discard: 'Discard',
+  bigText: 'Large text',
+  language: 'Language',
+  on: 'On',
+  off: 'Off',
+  debug: 'Error log',
+  copyLogs: 'Copy log',
+  copied: 'Copied!',
+  clearLogs: 'Clear',
+};
