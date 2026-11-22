@@ -1,0 +1,128 @@
+import QRCode from 'qrcode';
+import { useEffect, useState } from 'react';
+import { shareUrl, type CurrentFamily } from '../data/current';
+import { renameFamily } from '../data/families';
+import { useT } from '../i18n';
+import { createLogger } from '../lib/logger';
+import { TopBar } from '../ui/components';
+import { FamilyGate } from './useFamilyGate';
+
+const log = createLogger('invite');
+
+export function InviteScreen() {
+  const t = useT();
+  return <FamilyGate title={t('invite')}>{(fam) => <Invite fam={fam} />}</FamilyGate>;
+}
+
+function Invite({ fam }: { fam: CurrentFamily & { isAdmin: boolean } }) {
+  const t = useT();
+  const url = shareUrl(fam.id!);
+  const name = fam.family!.meta.name;
+  const [qr, setQr] = useState('');
+  const [copied, setCopied] = useState(false);
+  useEffect(() => {
+    QRCode.toString(url, { type: 'svg', margin: 1, errorCorrectionLevel: 'M' })
+      .then(setQr)
+      .catch((e) => log.error('qr failed', e));
+  }, [url]);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch (e) {
+      log.warn('copy failed', String(e));
+    }
+  };
+  const share = async () => {
+    const text = t('shareText', { name });
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: name, text, url });
+        return;
+      } catch (e) {
+        if ((e as Error).name === 'AbortError') return;
+        log.warn('share failed', String(e));
+      }
+    }
+    await copy();
+  };
+
+  return (
+    <main className="screen">
+      <TopBar title={t('invite')} />
+      <div className="center">
+        <h2 className="invite-name">{name}</h2>
+        <div className="muted">{t('scanHint')}</div>
+        <div
+          className="qr"
+          data-testid="qr"
+          role="img"
+          aria-label={t('qrLabel')}
+          dangerouslySetInnerHTML={{ __html: qr }}
+        />
+      </div>
+      <button className="btn" data-testid="share" onClick={share}>
+        📨 {t('sendLink')}
+      </button>
+      <button className="btn secondary" data-testid="copy-link" onClick={copy}>
+        📋 {copied ? t('copied') : t('copyLink')}
+      </button>
+      <div className="link-box" data-testid="share-url">
+        {url}
+      </div>
+      <div className="help-card">
+        <b>{t('howToOpen')}</b>
+        <ol>
+          <li>{t('howTo1')}</li>
+          <li>{t('howTo2')}</li>
+          <li>{t('howTo3')}</li>
+        </ol>
+      </div>
+      {fam.isAdmin && <RenameFamily familyId={fam.id!} name={name} />}
+    </main>
+  );
+}
+
+function RenameFamily({ familyId, name }: { familyId: string; name: string }) {
+  const t = useT();
+  const [value, setValue] = useState(name);
+  const [state, setState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const valid = value.trim().length > 0 && value.trim().length <= 80 && value.trim() !== name;
+  return (
+    <form
+      className="field"
+      onSubmit={async (e) => {
+        e.preventDefault();
+        if (!valid) return;
+        setState('saving');
+        try {
+          await renameFamily(familyId, value.trim());
+          setState('saved');
+        } catch (err) {
+          log.error('rename failed', err);
+          setState('error');
+        }
+      }}
+    >
+      <span>{t('familyName')}</span>
+      <div className="inline-form">
+        <input
+          className="text-input"
+          value={value}
+          maxLength={80}
+          data-testid="rename-input"
+          onChange={(e) => {
+            setValue(e.target.value);
+            setState('idle');
+          }}
+        />
+        <button className="btn" disabled={!valid || state === 'saving'} data-testid="rename">
+          {state === 'saved' ? '✓' : t('save')}
+        </button>
+      </div>
+      {state === 'error' && <div className="error">{t('saveError')}</div>}
+    </form>
+  );
+}

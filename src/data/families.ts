@@ -83,3 +83,11 @@ export async function savePerson(familyId: string, personId: string, person: Per
 export async function applyFamilyUpdates(familyId: string, updates: Updates) {
   await update(ref(getDb(), `families/${familyId}`), updates);
 }
+
+export async function renameFamily(familyId: string, name: string) {
+  const user = await ensureSignedIn();
+  await update(ref(getDb()), {
+    [`families/${familyId}/meta/name`]: name,
+    [`users/${user.uid}/families/${familyId}`]: name,
+  });
+}

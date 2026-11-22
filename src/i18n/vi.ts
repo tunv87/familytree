@@ -81,6 +81,17 @@ export const vi = {
   rotateHint: 'Xoay ngang điện thoại để xem cây rõ hơn',
   showBranch: 'Xem nhánh này',
 
+  // invite
+  scanHint: 'Người thân quét mã này bằng camera điện thoại',
+  qrLabel: 'Mã QR mở gia phả',
+  sendLink: 'Gửi link (Zalo, Messenger…)',
+  copyLink: 'Chép link',
+  shareText: 'Mời cả nhà xem gia phả {name}:',
+  howToOpen: 'Người nhận mở thế nào?',
+  howTo1: 'Bấm vào link hoặc quét mã QR — không cần tài khoản.',
+  howTo2: 'Trên iPhone: mở bằng Safari → nút Chia sẻ → “Thêm vào MH chính”.',
+  howTo3: 'Lần sau mở biểu tượng Gia phả trên màn hình là xem được, kể cả khi mất mạng.',
+
   // person form
   newPerson: 'Thêm người',
   editPerson: 'Sửa thông tin',

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AccountRow } from '../app/AccountRow';
-import { getCurrentId, openFamily } from '../data/current';
+import { forgetRecent, getCurrentId, openFamily, recentFamilies } from '../data/current';
 import { createFamily, myFamilies } from '../data/families';
 import { useAuth } from '../data/firebase';
 import { useT } from '../i18n';
@@ -25,12 +25,12 @@ export function FamiliesScreen() {
   const t = useT();
   const navigate = useNavigate();
   const { isAdmin, user } = useAuth();
-  const [list, setList] = useState<Record<string, string>>({});
+  const [list, setList] = useState<Record<string, string>>(recentFamilies);
   const current = getCurrentId();
   useEffect(() => {
     if (!isAdmin) return;
     myFamilies()
-      .then(setList)
+      .then((mine) => setList((l) => ({ ...l, ...mine })))
       .catch((e) => log.warn('list failed', String(e)));
   }, [isAdmin, user?.uid]);
   return (
@@ -63,6 +63,7 @@ export function FamiliesScreen() {
         <button
           className="btn secondary"
           onClick={() => {
+            forgetRecent(current);
             openFamily(null);
             navigate('/');
           }}

@@ -71,6 +71,7 @@ function startWatch() {
         return;
       }
       save(cacheKey(id), { family });
+      rememberRecent(id, family.meta.name);
       emit({ status: 'ready', family, people: family.people ?? EMPTY, fromCache: false });
     },
     (e) => {
@@ -111,4 +112,26 @@ export function useCurrentFamily(): CurrentFamily & { isAdmin: boolean } {
   }, [uid]);
   const isAdmin = Boolean(auth.isAdmin && uid && s.family?.admins?.[uid]);
   return { ...s, isAdmin };
+}
+
+/** Families opened on this device (viewers have no account, so this is their list). */
+export function recentFamilies(): Record<string, string> {
+  return load<{ list: Record<string, string> }>('recent', { list: {} }).list;
+}
+
+function rememberRecent(id: string, name: string) {
+  const list = recentFamilies();
+  if (list[id] === name) return;
+  save('recent', { list: { ...list, [id]: name } });
+}
+
+export function forgetRecent(id: string) {
+  const { [id]: _, ...rest } = recentFamilies();
+  void _;
+  save('recent', { list: rest });
+}
+
+/** Share link for a family, e.g. https://tunv87.github.io/familytree/#/f/<id> */
+export function shareUrl(id: string): string {
+  return `${location.origin}${location.pathname}#/f/${id}`;
 }
