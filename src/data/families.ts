@@ -1,10 +1,47 @@
 import { get, onValue, ref, serverTimestamp, set, update } from 'firebase/database';
+import { t } from '../i18n';
 import { createLogger } from '../lib/logger';
+import { showToast } from '../ui/toast';
 import { ensureSignedIn, getDb } from './firebase';
 import type { Updates } from './people';
 import type { Family, Person } from './types';
 
 const log = createLogger('families');
+
+/** How long to wait for the server before treating a write as "saved on this phone". */
+const SERVER_WAIT_MS = 5000;
+
+/**
+ * Waits for a database write, but never forever (B-05). Without a connection the SDK keeps
+ * the write in its queue and sends it when the phone is back online, so after a few seconds
+ * we let the user move on and tell them it will be sent later.
+ */
+export async function settle(write: Promise<unknown>): Promise<'saved' | 'queued'> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const late = new Promise<'queued'>(
+    (r) => (timer = setTimeout(() => r('queued'), SERVER_WAIT_MS)),
+  );
+  try {
+    const result = await Promise.race([write.then(() => 'saved' as const), late]);
+    if (result === 'queued') {
+      log.warn('write queued (no connection)');
+      showToast(t('savedOffline'));
+      write.then(
+        () => {
+          log.info('queued write synced');
+          showToast(t('syncedNow'));
+        },
+        (e) => {
+          log.error('queued write rejected', e);
+          showToast(t('syncFailed'));
+        },
+      );
+    }
+    return result;
+  } finally {
+    clearTimeout(timer);
+  }
+}
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
 
 /**
@@ -30,8 +67,12 @@ export async function createFamily(name: string): Promise<string> {
     meta: { name, owner: user.uid, createdAt: Date.now() },
     admins: { [user.uid]: true },
   };
-  await set(ref(getDb(), `families/${id}`), family);
-  await set(ref(getDb(), `users/${user.uid}/families/${id}`), name);
+  await settle(
+    Promise.all([
+      set(ref(getDb(), `families/${id}`), family),
+      set(ref(getDb(), `users/${user.uid}/families/${id}`), name),
+    ]),
+  );
   log.info('family created', { id: id.slice(0, 4) });
   return id;
 }
@@ -73,21 +114,25 @@ export function watchFamily(
 /** Replaces a person record (fields left out are removed). */
 export async function savePerson(familyId: string, personId: string, person: Person) {
   const clean = JSON.parse(JSON.stringify(person)) as Person; // RTDB rejects `undefined`
-  await set(ref(getDb(), `families/${familyId}/people/${personId}`), {
-    ...clean,
-    updatedAt: serverTimestamp(),
-  });
+  await settle(
+    set(ref(getDb(), `families/${familyId}/people/${personId}`), {
+      ...clean,
+      updatedAt: serverTimestamp(),
+    }),
+  );
 }
 
 /** Applies multi-path updates relative to the family root in one atomic write. */
 export async function applyFamilyUpdates(familyId: string, updates: Updates) {
-  await update(ref(getDb(), `families/${familyId}`), updates);
+  return settle(update(ref(getDb(), `families/${familyId}`), updates));
 }
 
 export async function renameFamily(familyId: string, name: string) {
   const user = await ensureSignedIn();
-  await update(ref(getDb()), {
-    [`families/${familyId}/meta/name`]: name,
-    [`users/${user.uid}/families/${familyId}`]: name,
-  });
+  return settle(
+    update(ref(getDb()), {
+      [`families/${familyId}/meta/name`]: name,
+      [`users/${user.uid}/families/${familyId}`]: name,
+    }),
+  );
 }

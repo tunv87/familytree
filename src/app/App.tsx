@@ -8,6 +8,7 @@ import { PersonFormScreen } from '../family/PersonForm';
 import { PersonScreen } from '../family/PersonScreen';
 import { RelationsScreen } from '../family/RelationsScreen';
 import { createLogger } from '../lib/logger';
+import { Toaster } from '../ui/toast';
 import { TreeScreen } from '../tree/TreeScreen';
 import { DebugScreen } from './DebugScreen';
 import { ErrorBoundary } from './ErrorBoundary';
@@ -64,6 +65,7 @@ export function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </ScreenBoundary>
+      <Toaster />
     </HashRouter>
   );
 }

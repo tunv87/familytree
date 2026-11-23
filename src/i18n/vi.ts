@@ -161,6 +161,10 @@ export const vi = {
   crashHint:
     'Dữ liệu không bị mất. Hãy về trang chủ; nếu lỗi lặp lại, gửi nhật ký lỗi cho người quản trị.',
 
+  savedOffline: 'Đã lưu trên máy. Sẽ gửi lên khi có mạng — đừng xoá app.',
+  syncedNow: 'Đã gửi lên xong ✓',
+  syncFailed: 'Không gửi được thay đổi lúc mất mạng. Hãy mở lại và nhập lại.',
+
   // editing
   discardConfirm: 'Bỏ thay đổi chưa lưu?',
   keepEditing: 'Sửa tiếp',

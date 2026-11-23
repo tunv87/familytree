@@ -266,6 +266,9 @@ test('CR-04 losing the connection while saving never leaves the form stuck', asy
       { timeout: 10_000, message: 'CR-04 no answer 10 s after pressing Save offline' },
     )
     .toBe(true);
+  // the user is told the change is kept on the phone for now
+  if (await page.getByTestId('person-name').count())
+    await expect(page.getByTestId('toast')).toContainText('Đã lưu trên máy');
   await setNetwork(page, true);
   // once back online the person reaches the server
   await expect
