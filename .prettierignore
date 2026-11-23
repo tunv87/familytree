@@ -1,4 +1,5 @@
 dist
+dist-emu
 dev-dist
 package-lock.json
 coverage

@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { newDevice, sampleFamily, seedFamily } from './helpers';
 
-test('calendar shows lunar days, Tết, giỗ from the family, and converts dates', async ({
+test('LG-06 LG-02 calendar shows lunar days, Tết, giỗ from the family, and converts dates', async ({
   browser,
 }) => {
   // ông Tổ died 10/3 âm (1970); bà died mùng 1 Tết (1980)
@@ -48,7 +48,7 @@ test('calendar shows lunar days, Tết, giỗ from the family, and converts date
   await expect(page.getByText('= rằm tháng Tám năm Bính Ngọ')).toBeVisible();
 });
 
-test('calendar works before any family is opened', async ({ browser }) => {
+test('LG-06 calendar works before any family is opened', async ({ browser }) => {
   const page = await newDevice(browser);
   await page.goto('/#/calendar');
   await expect(page.getByTestId('cal-grid')).toBeVisible();

@@ -8,7 +8,7 @@ import {
   SCALE_MIN_ONE_PAGE,
 } from './pdfPlan';
 
-describe('planPdf', () => {
+describe('LG-07 planPdf', () => {
   it('a small tree goes on one sheet, not blown up too much', () => {
     const p = planPdf(800, 400, 'a4', 'auto');
     expect(p.pages).toHaveLength(1);

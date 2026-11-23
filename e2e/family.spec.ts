@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { createFamily, fillPerson, newDevice, signInAdmin } from './helpers';
 
-test('admin builds a small family; a relative opens the link and can only view', async ({
+test('LG-04 UX-11 admin builds a small family; a relative opens the link and can only view', async ({
   browser,
 }) => {
   const admin = await newDevice(browser);
@@ -80,7 +80,7 @@ test('admin builds a small family; a relative opens the link and can only view',
   await expect(admin.locator('.person-row')).toHaveCount(2);
 });
 
-test('opening a wrong link says so', async ({ browser }) => {
+test('CR-06 opening a wrong link says so', async ({ browser }) => {
   const page = await newDevice(browser);
   await page.goto('/#/f/AAAAAAAAAAAAAAAAAAAA');
   await expect(page.getByTestId('family-status')).toContainText('Không tìm thấy');

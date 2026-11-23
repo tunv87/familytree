@@ -10,7 +10,7 @@ const people: People = {
   unknown: { name: 'Không rõ', gender: 'u', deceased: true, death: { cal: 'l', y: 1900 } },
 };
 
-describe('events', () => {
+describe('LG-06 LG-02 events', () => {
   it('puts giỗ on the lunar date and counts the years', () => {
     const feb = eventsByDay(people, 2027, 2);
     const tet = feb.get(6)!;
@@ -47,7 +47,7 @@ describe('events', () => {
   });
 });
 
-describe('monthGrid', () => {
+describe('LG-06 monthGrid', () => {
   it('starts on Monday and covers the month', () => {
     const g = monthGrid(2027, 2); // 1/2/2027 is a Monday
     expect(g[0].date).toEqual({ day: 1, month: 2, year: 2027 });

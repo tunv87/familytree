@@ -1,25 +1,44 @@
 import { devices, expect, type Browser, type Page } from '@playwright/test';
 
-export async function newDevice(browser: Browser, opts: { bigText?: boolean } = {}) {
-  const ctx = await browser.newContext({ ...devices['iPhone 14'] });
+export async function newDevice(
+  browser: Browser,
+  opts: { bigText?: boolean; device?: string } = {},
+) {
+  const ctx = await browser.newContext({ ...devices[opts.device ?? 'iPhone 14'] });
   if (opts.bigText)
     await ctx.addInitScript(() =>
       localStorage.setItem('ft:settings', JSON.stringify({ bigText: true })),
     );
   const page = await ctx.newPage();
-  page.on('pageerror', (e) => console.error('[pageerror]', e.message));
+  trackErrors(page);
   return page;
 }
 
-/** Signs in as a Google admin through the emulator (no popup). */
-export async function signInAdmin(page: Page, name = 'admin') {
+/** Collects uncaught page errors so tests can assert there were none. */
+export function trackErrors(page: Page): string[] {
+  const errors: string[] = [];
+  (page as unknown as { __errors: string[] }).__errors = errors;
+  page.on('pageerror', (e) => {
+    errors.push(e.message);
+    console.error('[pageerror]', e.message);
+  });
+  return errors;
+}
+
+export function pageErrors(page: Page): string[] {
+  return (page as unknown as { __errors?: string[] }).__errors ?? [];
+}
+
+/** Signs in as a Google admin through the emulator (no popup); returns the uid. */
+export async function signInAdmin(page: Page, name = 'admin'): Promise<string> {
   await page.goto('/#/settings');
   await page.waitForFunction(() => '__testSignIn' in window);
-  await page.evaluate(
-    (n) => (window as unknown as { __testSignIn: (n: string) => Promise<void> }).__testSignIn(n),
+  const uid = await page.evaluate(
+    (n) => (window as unknown as { __testSignIn: (n: string) => Promise<string> }).__testSignIn(n),
     name,
   );
   await expect(page.getByTestId('account')).toContainText('Đăng xuất');
+  return uid;
 }
 
 /** Creates a family and returns its id; leaves the page on the "add first person" form. */
@@ -58,7 +77,7 @@ export async function fillPerson(
   await expect(page.getByTestId('person-name')).toHaveText(p.name);
 }
 
-type SeedPerson = {
+export type SeedPerson = {
   name: string;
   gender: 'm' | 'f' | 'u';
   generation?: number;
@@ -67,29 +86,53 @@ type SeedPerson = {
   spouses?: Record<string, true>;
   order?: number;
   deceased?: boolean;
-  birth?: { cal: 's' | 'l'; d?: number; m?: number; y?: number };
-  death?: { cal: 's' | 'l'; d?: number; m?: number; y?: number };
+  birth?: { cal: 's' | 'l'; d?: number; m?: number; y?: number; leap?: boolean };
+  death?: { cal: 's' | 'l'; d?: number; m?: number; y?: number; leap?: boolean };
+  note?: string;
 };
 
 /** Writes a family straight into the emulator (bypassing rules) and returns its id. */
-export async function seedFamily(name: string, people: Record<string, SeedPerson>) {
-  const id = Array.from(
+const EMU_DB = 'http://127.0.0.1:9000';
+const NS = 'demo-familytree-default-rtdb';
+
+/** Writes any JSON straight into the emulator database, bypassing the rules. */
+export async function seedRaw(path: string, value: unknown) {
+  const res = await fetch(`${EMU_DB}/${path}.json?ns=${NS}`, {
+    method: 'PUT',
+    headers: { Authorization: 'Bearer owner' },
+    body: JSON.stringify(value),
+  });
+  if (!res.ok) throw new Error(`seed ${path} failed: ${res.status}`);
+}
+
+/** Reads JSON straight from the emulator database. */
+export async function readRaw(path: string): Promise<unknown> {
+  const res = await fetch(`${EMU_DB}/${path}.json?ns=${NS}`, {
+    headers: { Authorization: 'Bearer owner' },
+  });
+  return res.json();
+}
+
+export function randomFamilyId(): string {
+  return Array.from(
     { length: 20 },
     () => 'ABCDEFGHJKLMNPQRSTUVWXYZ'[Math.floor(Math.random() * 24)],
   ).join('');
-  const res = await fetch(
-    `http://127.0.0.1:9000/families/${id}.json?ns=demo-familytree-default-rtdb`,
-    {
-      method: 'PUT',
-      headers: { Authorization: 'Bearer owner' },
-      body: JSON.stringify({
-        meta: { name, owner: 'seed', createdAt: Date.now() },
-        admins: { seed: true },
-        people,
-      }),
-    },
-  );
-  if (!res.ok) throw new Error(`seed failed: ${res.status}`);
+}
+
+/** Writes a family straight into the emulator (bypassing rules) and returns its id. */
+export async function seedFamily(
+  name: string,
+  people: Record<string, SeedPerson>,
+  opts: { admins?: string[] } = {},
+) {
+  const id = randomFamilyId();
+  const admins = Object.fromEntries((opts.admins ?? ['seed']).map((u) => [u, true]));
+  await seedRaw(`families/${id}`, {
+    meta: { name, owner: opts.admins?.[0] ?? 'seed', createdAt: Date.now() },
+    admins,
+    people,
+  });
   return id;
 }
 

@@ -8,7 +8,9 @@ import {
   signInAdmin,
 } from './helpers';
 
-test('admin fixes a wrong parent and links two existing people as spouses', async ({ browser }) => {
+test('LG-04 admin fixes a wrong parent and links two existing people as spouses', async ({
+  browser,
+}) => {
   const admin = await newDevice(browser);
   await signInAdmin(admin, 'relink-admin');
   await createFamily(admin, 'Họ Vũ');
@@ -45,7 +47,9 @@ test('admin fixes a wrong parent and links two existing people as spouses', asyn
   ).toHaveCount(0);
 });
 
-test('works offline: the last-seen family opens without a connection', async ({ browser }) => {
+test('UX-09 works offline: the last-seen family opens without a connection', async ({
+  browser,
+}) => {
   const fid = await seedFamily('Họ Đặng', sampleFamily());
   const page = await newDevice(browser);
   await page.goto(`/#/f/${fid}`);
@@ -66,7 +70,7 @@ test('works offline: the last-seen family opens without a connection', async ({ 
   await expect(page.getByTestId('person-name')).toHaveText('Nguyễn Văn Tổ');
 });
 
-test('a 300-person family stays fast', async ({ browser }) => {
+test('UX-01 a 300-person family stays fast', async ({ browser }) => {
   const people: Record<string, Parameters<typeof seedFamily>[1][string]> = {};
   let n = 0;
   const grow = (id: string, gen: number) => {

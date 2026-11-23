@@ -3,7 +3,7 @@ import { translate } from '.';
 import { en } from './en';
 import { vi } from './vi';
 
-describe('translate', () => {
+describe('LG-11 translate', () => {
   it('returns Vietnamese by default', () => {
     expect(translate('vi', 'tree')).toBe('Cây gia phả');
   });

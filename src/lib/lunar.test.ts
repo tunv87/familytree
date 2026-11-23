@@ -17,14 +17,14 @@ import {
 
 const d = (day: number, month: number, year: number) => ({ day, month, year });
 
-describe('Julian day', () => {
+describe('LG-01 Julian day', () => {
   it('matches known values', () => {
     expect(jdFromDate(1, 1, 2000)).toBe(2451545);
     expect(jdToDate(2451545)).toEqual(d(1, 1, 2000));
   });
 });
 
-describe('Tết Nguyên đán (Vietnam, UTC+7)', () => {
+describe('LG-01 Tết Nguyên đán (Vietnam, UTC+7)', () => {
   const TET: [number, [number, number, number]][] = [
     [2020, [25, 1, 2020]],
     [2021, [12, 2, 2021]],
@@ -51,7 +51,7 @@ describe('Tết Nguyên đán (Vietnam, UTC+7)', () => {
   });
 });
 
-describe('leap months', () => {
+describe('LG-01 leap months', () => {
   it.each([
     [2017, 6],
     [2020, 4],
@@ -76,7 +76,7 @@ describe('leap months', () => {
   });
 });
 
-describe('known dates', () => {
+describe('LG-01 known dates', () => {
   it('Trung thu 2026 is 25/9/2026', () => {
     expect(lunarToSolar(15, 8, 2026)).toEqual(d(25, 9, 2026));
   });
@@ -88,7 +88,7 @@ describe('known dates', () => {
   });
 });
 
-describe('round trip', () => {
+describe('LG-01 round trip', () => {
   it('every day 1900–2100 converts to lunar and back (day 1–30, valid month)', () => {
     const bad: string[] = [];
     for (let jd = jdFromDate(1, 1, 1900); jd <= jdFromDate(31, 12, 2100); jd++) {
@@ -119,7 +119,7 @@ describe('round trip', () => {
   });
 });
 
-describe('anniversaries (giỗ)', () => {
+describe('LG-02 anniversaries (giỗ)', () => {
   it('falls on the same lunar date each year', () => {
     const s = lunarAnniversary(10, 3, 2027); // giỗ Tổ Hùng Vương
     expect(solarToLunar(s.day, s.month, s.year)).toMatchObject({ day: 10, month: 3, leap: false });
@@ -140,7 +140,7 @@ describe('anniversaries (giỗ)', () => {
   });
 });
 
-describe('names', () => {
+describe('LG-01 names', () => {
   it('year can chi', () => {
     expect(yearCanChi(1984)).toBe('Giáp Tý');
     expect(yearCanChi(2025)).toBe('Ất Tỵ');

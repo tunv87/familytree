@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { newDevice, sampleFamily, seedFamily } from './helpers';
 
-test('print the tree to a PDF (one sheet and tiled sheets)', async ({ browser }) => {
+test('LG-07 print the tree to a PDF (one sheet and tiled sheets)', async ({ browser }) => {
   const fid = await seedFamily('Họ Nguyễn — Đông Ngạc', sampleFamily());
   const page = await newDevice(browser);
   await page.goto(`/#/f/${fid}`);

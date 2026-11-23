@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { newDevice, sampleFamily, seedFamily } from './helpers';
 
-test('tree: full view, open a person, collapse a branch, search, branch view', async ({
+test('LG-05 UX-06 tree: full view, open a person, collapse a branch, search, branch view', async ({
   browser,
 }) => {
   const people = sampleFamily();
@@ -51,7 +51,7 @@ test('tree: full view, open a person, collapse a branch, search, branch view', a
   await expect(page.locator('[data-testid^="card-"]')).toHaveCount(before);
 });
 
-test('tree: dragging pans without opening a card', async ({ browser }) => {
+test('UX-06 tree: dragging pans without opening a card', async ({ browser }) => {
   const fid = await seedFamily('Họ Nguyễn', sampleFamily());
   const page = await newDevice(browser);
   await page.goto(`/#/f/${fid}`);

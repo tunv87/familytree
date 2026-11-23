@@ -12,7 +12,13 @@ import {
   type Auth,
   type User,
 } from 'firebase/auth';
-import { connectDatabaseEmulator, getDatabase, type Database } from 'firebase/database';
+import {
+  connectDatabaseEmulator,
+  getDatabase,
+  goOffline,
+  goOnline,
+  type Database,
+} from 'firebase/database';
 import { useSyncExternalStore } from 'react';
 import { createLogger } from '../lib/logger';
 
@@ -57,8 +63,12 @@ function init() {
       const cred = GoogleAuthProvider.credential(
         JSON.stringify({ sub: name, email: `${name}@example.com`, email_verified: true, name }),
       );
-      await signInWithCredential(auth!, cred);
+      const { user } = await signInWithCredential(auth!, cred);
+      return user.uid;
     };
+    // e2e tests cut the database connection the way a dead phone signal would
+    (window as unknown as Record<string, unknown>).__testNetwork = (on: boolean) =>
+      on ? goOnline(db!) : goOffline(db!);
   }
   onAuthStateChanged(auth, (u) => {
     current = u;

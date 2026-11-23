@@ -8,7 +8,9 @@ import {
   signInAdmin,
 } from './helpers';
 
-test('invite screen shows a QR code and the link a relative can open', async ({ browser }) => {
+test('LG-12 invite screen shows a QR code and the link a relative can open', async ({
+  browser,
+}) => {
   const fid = await seedFamily('Họ Trần', sampleFamily());
   const page = await newDevice(browser);
   await page.goto(`/#/f/${fid}`);
@@ -29,7 +31,7 @@ test('invite screen shows a QR code and the link a relative can open', async ({ 
   await expect(other.getByTestId('rename-input')).toHaveCount(0);
 });
 
-test('admin renames the family; it shows everywhere', async ({ browser }) => {
+test('LG-12 admin renames the family; it shows everywhere', async ({ browser }) => {
   const admin = await newDevice(browser);
   await signInAdmin(admin, 'rename-admin');
   await createFamily(admin, 'Họ Lê');
@@ -44,7 +46,7 @@ test('admin renames the family; it shows everywhere', async ({ browser }) => {
   await expect(admin.locator('.card', { hasText: 'Họ Lê — chi trưởng' })).toBeVisible();
 });
 
-test('closing a family forgets it on this device', async ({ browser }) => {
+test('LG-12 closing a family forgets it on this device', async ({ browser }) => {
   const fid = await seedFamily('Họ Phạm', sampleFamily());
   const page = await newDevice(browser);
   await page.goto(`/#/f/${fid}`);

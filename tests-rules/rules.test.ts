@@ -94,7 +94,7 @@ afterAll(async () => {
   await Promise.all(apps.map((a) => deleteApp(a)));
 });
 
-describe('creating a family', () => {
+describe('SEC-01 creating a family', () => {
   it('a Google user can create a family they own', async () => {
     const a = await google();
     await ok(set(ref(a.db, `families/${FID}`), family(a.uid)));
@@ -126,7 +126,7 @@ describe('creating a family', () => {
   });
 });
 
-describe('reading', () => {
+describe('SEC-01 reading', () => {
   it('anyone signed in (even anonymously) with the id can read the family', async () => {
     const a = await google();
     await adminWrite('PUT', `families/${FID}`, family(a.uid));
@@ -148,7 +148,7 @@ describe('reading', () => {
   });
 });
 
-describe('editing people', () => {
+describe('SEC-01 editing people', () => {
   it('admins can add, edit and delete people', async () => {
     const a = await google();
     await adminWrite('PUT', `families/${FID}`, family(a.uid));
@@ -200,11 +200,74 @@ describe('editing people', () => {
   });
 });
 
-describe('everything else', () => {
+describe('SEC-01 everything else', () => {
   it('is closed', async () => {
     const a = await google();
     await denied(set(ref(a.db, 'other'), 1));
     await denied(get(ref(a.db, 'other')));
     await denied(set(ref(a.db, `families/${FID}/junk`), 1));
+  });
+});
+
+describe('SEC-01 more attacks', () => {
+  it('the owner always stays an admin (another admin cannot remove them)', async () => {
+    const [a, b] = [await google(), await google()];
+    await adminWrite('PUT', `families/${FID}`, {
+      ...family(a.uid),
+      admins: { [a.uid]: true, [b.uid]: true },
+    });
+    await denied(remove(ref(b.db, `families/${FID}/admins/${a.uid}`)));
+    await denied(set(ref(b.db, `families/${FID}/admins`), { [b.uid]: true }));
+    // removing a non-owner admin is fine
+    await ok(remove(ref(a.db, `families/${FID}/admins/${b.uid}`)));
+  });
+
+  it('admin flags and spouse links must be plain true (no smuggled data)', async () => {
+    const a = await google();
+    await adminWrite('PUT', `families/${FID}`, family(a.uid));
+    await denied(set(ref(a.db, `families/${FID}/admins/someone`), 'token'));
+    await denied(
+      set(ref(a.db, `families/${FID}/people/p0000001`), { ...person(), spouses: { x: 'y' } }),
+    );
+  });
+
+  it('length and range limits', async () => {
+    const a = await google();
+    await adminWrite('PUT', `families/${FID}`, family(a.uid));
+    const p = ref(a.db, `families/${FID}/people/p0000001`);
+    await denied(set(p, { ...person(), name: 'x'.repeat(101) }));
+    await denied(set(p, { ...person(), note: 'x'.repeat(2001) }));
+    await denied(set(p, { ...person(), generation: 0 }));
+    await denied(set(p, { ...person(), generation: 61 }));
+    await denied(set(p, { ...person(), birth: { cal: 's', d: 32 } }));
+    await ok(
+      set(p, { ...person(), name: 'x'.repeat(100), note: 'x'.repeat(2000), generation: 60 }),
+    );
+  });
+
+  it("nobody writes another user's list or the database root; anonymous users have no list", async () => {
+    const [a, b, v] = [await google(), await google(), await viewer()];
+    await denied(set(ref(b.db, `users/${a.uid}/families/${FID}`), 'x'));
+    await denied(set(ref(v.db, `users/${v.uid}/families/${FID}`), 'x'));
+    await denied(get(ref(a.db, 'users')));
+    await denied(set(ref(a.db, '/'), { hacked: true }));
+    await denied(update(ref(a.db), { [`families/${FID}/meta/name`]: 'x' }));
+  });
+
+  it('a viewer cannot delete people or the family', async () => {
+    const [a, v] = [await google(), await viewer()];
+    await adminWrite('PUT', `families/${FID}`, {
+      ...family(a.uid),
+      people: { p0000001: person() },
+    });
+    await denied(remove(ref(v.db, `families/${FID}/people/p0000001`)));
+    await denied(remove(ref(v.db, `families/${FID}`)));
+  });
+
+  it('a family must keep its meta and admins', async () => {
+    const a = await google();
+    await adminWrite('PUT', `families/${FID}`, family(a.uid));
+    await denied(remove(ref(a.db, `families/${FID}/meta`)));
+    await denied(set(ref(a.db, `families/${FID}/meta/name`), 5));
   });
 });

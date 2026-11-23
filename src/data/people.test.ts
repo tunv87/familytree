@@ -41,7 +41,7 @@ const base: People = {
   giang: P('Nguyễn Văn Giang', 'm', { generation: 3, fatherId: 'cuong', motherId: 'em' }),
 };
 
-describe('relationships', () => {
+describe('LG-04 LG-09 relationships', () => {
   it('children in birth order', () => {
     expect(childrenOf(base, 'an')).toEqual(['cuong', 'dung']);
     expect(childrenOf(base, 'binh')).toEqual(['cuong', 'dung']);
@@ -58,7 +58,7 @@ describe('relationships', () => {
   });
 });
 
-describe('search', () => {
+describe('LG-08 search', () => {
   it('ignores diacritics and case', () => {
     expect(normalize('Nguyễn Văn Đức')).toBe('nguyen van duc');
     expect(searchPeople(base, 'cuong')).toEqual(['cuong']);
@@ -74,7 +74,7 @@ describe('search', () => {
   });
 });
 
-describe('adding people', () => {
+describe('LG-04 LG-08 adding people', () => {
   it('adds a child with both parents', () => {
     const u = addPersonUpdates(
       base,
@@ -124,7 +124,7 @@ describe('adding people', () => {
   });
 });
 
-describe('editing and deleting', () => {
+describe('LG-04 editing and deleting', () => {
   it('editing keeps links even if the form does not send them', () => {
     const u = editPersonUpdates(
       base,
@@ -152,7 +152,7 @@ describe('editing and deleting', () => {
   });
 });
 
-describe('lifespan', () => {
+describe('LG-10 lifespan', () => {
   it('formats known years', () => {
     expect(
       lifespan(P('a', 'm', { birth: { cal: 's', y: 1920 }, death: { cal: 'l', y: 1995 } })),
@@ -165,7 +165,7 @@ describe('lifespan', () => {
   });
 });
 
-describe('relinking', () => {
+describe('LG-04 relinking', () => {
   it('changes parents and spouses on both sides', () => {
     const u = relinkUpdates(base, 'dung', {
       fatherId: 'an',

@@ -12,7 +12,7 @@ import {
 
 const s = (day: number, month: number, year: number) => ({ day, month, year });
 
-describe('formatting', () => {
+describe('LG-10 formatting', () => {
   it('shows whatever is known', () => {
     expect(formatFamilyDate({ cal: 's', d: 2, m: 9, y: 1945 })).toBe('2/9/1945');
     expect(formatFamilyDate({ cal: 'l', d: 10, m: 3, y: 1950 })).toBe('10/3/1950 (âm)');
@@ -33,7 +33,7 @@ describe('formatting', () => {
   });
 });
 
-describe('conversion', () => {
+describe('LG-10 conversion', () => {
   it('converts complete dates', () => {
     expect(toSolar({ cal: 'l', d: 1, m: 1, y: 2027 })).toEqual(s(6, 2, 2027));
     expect(toLunar({ cal: 's', d: 6, m: 2, y: 2027 })).toEqual({
@@ -46,7 +46,7 @@ describe('conversion', () => {
   });
 });
 
-describe('validation', () => {
+describe('LG-10 validation', () => {
   it('accepts partial dates', () => {
     expect(dateError({ cal: 's', y: 1920 })).toBeNull();
     expect(dateError({ cal: 'l', d: 10, m: 3 })).toBeNull();
@@ -61,7 +61,7 @@ describe('validation', () => {
   });
 });
 
-describe('giỗ', () => {
+describe('LG-02 giỗ', () => {
   it('uses the lunar date of death, converting from solar if needed', () => {
     expect(deathAnniversaryKey({ cal: 'l', d: 10, m: 3 })).toEqual({ d: 10, m: 3 });
     // 6/2/2027 = mùng 1 tháng Giêng
@@ -86,7 +86,7 @@ describe('giỗ', () => {
   });
 });
 
-describe('birthdays', () => {
+describe('LG-03 birthdays', () => {
   it('solar birthdays repeat on the same day', () => {
     expect(nextBirthday({ cal: 's', d: 1, m: 12, y: 1980 }, s(22, 11, 2026))).toEqual(
       s(1, 12, 2026),

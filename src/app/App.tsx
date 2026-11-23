@@ -17,6 +17,12 @@ import { useSettings } from './settings';
 
 const log = createLogger('nav');
 
+/** Test-only: a screen that throws while rendering, to check the crash screen (CR-08). */
+function CrashForTest(): never {
+  throw new Error('intentional test crash');
+}
+const testRoutes = import.meta.env.VITE_USE_EMULATOR === '1';
+
 function RouteLogger() {
   const loc = useLocation();
   useEffect(() => log.info('route', { path: loc.pathname + loc.search }), [loc]);
@@ -48,6 +54,7 @@ export function App() {
           <Route path="/invite" element={<InviteScreen />} />
           <Route path="/settings" element={<SettingsScreen />} />
           <Route path="/debug" element={<DebugScreen />} />
+          {testRoutes && <Route path="/__crash" element={<CrashForTest />} />}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </ErrorBoundary>

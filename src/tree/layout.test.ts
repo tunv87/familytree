@@ -34,7 +34,7 @@ function overlaps(layout: ReturnType<typeof layoutTree>) {
   return bad;
 }
 
-describe('roots', () => {
+describe('LG-05 roots', () => {
   it('a founding couple is one root (the husband)', () => {
     expect(findRoots(family)).toEqual(['an']);
   });
@@ -51,7 +51,7 @@ describe('roots', () => {
   });
 });
 
-describe('layout', () => {
+describe('LG-05 layout', () => {
   const layout = layoutTree(family);
   const at = (id: string) => layout.nodes.find((n) => n.id === id)!;
 
@@ -133,7 +133,7 @@ describe('layout', () => {
   });
 });
 
-describe('wrapName', () => {
+describe('LG-05 wrapName', () => {
   it('wraps long Vietnamese names into two lines', () => {
     expect(wrapName('Nguyễn Văn An')).toEqual(['Nguyễn Văn An']);
     expect(wrapName('Nguyễn Thị Minh Khai Phương')).toEqual(['Nguyễn Thị Minh', 'Khai Phương']);
