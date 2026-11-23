@@ -6,7 +6,7 @@ import { createFamily, myFamilies } from '../data/families';
 import { useAuth } from '../data/firebase';
 import { useT } from '../i18n';
 import { createLogger } from '../lib/logger';
-import { Card, TopBar } from '../ui/components';
+import { Card, Modal, TopBar } from '../ui/components';
 
 const log = createLogger('families');
 
@@ -27,6 +27,7 @@ export function FamiliesScreen() {
   const { isAdmin, user } = useAuth();
   const [list, setList] = useState<Record<string, string>>(recentFamilies);
   const current = getCurrentId();
+  const [confirmClose, setConfirmClose] = useState(false);
   useEffect(() => {
     if (!isAdmin) return;
     myFamilies()
@@ -62,14 +63,33 @@ export function FamiliesScreen() {
       {current && (
         <button
           className="btn secondary"
-          onClick={() => {
-            forgetRecent(current);
-            openFamily(null);
-            navigate('/');
-          }}
+          data-testid="close-family"
+          onClick={() => setConfirmClose(true)}
         >
           {t('closeFamily')}
         </button>
+      )}
+      {confirmClose && current && (
+        <Modal onClose={() => setConfirmClose(false)}>
+          <h2>{t('closeFamilyConfirm')}</h2>
+          <div className="muted">{t('closeFamilyHint')}</div>
+          <div className="stack">
+            <button className="btn" onClick={() => setConfirmClose(false)}>
+              {t('cancel')}
+            </button>
+            <button
+              className="btn secondary"
+              data-testid="confirm-close-family"
+              onClick={() => {
+                forgetRecent(current);
+                openFamily(null);
+                navigate('/');
+              }}
+            >
+              {t('closeFamily')}
+            </button>
+          </div>
+        </Modal>
       )}
     </main>
   );

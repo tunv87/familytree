@@ -2,7 +2,7 @@
   --bg: #fbf6ec;
   --surface: #ffffff;
   --text: #1f2937;
-  --muted: #6b7280;
+  --muted: #59606b;
   /* đỏ son + vàng kim: traditional colours of an ancestral altar */
   --primary: #a8322d;
   --primary-ink: #ffffff;
@@ -515,6 +515,7 @@ select.text-input {
   display: flex;
   align-items: center;
   gap: 10px;
+  min-height: 44px;
 }
 
 .check input {
@@ -718,7 +719,7 @@ select.text-input {
 }
 
 .link-box {
-  font-size: 0.75em;
+  font-size: 0.8em;
   word-break: break-all;
   color: var(--muted);
   text-align: center;
@@ -932,4 +933,17 @@ select.text-input {
   text-align: center;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
   animation: pop 0.25s;
+}
+
+.tree-toggle .hit {
+  fill: transparent;
+  stroke: none;
+}
+
+/* narrow phones (320–400 px): let the calendar use the full width so each day stays ≥ 44 px */
+@media (max-width: 400px) {
+  .cal-grid {
+    margin: 0 -14px;
+    gap: 1px;
+  }
 }

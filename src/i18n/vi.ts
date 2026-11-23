@@ -28,6 +28,8 @@ export const vi = {
   myFamilies: 'Gia phả của tôi',
   switchFamily: 'Đổi gia phả',
   closeFamily: 'Đóng gia phả này trên máy',
+  closeFamilyConfirm: 'Đóng gia phả này trên máy?',
+  closeFamilyHint: 'Dữ liệu không bị xoá. Muốn xem lại thì mở lại link mời.',
   opened: 'Đang mở',
   familyMissing: 'Không tìm thấy gia phả này. Link có thể bị sai hoặc gia phả đã bị xoá.',
   familyError: 'Không tải được gia phả. Kiểm tra mạng rồi thử lại.',

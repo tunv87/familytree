@@ -53,6 +53,7 @@ test('LG-12 closing a family forgets it on this device', async ({ browser }) => 
   await expect(page.getByRole('heading', { name: 'Họ Phạm' })).toBeVisible();
   await page.goto('/#/families');
   await page.getByRole('button', { name: /Đóng gia phả/ }).click();
+  await page.getByTestId('confirm-close-family').click();
   await expect(page.getByTestId('home-new-family')).toBeVisible();
   await page.goto('/#/families');
   await expect(page.getByTestId(`family-${fid}`)).toHaveCount(0);

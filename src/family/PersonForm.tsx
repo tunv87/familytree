@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { dateError, isEmpty } from '../data/dates';
 import { applyFamilyUpdates, randomId } from '../data/families';
@@ -115,6 +115,7 @@ function PersonForm({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [confirmLeave, setConfirmLeave] = useState(false);
+  const nameRef = useRef<HTMLInputElement>(null);
   const dirty = JSON.stringify(form) !== JSON.stringify(initial);
   const set = (patch: Partial<FormState>) => setForm((f) => ({ ...f, ...patch }));
 
@@ -133,6 +134,7 @@ function PersonForm({
   const save = async () => {
     if (problem) {
       setError(problem);
+      if (!form.name.trim()) nameRef.current?.focus();
       return;
     }
     setBusy(true);
@@ -182,6 +184,8 @@ function PersonForm({
             value={form.name}
             maxLength={100}
             autoFocus={!editId}
+            ref={nameRef}
+            aria-invalid={error === t('required') || undefined}
             data-testid="name"
             onChange={(e) => set({ name: e.target.value })}
           />

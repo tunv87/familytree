@@ -156,6 +156,7 @@ function RelationsForm({ people, familyId }: { people: People; familyId: string 
           <select
             className="text-input"
             value={addSpouse}
+            aria-label={t('pickExisting')}
             data-testid="rel-add-spouse"
             onChange={(e) => setAddSpouse(e.target.value)}
           >

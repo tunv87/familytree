@@ -68,6 +68,8 @@ export function TreeSvg({
                   onToggle(n.id);
                 }}
               >
+                {/* invisible 44 px hit area around the 22 px button */}
+                <circle r={22} className="hit" />
                 <circle r={11} />
                 <text y={5}>{n.collapsed ? '+' : '−'}</text>
               </g>

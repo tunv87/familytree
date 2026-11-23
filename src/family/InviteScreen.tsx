@@ -112,6 +112,7 @@ function RenameFamily({ familyId, name }: { familyId: string; name: string }) {
           className="text-input"
           value={value}
           maxLength={80}
+          aria-label={t('familyName')}
           data-testid="rename-input"
           onChange={(e) => {
             setValue(e.target.value);
