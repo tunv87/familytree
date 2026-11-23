@@ -79,3 +79,13 @@ chỉ thấy trên máy CI:
 | #           | Case         | Vấn đề                                                                     | Quyết định                                                                                                                                                  |
 | ----------- | ------------ | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | R-27 (T-12) | LG-04, UX-11 | Test tự chuyển trang trong lúc app cũng đang tự quay lại sau khi xoá (đua) | Chờ app rời trang hồ sơ rồi mới mở danh sách; kiểm thêm người bị xoá không còn trong danh sách. Rà các test khác: không còn chỗ nào bấm xoá rồi `goto` ngay |
+
+## Kết luận — đạt tiêu chí "sạch" (23/11/2026)
+
+- run-04, run-05 xanh; sau T-12 chạy lại 3 lần liên tiếp trên cùng code: **run-06, run-07, run-08 đều 0 case lỗi**,
+  không case thiếu kết quả (mỗi run: 115 unit, 21 rules, 63 e2e, 3 security, 1 pwa).
+- CI GitHub: bộ nhanh xanh trên mỗi push; **bộ đủ 10 cỡ màn chạy trên CI cũng xanh** (Actions run 19, 8,5 phút).
+- Bằng chứng đầy đủ: `runs/run-08/` (summary, results.json, npm-audit.json, 380 ảnh UI: 10 cỡ màn × 19 màn × chữ thường/chữ to).
+- Tổng cộng: 23 lỗi sản phẩm (B-01…B-23, trong đó B-14 chấp nhận rủi ro có kiểm chứng) và 12 lỗi của test (T-01…T-12) đã xử lý.
+- Còn lại cần làm tay: UX-M2 (đăng nhập Google trên Safari iPhone), UX-M3 (mở link từ Zalo), UX-M4 (người lớn tuổi tự dùng),
+  SEC-06 (rules trên production). Hoãn: SEC-07 (Content-Security-Policy).
