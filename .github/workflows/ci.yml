@@ -1,13 +1,25 @@
 name: CI
 
+# Every push: static checks, unit, Firebase rules, e2e on a quick set of devices, security, PWA.
+# The full UI matrix (10 screen sizes, ~1 h) runs weekly and on demand (Actions → CI → Run workflow).
 on:
   push:
   pull_request:
+  workflow_dispatch:
+    inputs:
+      full:
+        description: 'Run the full UI matrix (10 screen sizes)'
+        type: boolean
+        default: true
+  schedule:
+    - cron: '17 19 * * 0' # Sunday 02:17 Vietnam time
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 120
+    env:
+      FULL: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.full) }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -19,24 +31,28 @@ jobs:
           distribution: temurin
           java-version: 21
       - run: npm ci
-      - run: npm run lint
-      - run: npm run typecheck
-      - run: npm test
-      - run: npm run build
       - name: Cache Firebase emulators
         uses: actions/cache@v4
         with:
           path: ~/.cache/firebase/emulators
           key: firebase-emulators-${{ hashFiles('package-lock.json') }}
-      - run: npm run test:rules
       - run: npx playwright install --with-deps chromium
-      - run: npm run e2e
-      - run: npm run test:pwa
+      - run: npm run build
+      - name: Test suite (docs/testing/TEST_CASES.md)
+        run: |
+          if [ "$FULL" = "true" ]; then
+            node scripts/run-tests.mjs --evidence
+          else
+            node scripts/run-tests.mjs --projects=iphone,prod,ui-iphone-se-3,ui-desktop-1920
+          fi
+      - name: Summary
+        if: always()
+        run: cat "$(ls -d docs/testing/runs/run-* | sort | tail -1)/summary.md" >> "$GITHUB_STEP_SUMMARY" || true
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: e2e-results
+          name: test-run
           path: |
+            docs/testing/runs
             test-results
-            playwright-report
-          retention-days: 7
+          retention-days: 14

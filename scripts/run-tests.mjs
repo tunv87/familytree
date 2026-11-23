@@ -1,6 +1,7 @@
 // Runs the whole test suite and writes evidence to docs/testing/runs/run-NN/.
-// Usage: node scripts/run-tests.mjs [--evidence] [--only=unit,rules,e2e,security,pwa]
+// Usage: node scripts/run-tests.mjs [--evidence] [--only=unit,rules,e2e,security,pwa] [--projects=a,b]
 //   --evidence  also copy every UI screenshot (otherwise only screenshots of failures)
+//   --projects  only these Playwright projects (CI uses a quick set; default: all 10 screen sizes)
 import { spawnSync } from 'node:child_process';
 import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -13,6 +14,11 @@ const only = (
 )
   .slice(7)
   .split(',');
+const projects = (args.find((a) => a.startsWith('--projects='))?.slice(11) ?? '')
+  .split(',')
+  .filter(Boolean)
+  .map((p) => ` --project ${p}`)
+  .join('');
 
 // emulators listen on localhost: never send that through an HTTP proxy
 const env = { ...process.env };
@@ -42,7 +48,9 @@ run(
   'rules',
   `${EMU} "npx vitest run --config vitest.rules.config.ts --reporter=default --reporter=json --outputFile.json=.reports/rules.json"`,
 );
-run('e2e', `${EMU} "npx playwright test"`, { PW_JSON: 'test-results/e2e.json' });
+run('e2e', `${EMU} "npx playwright test --trace off${projects}"`, {
+  PW_JSON: 'test-results/e2e.json',
+});
 run('security', 'node scripts/security-scan.mjs');
 run('pwa', 'node scripts/check-sw-update.mjs > test-results/pwa.log 2>&1');
 
