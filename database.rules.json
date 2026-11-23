@@ -6,7 +6,7 @@
       "$fid": {
         ".read": "auth != null",
         ".write": "auth != null && auth.token.firebase.sign_in_provider === 'google.com' && (data.child('admins').child(auth.uid).exists() || (!data.exists() && newData.child('admins').child(auth.uid).val() === true && newData.child('meta/owner').val() === auth.uid))",
-        ".validate": "$fid.matches(/^[A-Za-z0-9]{20}$/) && newData.hasChildren(['meta', 'admins'])",
+        ".validate": "$fid.matches(/^[A-Za-z0-9]{20}$/) && newData.hasChildren(['meta', 'admins']) && newData.child('admins').child(newData.child('meta/owner').val() + '').val() === true",
         "meta": {
           ".validate": "newData.hasChildren(['name', 'owner', 'createdAt'])",
           "name": {
