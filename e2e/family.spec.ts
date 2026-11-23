@@ -76,8 +76,11 @@ test('LG-04 UX-11 admin builds a small family; a relative opens the link and can
   await admin.getByText('Nguyễn Văn Cường (Cả)').click();
   await admin.getByTestId('delete-person').click();
   await admin.getByTestId('confirm-delete').click();
+  // the app goes back by itself once the delete is saved; don't race it with our own goto
+  await expect(admin).not.toHaveURL(/#\/p\//);
   await admin.goto('/#/people');
   await expect(admin.locator('.person-row')).toHaveCount(2);
+  await expect(admin.getByText('Nguyễn Văn Cường (Cả)')).toHaveCount(0);
 });
 
 test('CR-06 opening a wrong link says so', async ({ browser }) => {

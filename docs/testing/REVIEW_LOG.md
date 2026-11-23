@@ -70,3 +70,12 @@ UI-01 bản mới bắt thêm trang hồ sơ của người tên không khoảng
 lượt axe trước đây dừng ở tree-search nên chưa tới lịch (B-22). Lần sửa đầu dùng `overflow-wrap: anywhere` cho cả trang
 làm tiêu đề bị ngắt từng chữ cái → đổi sang `break-word` cho toàn trang, `anywhere` chỉ cho tên người.
 Sau khi sửa B-18…B-23: 12/12 test UI xanh trên 5 cỡ màn.
+
+## Vòng 5 — run-04 và CI đầu tiên (23/11/2026)
+
+run-04 xanh (0 case lỗi) — lần xanh 1/3. CI chạy bộ mới lần đầu (bộ máy nhanh, 3,2 phút): 45/46 đạt, 1 lỗi chập chờn
+chỉ thấy trên máy CI:
+
+| #           | Case         | Vấn đề                                                                     | Quyết định                                                                                                                                                  |
+| ----------- | ------------ | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R-27 (T-12) | LG-04, UX-11 | Test tự chuyển trang trong lúc app cũng đang tự quay lại sau khi xoá (đua) | Chờ app rời trang hồ sơ rồi mới mở danh sách; kiểm thêm người bị xoá không còn trong danh sách. Rà các test khác: không còn chỗ nào bấm xoá rồi `goto` ngay |
