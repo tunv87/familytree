@@ -119,3 +119,5 @@ Chức năng mới (trước đó chưa có). User chốt miền Trung (Bình Đ
 | R-38 | CR-07 | Fuzz 1.000 đồ thị hỏng × mọi cặp × 3 miền                                                                                                                                                                                                                                                              |
 | R-39 | UI-01 | B-25 chỉ thấy khi xem ảnh bằng mắt → thêm kiểm "thanh tiêu đề không tên không được xuống dòng"; đã xác nhận kiểm này **đỏ** khi bỏ bản sửa                                                                                                                                                             |
 | R-40 | LG-13 | E2E `kinship.spec.ts`: người xem tự chọn "Đây là tôi", kiểm 4 cặp đã chốt + bác/ba/ông nội/anh họ theo vai, nhớ sau khi tải lại, đổi miền Bắc, màn "Gọi nhau thế nào" hai chiều + đường quan hệ bấm được, bỏ chọn trong Cài đặt. Lượt đi UI thêm 2 màn (`kinship-card`, `kinship`) cho 10 cỡ màn + axe |
+
+Kết quả: run-12, run-13, run-14 xanh liên tiếp trên `5dcea33` (202 unit, 22 rules, 66 e2e; LG-13 73/73). Bằng chứng UI mới nhất ở `runs/run-14/` (có 2 màn xưng hô).
