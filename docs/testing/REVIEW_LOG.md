@@ -43,3 +43,13 @@ Review lại các case lỗi trong run-01: 14 lỗi sản phẩm (B-01…B-14, x
 | R-18 (T-06) | UX-06                            | Điều hướng cùng route `/tree` → `/tree?focus=` không mount lại cây nên vẫn ở mức thu nhỏ             | Mở cây từ trang hồ sơ (như người dùng thật bấm "Xem trên cây")                                                                                                                         |
 | R-19 (T-07) | UI-06                            | Popup kết quả tìm kiếm đè nút zoom là hành vi đúng (popup tạm thời)                                  | Cho phép phần tử `role="listbox"` đè lên; gắn `role="listbox"` cho popup                                                                                                               |
 | R-20 (T-08) | UI-xx                            | Profile `iPhone SE` của Playwright là đời đầu (320 px), không phải 375 px như kế hoạch               | Thêm `iphone-se-3` (375 px) và **giữ** màn 320 px dưới tên `small-320`: người lớn tuổi hay bật "cỡ hiển thị lớn" trên Android khiến bề ngang chỉ ~320 px. Ma trận thành 10 cỡ màn hình |
+
+## Vòng 3 — sau run-02 (23/11/2026)
+
+run-02 không dùng được để đánh giá sản phẩm: dev server chết giữa chừng nên 56 test sau đó báo "connection refused".
+
+| #           | Case    | Vấn đề                                                                       | Quyết định                                                                          |
+| ----------- | ------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| R-21 (T-09) | báo cáo | Playwright dọn `test-results/` khi khởi động → JSON unit/rules bị xoá        | Ghi JSON vitest vào `.reports/`                                                     |
+| R-22 (T-10) | CR-01   | Lệnh đọc nhãn phần tử không có timeout → monkey đứng chờ phần tử đã biến mất | Mọi lệnh trong monkey có timeout 800 ms; in tiến độ mỗi 50 bước; timeout test 300 s |
+| R-23        | LG-12   | Chưa kiểm trường hợp clipboard bị chặn (phát hiện từ log monkey, B-17)       | Thêm test: clipboard bị chặn → có thông báo + link được bôi đen sẵn                 |

@@ -61,9 +61,12 @@ async function monkey(page: Page, steps: number, seed: number) {
       continue;
     }
     const el = targets[Math.floor(rand() * targets.length)];
+    // every call gets a short timeout: an element can disappear between listing and acting,
+    // and Playwright would otherwise wait for it until the whole test times out
     const tag = await el
-      .evaluate((e) => `${e.tagName}:${(e as HTMLInputElement).type ?? ''}`)
+      .evaluate((e) => `${e.tagName}:${(e as HTMLInputElement).type ?? ''}`, null, { timeout: 800 })
       .catch(() => '');
+    if (!tag) continue;
     try {
       if (
         tag.startsWith('INPUT:text') ||
@@ -76,18 +79,29 @@ async function monkey(page: Page, steps: number, seed: number) {
         log.push(`fill ${junk.slice(0, 10)}`);
         await el.fill(junk, { timeout: 800 });
       } else if (tag.startsWith('SELECT')) {
-        const n = await el.locator('option').count();
+        const n = await el
+          .locator('option')
+          .count()
+          .catch(() => 0);
         if (n) await el.selectOption({ index: Math.floor(rand() * n) }, { timeout: 800 });
         log.push('select');
       } else {
-        log.push(
-          `click ${(await el.getAttribute('data-testid')) ?? (await el.textContent())?.slice(0, 15)}`,
-        );
+        const label = await el
+          .evaluate(
+            (e) => e.getAttribute('data-testid') ?? (e.textContent ?? '').slice(0, 15),
+            null,
+            {
+              timeout: 800,
+            },
+          )
+          .catch(() => '?');
+        log.push(`click ${label}`);
         await el.click({ timeout: 800 });
       }
     } catch {
       // element went away between listing and acting — fine
     }
+    if (i % 50 === 49) console.log(`[monkey seed ${seed}] ${i + 1}/${steps} steps`);
     if (await page.getByTestId('crash').count()) {
       throw new Error(`crash screen after: ${log.slice(-8).join(' → ')}`);
     }
@@ -96,7 +110,7 @@ async function monkey(page: Page, steps: number, seed: number) {
 }
 
 test('CR-01 monkey test: 200 random actions as a viewer and as an admin', async ({ browser }) => {
-  test.setTimeout(600_000);
+  test.setTimeout(300_000);
   const viewer = await newDevice(browser);
   const fid = await seedFamily('Họ Ngẫu Nhiên', sampleFamily());
   await viewer.goto(`/#/f/${fid}`);

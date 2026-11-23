@@ -117,6 +117,7 @@ export const vi = {
   qrLabel: 'Mã QR mở gia phả',
   sendLink: 'Gửi link (Zalo, Messenger…)',
   copyLink: 'Chép link',
+  copyFailed: 'Máy không cho chép tự động. Hãy bấm giữ vào link bên dưới rồi chọn Sao chép.',
   shareText: 'Mời cả nhà xem gia phả {name}:',
   howToOpen: 'Người nhận mở thế nào?',
   howTo1: 'Bấm vào link hoặc quét mã QR — không cần tài khoản.',

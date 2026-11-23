@@ -58,3 +58,21 @@ test('LG-12 closing a family forgets it on this device', async ({ browser }) => 
   await page.goto('/#/families');
   await expect(page.getByTestId(`family-${fid}`)).toHaveCount(0);
 });
+
+test('LG-12 when the clipboard is blocked, the user is told how to copy by hand', async ({
+  browser,
+}) => {
+  const fid = await seedFamily('Họ Chép', sampleFamily());
+  const page = await newDevice(browser);
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText: () => Promise.reject(new DOMException('denied', 'NotAllowedError')) },
+    });
+  });
+  await page.goto(`/#/f/${fid}`);
+  await expect(page.getByTestId('home-invite')).toBeVisible();
+  await page.goto('/#/invite');
+  await page.getByTestId('copy-link').click();
+  await expect(page.getByTestId('toast')).toContainText('bấm giữ vào link');
+  expect(await page.evaluate(() => window.getSelection()?.toString())).toContain(`#/f/${fid}`);
+});

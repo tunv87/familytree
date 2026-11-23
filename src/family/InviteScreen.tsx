@@ -5,6 +5,7 @@ import { renameFamily } from '../data/families';
 import { useT } from '../i18n';
 import { createLogger } from '../lib/logger';
 import { TopBar } from '../ui/components';
+import { showToast } from '../ui/toast';
 import { FamilyGate } from './useFamilyGate';
 
 const log = createLogger('invite');
@@ -32,7 +33,12 @@ function Invite({ fam }: { fam: CurrentFamily & { isAdmin: boolean } }) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     } catch (e) {
+      // some in-app browsers (Zalo, Messenger) block the clipboard: say so, and select the
+      // link so a long-press "Copy" works (B-17)
       log.warn('copy failed', String(e));
+      showToast(t('copyFailed'));
+      const box = document.querySelector('[data-testid="share-url"]');
+      if (box) window.getSelection()?.selectAllChildren(box);
     }
   };
   const share = async () => {

@@ -20,7 +20,9 @@ for (const k of ['HTTPS_PROXY', 'https_proxy', 'HTTP_PROXY', 'http_proxy']) dele
 const EMU = 'npx firebase emulators:exec --only auth,database --project demo-familytree';
 
 rmSync('test-results', { recursive: true, force: true });
+rmSync('.reports', { recursive: true, force: true });
 mkdirSync('test-results', { recursive: true });
+mkdirSync('.reports', { recursive: true });
 
 const steps = [];
 function run(name, cmd, extraEnv = {}) {
@@ -34,11 +36,11 @@ function run(name, cmd, extraEnv = {}) {
 run('static', 'npm run lint && npx tsc -b');
 run(
   'unit',
-  'npx vitest run --reporter=default --reporter=json --outputFile.json=test-results/unit.json',
+  'npx vitest run --reporter=default --reporter=json --outputFile.json=.reports/unit.json',
 );
 run(
   'rules',
-  `${EMU} "npx vitest run --config vitest.rules.config.ts --reporter=default --reporter=json --outputFile.json=test-results/rules.json"`,
+  `${EMU} "npx vitest run --config vitest.rules.config.ts --reporter=default --reporter=json --outputFile.json=.reports/rules.json"`,
 );
 run('e2e', `${EMU} "npx playwright test"`, { PW_JSON: 'test-results/e2e.json' });
 run('security', 'node scripts/security-scan.mjs');

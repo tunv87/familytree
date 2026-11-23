@@ -23,8 +23,8 @@ function catalog() {
 function collect(steps) {
   const tests = [];
   for (const [suite, file] of [
-    ['unit', 'test-results/unit.json'],
-    ['rules', 'test-results/rules.json'],
+    ['unit', '.reports/unit.json'],
+    ['rules', '.reports/rules.json'],
   ]) {
     const j = readJson(file);
     if (!j) continue;
