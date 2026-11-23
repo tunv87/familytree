@@ -28,3 +28,17 @@ chuyển từ tay sang tự động 1 (R-08); hoãn 1 (R-06); thêm kịch bản
 Ghi chú: các case UX-04 (đóng gia phả không hỏi), UX-05 (focus khi lỗi), UX-06 (nút +/− nhỏ),
 UI-03/04 (vài nút, chữ nhỏ) được viết theo **hành vi mong muốn**, nên dự đoán sẽ lỗi ở lần chạy đầu. Đây là chủ ý,
 không phải test sai.
+
+## Vòng 2 — sau run-01 (23/11/2026)
+
+Review lại các case lỗi trong run-01: 14 lỗi sản phẩm (B-01…B-14, xem BUGS.md), 7 lỗi do test/báo cáo:
+
+| #           | Case                             | Vấn đề                                                                                               | Quyết định                                                                                                                      |
+| ----------- | -------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| R-13 (T-01) | báo cáo                          | Thông báo lỗi Playwright có trích đoạn code chứa chữ "UI-02" → báo cáo gán lỗi UI-02 oan cho mọi máy | Chỉ lấy mã ở dòng đầu của mỗi lỗi; in thêm danh sách phần tử lỗi (phần "Received") để đọc được ngay                             |
+| R-14 (T-02) | CR-07, LG-01/03/08/09/10, SEC-01 | Vitest có 2 reporter nên `--outputFile` không áp dụng cho JSON → không có kết quả                    | Dùng `--outputFile.json=`                                                                                                       |
+| R-15 (T-03) | UI-xx                            | 19 màn × (2 lần kiểm + ảnh) vượt 90 s trên máy chậm                                                  | Timeout 300 s; ảnh bằng chứng chỉ chụp khung nhìn (không chụp cả trang) dạng JPEG để repo không phình (run-01 cả trang = 49 MB) |
+| R-16 (T-04) | CR-01                            | 300 thao tác × 2 vai vượt 240 s                                                                      | 200 thao tác/vai, timeout 600 s, mỗi thao tác tối đa 800 ms                                                                     |
+| R-17 (T-05) | SEC-03                           | Đua giữa lệnh tự chuyển trang của link mời và `goto` kế tiếp                                         | Chờ trang chủ hiện rồi mới mở màn Mời                                                                                           |
+| R-18 (T-06) | UX-06                            | Điều hướng cùng route `/tree` → `/tree?focus=` không mount lại cây nên vẫn ở mức thu nhỏ             | Mở cây từ trang hồ sơ (như người dùng thật bấm "Xem trên cây")                                                                  |
+| R-19 (T-07) | UI-06                            | Popup kết quả tìm kiếm đè nút zoom là hành vi đúng (popup tạm thời)                                  | Cho phép phần tử `role="listbox"` đè lên; gắn `role="listbox"` cho popup                                                        |
