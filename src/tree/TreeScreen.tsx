@@ -132,7 +132,7 @@ function TreeView({ fam }: { fam: CurrentFamily & { isAdmin: boolean } }) {
             onChange={(e) => setQuery(e.target.value)}
           />
           {results.length > 0 && (
-            <div className="tree-results">
+            <div className="tree-results" role="listbox">
               {results.map((id) => (
                 <button key={id} onClick={() => focus(id)} data-testid={`result-${id}`}>
                   {people[id].name}

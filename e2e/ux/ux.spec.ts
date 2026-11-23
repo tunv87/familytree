@@ -224,7 +224,10 @@ test('UX-06 tree gestures: pinch zooms around the fingers, limits, fit, big togg
   expect(svg.x).toBeGreaterThanOrEqual(box.x - 1);
 
   // the +/− branch toggle is big enough to hit with a finger at normal zoom
-  await page.goto('/#/tree?focus=to00000001');
+  // open the tree the way a user does from a profile, so it starts at normal zoom
+  await page.goto('/#/p/to00000001');
+  await page.getByTestId('show-on-tree').click();
+  await expect(page.getByTestId('panzoom')).toHaveAttribute('data-scale', '1.000');
   const toggle = (await page.getByTestId('toggle-to00000001').boundingBox())!;
   expect(
     Math.min(toggle.width, toggle.height),

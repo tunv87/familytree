@@ -115,8 +115,11 @@ export function buildReport({ steps, runName }) {
   for (const t of tests) {
     const ids = [...new Set(t.title.match(ID_RE) ?? [])];
     if (ids.length === 0) unknownIds.add(`(no id) ${t.title}`);
-    const errText = strip(t.errors.join('\n'));
-    const blamed = ids.filter((id) => errText.includes(id));
+    // each error's first line says what failed ("Error: UI-03 calendar: …"); the rest is
+    // stack/code excerpt, which may quote other ids and must not be used for blame
+    const errs = t.errors.map((e) => strip(e));
+    const heads = errs.map((e) => e.split('\n').find((l) => l.trim()) ?? '');
+    const blamed = ids.filter((id) => heads.some((h) => h.includes(id)));
     for (const id of ids) {
       if (!byId.has(id)) {
         unknownIds.add(id);
@@ -128,14 +131,21 @@ export function buildReport({ steps, runName }) {
       if (t.status === 'skipped') r.skipped++;
       else if (failedHere) {
         r.failed++;
-        // keep only the lines that mention this id (soft assertions) or the first lines
-        const lines = errText.split('\n').filter((l) => l.trim());
-        const mine = lines.filter((l) => l.includes(id));
-        r.failures.push({
-          test: t.title,
-          project: t.project,
-          detail: (mine.length ? mine : lines).slice(0, 8).join('\n'),
-        });
+        // for each of this id's errors: the headline + what was actually found ("Received" lines)
+        const mine = errs.filter((e, i) => blamed.length === 0 || heads[i].includes(id));
+        const detail = mine
+          .slice(0, 6)
+          .map((e) => {
+            const lines = e.split('\n');
+            const found = lines
+              .filter((l) => /^\s*\+\s+(?!Received)/.test(l) || /^Received:/.test(l.trim()))
+              .map((l) => l.replace(/^\s*\+\s?/, '    ').trimEnd())
+              .filter((l) => !/^\s*(Array \[|\])\s*$/.test(l))
+              .slice(0, 6);
+            return [lines.find((l) => l.trim()) ?? '', ...found].join('\n');
+          })
+          .join('\n');
+        r.failures.push({ test: t.title, project: t.project, detail });
       } else r.passed++;
     }
   }

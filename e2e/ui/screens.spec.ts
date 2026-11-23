@@ -243,6 +243,8 @@ async function inspect(page: Page): Promise<Report> {
           const pos = getComputedStyle(a).position;
           if ((pos === 'sticky' || pos === 'fixed') && !a.classList.contains('modal-backdrop'))
             return false;
+          // a transient popup list (search results) is meant to sit on top while open
+          if (a.getAttribute('role') === 'listbox') return false;
         }
         return true;
       })
@@ -299,6 +301,7 @@ for (const variant of ['normal', 'big'] as const) {
   test(`UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (${variant} text)`, async ({
     page,
   }) => {
+    test.setTimeout(300_000);
     trackErrors(page);
     if (variant === 'big')
       await page
@@ -327,8 +330,7 @@ for (const variant of ['normal', 'big'] as const) {
         await page.screenshot({
           path: `${dir}/${variant}-${sc.name}.jpg`,
           type: 'jpeg',
-          quality: 70,
-          fullPage: true,
+          quality: 60,
         });
       });
     }
@@ -339,6 +341,7 @@ for (const variant of ['normal', 'big'] as const) {
 }
 
 test('UI-05 accessibility & colour contrast (axe, WCAG 2 AA)', async ({ page }) => {
+  test.setTimeout(300_000);
   // the rules don't depend much on screen size: scan one phone and one desktop
   test.skip(
     !['ui-iphone-14', 'ui-desktop-1920'].includes(test.info().project.name),

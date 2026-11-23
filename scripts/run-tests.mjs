@@ -34,11 +34,11 @@ function run(name, cmd, extraEnv = {}) {
 run('static', 'npm run lint && npx tsc -b');
 run(
   'unit',
-  'npx vitest run --reporter=default --reporter=json --outputFile=test-results/unit.json',
+  'npx vitest run --reporter=default --reporter=json --outputFile.json=test-results/unit.json',
 );
 run(
   'rules',
-  `${EMU} "npx vitest run --config vitest.rules.config.ts --reporter=default --reporter=json --outputFile=test-results/rules.json"`,
+  `${EMU} "npx vitest run --config vitest.rules.config.ts --reporter=default --reporter=json --outputFile.json=test-results/rules.json"`,
 );
 run('e2e', `${EMU} "npx playwright test"`, { PW_JSON: 'test-results/e2e.json' });
 run('security', 'node scripts/security-scan.mjs');
@@ -74,7 +74,15 @@ for (const f of walk('test-results')) {
       : f.replace(/^test-results\/screens\//, 'ui/');
     mkdirSync(join(shots, rel, '..'), { recursive: true });
     cpSync(f, join(shots, rel));
+    if (isFailure) shrink(join(shots, rel));
   }
+}
+/** failure screenshots are big PNGs: shrink to a small JPEG if Python + Pillow exist */
+function shrink(file) {
+  const py = `from PIL import Image; import os, sys
+f = sys.argv[1]; im = Image.open(f).convert('RGB'); im.thumbnail((800, 1600))
+im.save(f[:-4] + '.jpg', 'JPEG', quality=60); os.remove(f)`;
+  spawnSync('python3', ['-c', py, file], { stdio: 'ignore' });
 }
 console.log(`\nReport: ${join(out, 'summary.md')}`);
 process.exit(results.totals.failedIds > 0 || steps.some((s) => !s.ok) ? 1 : 0);

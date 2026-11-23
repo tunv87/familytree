@@ -104,6 +104,7 @@ test('SEC-03 share links reveal only that family and are not guessable', async (
   const page = await newDevice(browser);
   const fid = await seedFamily('Họ Riêng', sampleFamily());
   await page.goto(`/#/f/${fid}`);
+  await expect(page.getByTestId('home-invite')).toBeVisible();
   await page.goto('/#/invite');
   const url = (await page.getByTestId('share-url').textContent())!;
   expect(url).toMatch(/#\/f\/[A-Za-z0-9]{20}$/);

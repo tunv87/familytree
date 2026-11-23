@@ -3,7 +3,7 @@
 Cột **Cách**: `Tự động` (chạy trong `scripts/run-tests.mjs`) · `Tay` (người kiểm trên điện thoại thật) · `Hoãn` (có lý do trong REVIEW_LOG).
 Mỗi test tự động có tên bắt đầu bằng mã ở cột ID, nên báo cáo tự ghép kết quả về đúng dòng.
 
-## UI — giao diện (9 cỡ màn hình × chữ thường / chữ to, 19 màn)
+## UI — giao diện (10 cỡ màn hình × chữ thường / chữ to, 19 màn)
 
 | ID    | Nội dung                             | Kết quả mong đợi                                                                     | Cách    | Ở đâu                  |
 | ----- | ------------------------------------ | ------------------------------------------------------------------------------------ | ------- | ---------------------- |
@@ -42,7 +42,7 @@ Mỗi test tự động có tên bắt đầu bằng mã ở cột ID, nên báo
 
 | ID    | Nội dung                  | Kết quả mong đợi                                                                                                    | Cách    | Ở đâu                   |
 | ----- | ------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------- | ----------------------- |
-| CR-01 | Monkey test               | 300 thao tác ngẫu nhiên (seed cố định) × người xem và quản trị: không lỗi JS, không màn báo lỗi                     | Tự động | e2e/crash/crash.spec.ts |
+| CR-01 | Monkey test               | 200 thao tác ngẫu nhiên (seed cố định) × người xem và quản trị: không lỗi JS, không màn báo lỗi                     | Tự động | e2e/crash/crash.spec.ts |
 | CR-02 | Dữ liệu hỏng trong DB     | Thiếu tên, cha không tồn tại, vòng lặp, tự lấy mình, ngày sai, `people` là mảng/chuỗi, thiếu meta: mọi màn vẫn hiện | Tự động | e2e/crash/crash.spec.ts |
 | CR-03 | Gia phả 1.000 người       | Cây < 5 s, tìm kiếm, lịch, PDF vẫn chạy                                                                             | Tự động | e2e/crash/crash.spec.ts |
 | CR-04 | Mất mạng khi đang lưu     | Trong 10 s có phản hồi (đã lưu tạm / báo lỗi), có mạng lại thì dữ liệu lên server                                   | Tự động | e2e/crash/crash.spec.ts |

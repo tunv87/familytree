@@ -9,7 +9,9 @@ const chromium = { browserName: 'chromium' as const };
 
 /** Screen sizes for the UI matrix (UI-xx). */
 const SCREENS = {
-  'iphone-se': devices['iPhone SE'],
+  // 320 px wide: old iPhone SE, and any Android phone with "large display size" turned on
+  'small-320': devices['iPhone SE'],
+  'iphone-se-3': devices['iPhone SE (3rd gen)'],
   'iphone-14': devices['iPhone 14'],
   'iphone-14-pro-max': devices['iPhone 14 Pro Max'],
   'galaxy-s8': devices['Galaxy S8'],

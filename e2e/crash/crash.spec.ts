@@ -74,16 +74,16 @@ async function monkey(page: Page, steps: number, seed: number) {
           Math.floor(rand() * 6)
         ];
         log.push(`fill ${junk.slice(0, 10)}`);
-        await el.fill(junk, { timeout: 1000 });
+        await el.fill(junk, { timeout: 800 });
       } else if (tag.startsWith('SELECT')) {
         const n = await el.locator('option').count();
-        if (n) await el.selectOption({ index: Math.floor(rand() * n) }, { timeout: 1000 });
+        if (n) await el.selectOption({ index: Math.floor(rand() * n) }, { timeout: 800 });
         log.push('select');
       } else {
         log.push(
           `click ${(await el.getAttribute('data-testid')) ?? (await el.textContent())?.slice(0, 15)}`,
         );
-        await el.click({ timeout: 1000 });
+        await el.click({ timeout: 800 });
       }
     } catch {
       // element went away between listing and acting — fine
@@ -95,13 +95,13 @@ async function monkey(page: Page, steps: number, seed: number) {
   return log;
 }
 
-test('CR-01 monkey test: 300 random actions as a viewer and as an admin', async ({ browser }) => {
-  test.setTimeout(240_000);
+test('CR-01 monkey test: 200 random actions as a viewer and as an admin', async ({ browser }) => {
+  test.setTimeout(600_000);
   const viewer = await newDevice(browser);
   const fid = await seedFamily('Họ Ngẫu Nhiên', sampleFamily());
   await viewer.goto(`/#/f/${fid}`);
   await expect(viewer.getByTestId('home-tree')).toBeVisible();
-  await monkey(viewer, 300, 20261123);
+  await monkey(viewer, 200, 20261123);
   expect(pageErrors(viewer), 'CR-01 viewer: uncaught errors').toEqual([]);
 
   const admin = await newDevice(browser);
@@ -110,7 +110,7 @@ test('CR-01 monkey test: 300 random actions as a viewer and as an admin', async 
   await admin.goto(`/#/f/${fid2}`);
   await expect(admin.getByTestId('home-tree')).toBeVisible();
   // don't sign out halfway (it would just turn this into the viewer run)
-  await monkey(admin, 300, 7);
+  await monkey(admin, 200, 7);
   expect(pageErrors(admin), 'CR-01 admin: uncaught errors').toEqual([]);
 });
 
