@@ -53,3 +53,20 @@ run-02 không dùng được để đánh giá sản phẩm: dev server chết g
 | R-21 (T-09) | báo cáo | Playwright dọn `test-results/` khi khởi động → JSON unit/rules bị xoá        | Ghi JSON vitest vào `.reports/`                                                     |
 | R-22 (T-10) | CR-01   | Lệnh đọc nhãn phần tử không có timeout → monkey đứng chờ phần tử đã biến mất | Mọi lệnh trong monkey có timeout 800 ms; in tiến độ mỗi 50 bước; timeout test 300 s |
 | R-23        | LG-12   | Chưa kiểm trường hợp clipboard bị chặn (phát hiện từ log monkey, B-17)       | Thêm test: clipboard bị chặn → có thông báo + link được bôi đen sẵn                 |
+
+## Vòng 4 — sau run-03 (23/11/2026)
+
+run-03: unit, rules, security, pwa, mọi case CR/LG/SEC/UX đều đạt. Lỗi còn lại đều ở lượt đi màn UI:
+mọi máy điện thoại treo ở bước `delete-confirm` (bấm "Xoá" trúng dòng khác) → B-18; axe → B-19; màn ngang báo che nút zoom.
+
+| #           | Case  | Vấn đề                                                                                                      | Quyết định                                                                                          |
+| ----------- | ----- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| R-24 (T-11) | UI-01 | Kiểm tràn ngang bằng `scrollWidth − innerWidth`; trên điện thoại `innerWidth` nở theo nội dung nên luôn = 0 | So với bề ngang khung nhìn của thiết bị (`page.viewportSize()`), dùng nó cho mọi kiểm theo bề ngang |
+| R-25        | UI-06 | Ngoại lệ "popup đè lên" dựa vào `role="listbox"` buộc sản phẩm gắn vai trò ARIA sai (B-19)                  | Đánh dấu popup bằng thuộc tính riêng `data-popup`; popup dùng `<ul aria-label>` đúng ngữ nghĩa      |
+| R-26        | —     | `prettier --check` báo lỗi định dạng ở file kết quả run do script sinh ra                                   | Bỏ `docs/testing/runs` khỏi prettier (bằng chứng giữ nguyên như khi sinh ra)                        |
+
+Kiểm lại sau khi sửa (chạy riêng UI ở 5 cỡ: small-320, iphone-14, pixel-7, iphone-14-landscape, desktop-1920):
+UI-01 bản mới bắt thêm trang hồ sơ của người tên không khoảng trắng (lỗi có từ trước, bị che bởi T-11);
+lượt axe trước đây dừng ở tree-search nên chưa tới lịch (B-22). Lần sửa đầu dùng `overflow-wrap: anywhere` cho cả trang
+làm tiêu đề bị ngắt từng chữ cái → đổi sang `break-word` cho toàn trang, `anywhere` chỉ cho tên người.
+Sau khi sửa B-18…B-23: 12/12 test UI xanh trên 5 cỡ màn.

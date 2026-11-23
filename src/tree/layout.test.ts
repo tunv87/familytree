@@ -141,4 +141,11 @@ describe('LG-05 wrapName', () => {
     expect(long).toHaveLength(2);
     expect(long[1]).toMatch(/…$/);
   });
+
+  it('cuts a name without spaces so it stays inside the card (B-20)', () => {
+    const lines = wrapName('Nguyễn_Văn_Tên_Rất_Dài_Không_Có_Khoảng_Trắng_Nào');
+    expect(lines).toHaveLength(2);
+    for (const l of lines) expect([...l.replace(/…$/, '')].length).toBeLessThanOrEqual(17);
+    expect(lines[1]).toMatch(/…$/);
+  });
 });

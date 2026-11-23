@@ -261,7 +261,13 @@ export function layoutTree(
 
 /** Splits a name into at most `maxLines` lines of about `perLine` characters. */
 export function wrapName(name: string, perLine = 17, maxLines = 2): string[] {
-  const words = name.trim().split(/\s+/);
+  // a "word" longer than a line (name typed without spaces) is cut into line-sized pieces
+  const words = name
+    .trim()
+    .split(/\s+/)
+    .flatMap((w) =>
+      [...w].length <= perLine ? [w] : (w.match(new RegExp(`.{1,${perLine}}`, 'gu')) ?? [w]),
+    );
   const out: string[] = [];
   let line = '';
   for (const w of words) {

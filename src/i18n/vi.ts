@@ -40,6 +40,7 @@ export const vi = {
 
   // people
   search: 'Tìm theo tên…',
+  searchResults: 'Kết quả tìm',
   noResults: 'Không thấy ai tên như vậy',
   generation: 'Đời thứ {n}',
   generationUnknown: 'Chưa rõ đời',

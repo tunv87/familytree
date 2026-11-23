@@ -36,6 +36,8 @@ body {
   -webkit-tap-highlight-color: transparent;
   -webkit-text-size-adjust: 100%;
   overscroll-behavior: none;
+  /* names without spaces (e.g. typed with underscores) must still wrap on a phone */
+  overflow-wrap: break-word;
 }
 
 #root {
@@ -53,6 +55,7 @@ input {
 
 .screen {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -65,13 +68,15 @@ input {
 
 .topbar {
   display: flex;
+  flex-wrap: wrap; /* tiny screen + big text: action buttons drop below rather than crush the title */
   align-items: center;
   gap: 12px;
   min-height: var(--tap);
 }
 
 .topbar h1 {
-  flex: 1;
+  flex: 1 1 4em;
+  min-width: 0;
   margin: 0;
   font-size: 1.3em;
   text-align: center;
@@ -175,6 +180,7 @@ input {
 
 .grow {
   flex: 1;
+  min-width: 0; /* let long names shrink and wrap instead of widening the page */
 }
 
 .muted {
@@ -349,6 +355,13 @@ input {
   background: var(--surface);
   text-align: left;
   cursor: pointer;
+}
+
+/* names may be typed without spaces; break them anywhere so they never widen the page */
+[data-testid='person-name'],
+.person-row .name,
+.tree-results button {
+  overflow-wrap: anywhere;
 }
 
 .person-row .name {
@@ -650,6 +663,13 @@ select.text-input {
   gap: 8px;
 }
 
+/* short screens (phone in landscape, big text): a column of 3 buttons would not fit */
+@media (max-height: 520px) {
+  .tree-controls {
+    flex-direction: row;
+  }
+}
+
 .tree-controls .icon-btn {
   width: 52px;
   height: 52px;
@@ -672,6 +692,9 @@ select.text-input {
 }
 
 .tree-results {
+  margin: 0;
+  padding: 0;
+  list-style: none;
   position: absolute;
   top: 100%;
   left: 0;
@@ -682,11 +705,13 @@ select.text-input {
   background: var(--surface);
   border: 2px solid var(--border);
   border-radius: 16px;
-  overflow: hidden;
+  max-height: 60vh;
+  overflow-y: auto;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .tree-results button {
+  width: 100%;
   min-height: 52px;
   padding: 8px 16px;
   border: none;
@@ -757,6 +782,7 @@ select.text-input {
 .topbar-actions {
   display: flex;
   gap: 8px;
+  margin-left: auto;
 }
 
 /* ---------- calendar ---------- */
@@ -792,7 +818,7 @@ select.text-input {
 }
 
 .cal-wd.sun {
-  color: var(--bad);
+  color: #b91c1c; /* --bad is too light for small text on the cream background */
 }
 
 .cal-day {
@@ -821,7 +847,13 @@ select.text-input {
 }
 
 .cal-day.out {
-  opacity: 0.35;
+  /* days of the neighbouring months: quieter, but still readable (no opacity: WCAG contrast) */
+  background: transparent;
+}
+
+.cal-day.out .sd {
+  color: var(--muted);
+  font-weight: 600;
 }
 
 .cal-day.h-ram .ld,

@@ -160,9 +160,12 @@ interface Report {
 
 /** Layout checks done inside the page (UI-01..04, 06, 09). */
 async function inspect(page: Page): Promise<Report> {
-  return page.evaluate(async () => {
+  // The real screen width. On phones the browser widens the layout viewport (innerWidth) to fit
+  // content that is too wide, so innerWidth alone would hide a page that scrolls sideways.
+  const screenW = page.viewportSize()!.width;
+  return page.evaluate(async (screenW) => {
     await document.fonts.ready;
-    const W = window.innerWidth;
+    const W = screenW;
     const H = window.innerHeight;
     const visible = (el: Element) => {
       const r = el.getBoundingClientRect();
@@ -243,8 +246,8 @@ async function inspect(page: Page): Promise<Report> {
           const pos = getComputedStyle(a).position;
           if ((pos === 'sticky' || pos === 'fixed') && !a.classList.contains('modal-backdrop'))
             return false;
-          // a transient popup list (search results) is meant to sit on top while open
-          if (a.getAttribute('role') === 'listbox') return false;
+          // a transient popup (search results) is meant to sit on top while open
+          if (a.hasAttribute('data-popup')) return false;
         }
         return true;
       })
@@ -253,7 +256,7 @@ async function inspect(page: Page): Promise<Report> {
     const screenEl = document.querySelector('.screen');
     const tree = document.querySelector('.tree-wrap');
     return {
-      overflowX: document.documentElement.scrollWidth - W,
+      overflowX: Math.max(document.documentElement.scrollWidth, window.innerWidth) - W,
       offscreen,
       badFont,
       vietMissing: hasViet && !vietLoaded,
@@ -270,7 +273,7 @@ async function inspect(page: Page): Promise<Report> {
         treeW: tree ? Math.round(tree.getBoundingClientRect().width) : null,
       },
     };
-  });
+  }, screenW);
 }
 
 function assertReport(screen: string, r: Report) {
