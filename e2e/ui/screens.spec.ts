@@ -126,6 +126,23 @@ async function prepare(page: Page): Promise<Screen[]> {
       },
     },
     {
+      // xưng hô (LG-13): "this is me" on the founder, then a grandchild's page
+      name: 'kinship-card',
+      open: async (p) => {
+        await p.goto('/#/p/to00000001');
+        await p.getByTestId('set-me').click();
+        await p.goto('/#/p/p000000002');
+        await expect(p.getByTestId('kinship-call')).toBeVisible();
+      },
+    },
+    {
+      name: 'kinship',
+      open: async (p) => {
+        await p.getByTestId('how-to-call').click();
+        await expect(p.getByTestId('kin-result')).toBeVisible();
+      },
+    },
+    {
       name: 'delete-confirm',
       open: async (p) => {
         await p.goto('/#/p/to00000001');
@@ -155,6 +172,8 @@ interface Report {
   tinyText: string[];
   smallLongText: string[];
   covered: string[];
+  /** top bar without a title broke into two lines */
+  barWrapped: boolean;
   wide: { screenW: number; contentW: number; treeW: number | null };
 }
 
@@ -253,6 +272,14 @@ async function inspect(page: Page): Promise<Report> {
       })
       .map(describe);
 
+    const bar = document.querySelector('.topbar');
+    const barBtn = bar?.querySelector('button');
+    const barWrapped = Boolean(
+      bar &&
+      barBtn &&
+      !(bar.querySelector('h1')?.textContent ?? '').trim() &&
+      bar.getBoundingClientRect().height > barBtn.getBoundingClientRect().height * 1.5,
+    );
     const screenEl = document.querySelector('.screen');
     const tree = document.querySelector('.tree-wrap');
     return {
@@ -264,6 +291,7 @@ async function inspect(page: Page): Promise<Report> {
       tinyText,
       smallLongText,
       covered,
+      barWrapped,
       wide: {
         screenW: W,
         contentW:
@@ -282,6 +310,7 @@ function assertReport(screen: string, r: Report) {
     0,
   );
   s(r.offscreen, `UI-01 ${screen}: controls cut off at the screen edge`).toEqual([]);
+  s(r.barWrapped, `UI-01 ${screen}: top bar without a title wraps to two lines`).toBe(false);
   s(r.badFont, `UI-02 ${screen}: text not in Nunito`).toEqual([]);
   s(r.vietMissing, `UI-02 ${screen}: Vietnamese font subset not loaded`).toBe(false);
   s(r.smallTargets, `UI-03 ${screen}: tap targets smaller than 44×44`).toEqual([]);

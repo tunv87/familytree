@@ -83,6 +83,11 @@ input {
   user-select: none;
 }
 
+/* no title (person page): nothing to protect, keep the buttons on one line */
+.topbar h1:empty {
+  flex-basis: 0;
+}
+
 .icon-btn {
   width: var(--tap);
   height: var(--tap);
@@ -288,8 +293,14 @@ input {
   border: 2px solid var(--border);
 }
 
+.setting-row.column {
+  flex-direction: column;
+  align-items: stretch;
+}
+
 .segmented {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
 }
 
@@ -982,4 +993,62 @@ select.text-input {
     margin: 0 -14px;
     gap: 1px;
   }
+}
+
+/* ---------- xưng hô ---------- */
+.kin-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  border: 2px solid var(--border);
+  background: #fdf6e3;
+  text-align: center;
+}
+
+.kin-word {
+  color: var(--primary);
+  font-size: 1.15em;
+}
+
+.link-btn {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 12px;
+  border: none;
+  background: none;
+  color: var(--primary);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.kin-result {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  border: 2px solid var(--border);
+  background: var(--surface);
+}
+
+.kin-path {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+}
+
+.kin-path .chip {
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  font: inherit;
+  cursor: pointer;
 }

@@ -1,7 +1,7 @@
 # Quy tắc gợi ý xưng hô
 
-Tài liệu để **gia đình duyệt**. App dùng đúng bảng này (`src/data/kinship.ts`, bảng `TERMS`); muốn đổi cách gọi chỉ cần
-sửa bảng, test LG-13 sẽ kiểm lại.
+Tài liệu để **gia đình duyệt**. App làm theo đúng bảng này (`src/data/kinship.ts`: `ancestorWord`, `uncleWord`, `uncleSpouseWord`…); muốn đổi cách gọi
+thì sửa hàm tương ứng và dòng kỳ vọng trong `kinship.test.ts` — test LG-13 kiểm lại cả 3 miền.
 
 - **Mặc định: miền Trung (Bình Định)**. Bắc / Nam chọn được trong Cài đặt.
 - "Gọi" = tôi gọi người đó. "Xưng" = tôi tự xưng = cách người đó gọi tôi (app tính ngược lại, không viết riêng).

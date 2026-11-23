@@ -22,6 +22,7 @@ import { useT } from '../i18n';
 import { createLogger } from '../lib/logger';
 import { Modal, TopBar } from '../ui/components';
 import { GENDER_ICON, PersonRow } from '../ui/PersonRow';
+import { KinshipCard } from './KinshipCard';
 import { FamilyGate } from './useFamilyGate';
 
 const log = createLogger('person');
@@ -127,6 +128,7 @@ function PersonView({
             .join(' · ')}
         </div>
       </div>
+      <KinshipCard people={people} familyId={familyId} pid={pid} />
       <div className="detail-card">
         <DateLine label={t('born')} date={p.birth} />
         <DateLine label={t('died')} date={p.death} />

@@ -2,6 +2,7 @@ import { useEffect, type ReactNode } from 'react';
 import { HashRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { CalendarScreen } from '../calendar/CalendarScreen';
 import { InviteScreen } from '../family/InviteScreen';
+import { KinshipScreen } from '../family/KinshipScreen';
 import { FamiliesScreen, NewFamilyScreen, OpenFamilyLink } from '../family/FamiliesScreen';
 import { PeopleScreen } from '../family/PeopleScreen';
 import { PersonFormScreen } from '../family/PersonForm';
@@ -59,6 +60,7 @@ export function App() {
           <Route path="/tree" element={<TreeScreen />} />
           <Route path="/calendar" element={<CalendarScreen />} />
           <Route path="/invite" element={<InviteScreen />} />
+          <Route path="/kinship" element={<KinshipScreen />} />
           <Route path="/settings" element={<SettingsScreen />} />
           <Route path="/debug" element={<DebugScreen />} />
           {testRoutes && <Route path="/__crash" element={<CrashForTest />} />}
