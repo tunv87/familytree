@@ -186,9 +186,15 @@ function PersonForm({
             autoFocus={!editId}
             ref={nameRef}
             aria-invalid={error === t('required') || undefined}
+            aria-describedby={error === t('required') ? 'name-error' : undefined}
             data-testid="name"
             onChange={(e) => set({ name: e.target.value })}
           />
+          {error === t('required') && (
+            <span className="error" id="name-error" data-testid="form-error" role="alert">
+              {error}
+            </span>
+          )}
         </label>
 
         <div className="field">
@@ -303,8 +309,8 @@ function PersonForm({
           />
         </label>
 
-        {error && (
-          <div className="error" data-testid="form-error">
+        {error && error !== t('required') && (
+          <div className="error" data-testid="form-error" role="alert">
             {error}
           </div>
         )}
