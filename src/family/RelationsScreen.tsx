@@ -21,7 +21,7 @@ export function RelationsScreen() {
     <FamilyGate title={t('editRelations')}>
       {(fam) =>
         fam.isAdmin ? (
-          <RelationsForm people={fam.people} familyId={fam.id!} />
+          <RelationsForm people={fam.people} generations={fam.generations} familyId={fam.id!} />
         ) : (
           <main className="screen">
             <TopBar title={t('editRelations')} />
@@ -33,13 +33,21 @@ export function RelationsScreen() {
   );
 }
 
-function label(people: People, id: string): string {
+function label(people: People, gens: Record<string, number>, id: string): string {
   const p = people[id];
-  const extra = [p.generation ? `đời ${p.generation}` : '', lifespan(p)].filter(Boolean).join(', ');
+  const extra = [gens[id] ? `đời ${gens[id]}` : '', lifespan(p)].filter(Boolean).join(', ');
   return extra ? `${p.name} (${extra})` : p.name;
 }
 
-function RelationsForm({ people, familyId }: { people: People; familyId: string }) {
+function RelationsForm({
+  people,
+  generations,
+  familyId,
+}: {
+  people: People;
+  generations: Record<string, number>;
+  familyId: string;
+}) {
   const t = useT();
   const navigate = useNavigate();
   const { pid = '' } = useParams();
@@ -69,7 +77,7 @@ function RelationsForm({ people, familyId }: { people: People; familyId: string 
   const blocked = descendantsAndSelf(people, pid);
   const sorted = Object.keys(people).sort(
     (a, b) =>
-      (people[a].generation ?? 99) - (people[b].generation ?? 99) ||
+      (generations[a] ?? 999) - (generations[b] ?? 999) ||
       people[a].name.localeCompare(people[b].name, 'vi'),
   );
   const fathers = sorted.filter((id) => !blocked.has(id) && people[id].gender !== 'f');
@@ -115,7 +123,7 @@ function RelationsForm({ people, familyId }: { people: People; familyId: string 
           <option value="">— {t('unknown')} —</option>
           {fathers.map((id) => (
             <option key={id} value={id}>
-              {label(people, id)}
+              {label(people, generations, id)}
             </option>
           ))}
         </select>
@@ -131,7 +139,7 @@ function RelationsForm({ people, familyId }: { people: People; familyId: string 
           <option value="">— {t('unknown')} —</option>
           {mothers.map((id) => (
             <option key={id} value={id}>
-              {label(people, id)}
+              {label(people, generations, id)}
             </option>
           ))}
         </select>
@@ -140,7 +148,7 @@ function RelationsForm({ people, familyId }: { people: People; familyId: string 
         <span>{t('spouses')}</span>
         {rel.spouses.map((s) => (
           <div key={s} className="chip-row">
-            <span className="grow">{label(people, s)}</span>
+            <span className="grow">{label(people, generations, s)}</span>
             <button
               type="button"
               className="icon-btn small"
@@ -163,7 +171,7 @@ function RelationsForm({ people, familyId }: { people: People; familyId: string 
             <option value="">{t('pickExisting')}</option>
             {spouseCandidates.map((id) => (
               <option key={id} value={id}>
-                {label(people, id)}
+                {label(people, generations, id)}
               </option>
             ))}
           </select>

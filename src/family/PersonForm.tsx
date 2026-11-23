@@ -6,7 +6,6 @@ import {
   addPersonUpdates,
   editPersonUpdates,
   spousesOf,
-  suggestGeneration,
   type NewPersonLinks,
   type People,
 } from '../data/people';
@@ -41,7 +40,6 @@ export function PersonFormScreen() {
 interface FormState {
   name: string;
   gender: Gender;
-  generation: string;
   order: string;
   deceased: boolean;
   birth: FamilyDate;
@@ -53,7 +51,6 @@ function fromPerson(p: Person): FormState {
   return {
     name: p.name,
     gender: p.gender,
-    generation: p.generation ? String(p.generation) : '',
     order: p.order ? String(p.order) : '',
     deceased: Boolean(p.deceased),
     birth: p.birth ?? { cal: 's' },
@@ -67,7 +64,6 @@ function toPerson(f: FormState): Person {
   return {
     name: f.name.trim(),
     gender: f.gender,
-    generation: n(f.generation),
     order: n(f.order),
     deceased: f.deceased || undefined,
     birth: isEmpty(f.birth) ? undefined : f.birth,
@@ -102,11 +98,7 @@ function PersonForm({
     const gender: Gender =
       (params.get('gender') as Gender | null) ??
       (spouseId ? opposite(people[spouseId]?.gender) : 'm');
-    const gen = first ? 1 : suggestGeneration(people, { parentId, spouseId, childId });
-    return {
-      ...fromPerson({ name: '', gender }),
-      generation: gen ? String(gen) : '',
-    };
+    return fromPerson({ name: '', gender });
     // only on first render: the form keeps its own state afterwards
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -239,30 +231,21 @@ function PersonForm({
           </label>
         )}
 
-        <div className="row2">
-          <label className="field">
-            <span>{t('generationLabel')}</span>
-            <input
-              className="text-input"
-              inputMode="numeric"
-              maxLength={2}
-              value={form.generation}
-              data-testid="generation"
-              onChange={(e) => set({ generation: e.target.value.replace(/\D/g, '') })}
-            />
-          </label>
-          <label className="field">
-            <span>{t('order')}</span>
-            <input
-              className="text-input"
-              inputMode="numeric"
-              maxLength={2}
-              value={form.order}
-              data-testid="order"
-              onChange={(e) => set({ order: e.target.value.replace(/\D/g, '') })}
-            />
-          </label>
-        </div>
+        <label className="field">
+          <span>{t('order')}</span>
+          <input
+            className="text-input short"
+            inputMode="numeric"
+            maxLength={2}
+            value={form.order}
+            data-testid="order"
+            aria-describedby="order-hint"
+            onChange={(e) => set({ order: e.target.value.replace(/\D/g, '') })}
+          />
+          <span className="muted small" id="order-hint">
+            {t('orderHint')}
+          </span>
+        </label>
 
         <div className="field">
           <span>{t('birthDate')}</span>

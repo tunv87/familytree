@@ -1,7 +1,8 @@
 import QRCode from 'qrcode';
 import { useEffect, useState } from 'react';
 import { shareUrl, type CurrentFamily } from '../data/current';
-import { renameFamily } from '../data/families';
+import { renameFamily, setTopGeneration } from '../data/families';
+import { topGenerationOf } from '../data/generations';
 import { useT } from '../i18n';
 import { createLogger } from '../lib/logger';
 import { TopBar } from '../ui/components';
@@ -87,6 +88,9 @@ function Invite({ fam }: { fam: CurrentFamily & { isAdmin: boolean } }) {
         </ol>
       </div>
       {fam.isAdmin && <RenameFamily familyId={fam.id!} name={name} />}
+      {fam.isAdmin && fam.family && (
+        <TopGeneration familyId={fam.id!} current={topGenerationOf(fam.family)} />
+      )}
     </main>
   );
 }
@@ -129,6 +133,60 @@ function RenameFamily({ familyId, name }: { familyId: string; name: string }) {
           {state === 'saved' ? '✓' : t('save')}
         </button>
       </div>
+      {state === 'error' && <div className="error">{t('saveError')}</div>}
+    </form>
+  );
+}
+
+/** For a branch of a bigger clan: the oldest person here is generation N of the whole clan. */
+function TopGeneration({ familyId, current }: { familyId: string; current: number }) {
+  const t = useT();
+  const [value, setValue] = useState(String(current));
+  const [state, setState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const n = Number(value);
+  const valid = Number.isInteger(n) && n >= 1 && n <= 60 && n !== current;
+  return (
+    <form
+      className="field"
+      onSubmit={async (e) => {
+        e.preventDefault();
+        if (!valid) return;
+        setState('saving');
+        try {
+          await setTopGeneration(familyId, n);
+          setState('saved');
+        } catch (err) {
+          log.error('top generation failed', err);
+          setState('error');
+        }
+      }}
+    >
+      <label htmlFor="top-generation">{t('topGeneration')}</label>
+      <div className="inline-form">
+        <input
+          id="top-generation"
+          className="text-input short"
+          inputMode="numeric"
+          maxLength={2}
+          value={value}
+          aria-describedby="top-generation-hint"
+          data-testid="top-generation"
+          onChange={(e) => {
+            setValue(e.target.value.replace(/\D/g, ''));
+            setState('idle');
+          }}
+        />
+        <button
+          className="btn"
+          disabled={!valid || state === 'saving'}
+          data-testid="save-top-generation"
+        >
+          {state === 'saved' ? '✓' : t('save')}
+        </button>
+      </div>
+      <span className="muted small" id="top-generation-hint">
+        {t('topGenerationHint')}
+      </span>
       {state === 'error' && <div className="error">{t('saveError')}</div>}
     </form>
   );

@@ -18,6 +18,9 @@
           "createdAt": {
             ".validate": "newData.isNumber() && newData.val() <= now + 60000"
           },
+          "topGeneration": {
+            ".validate": "newData.isNumber() && newData.val() % 1 === 0 && newData.val() >= 1 && newData.val() <= 60"
+          },
           "$other": { ".validate": false }
         },
         "admins": {

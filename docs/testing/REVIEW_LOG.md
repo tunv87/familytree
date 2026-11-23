@@ -89,3 +89,16 @@ chỉ thấy trên máy CI:
 - Tổng cộng: 23 lỗi sản phẩm (B-01…B-23, trong đó B-14 chấp nhận rủi ro có kiểm chứng) và 12 lỗi của test (T-01…T-12) đã xử lý.
 - Còn lại cần làm tay: UX-M2 (đăng nhập Google trên Safari iPhone), UX-M3 (mở link từ Zalo), UX-M4 (người lớn tuổi tự dùng),
   SEC-06 (rules trên production). Hoãn: SEC-07 (Content-Security-Policy).
+
+## Vòng 6 — "Đời thứ" (23/11/2026)
+
+User nhận xét "Đời thứ" khó hiểu và dư thừa. Đánh giá use case: con số **có ích** (gia phả Việt đánh số đời từ thủy tổ;
+danh sách chia theo đời) nhưng **nhập tay là sai chỗ** (B-24). Đổi sang tự tính; test case mới LG-14, LG-08 bỏ phần "gợi ý đời".
+
+| #    | Case   | Quyết định                                                                                                                                                                                |
+| ---- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R-28 | LG-14  | Kiểm theo thuộc tính thay vì chỉ ví dụ: với gia phả ngẫu nhiên 40/300/1.000 người, đời của mỗi người trên cây = hàng của họ + đời gốc − 1                                                 |
+| R-29 | LG-14  | Kiểm thời gian: 1.000 người < 200 ms. Lần chạy đầu **đỏ** (1,5 s) vì `findRoots` dùng hàm quét cả gia phả cho mỗi người (O(n²)) → thêm `linkIndex` một lượt; cây cũng nhanh hơn           |
+| R-30 | LG-14  | Gia phả cũ đã nhập số: lấy độ lệch xuất hiện nhiều nhất giữa số đã nhập và số tính được (không chỉ của người gốc), để thêm tổ tiên lên trên hoặc một số nhập sai không làm đổi cả gia phả |
+| R-31 | SEC-01 | Rules cho `meta/topGeneration`: số nguyên 1–60, chỉ admin                                                                                                                                 |
+| R-32 | CR-07  | Fuzz 1.000 đồ thị ngẫu nhiên (vòng, tự liên kết, id treo) cho `computeGenerations`                                                                                                        |

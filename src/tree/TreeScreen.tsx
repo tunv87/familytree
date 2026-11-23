@@ -80,7 +80,7 @@ function TreeView({ fam }: { fam: CurrentFamily & { isAdmin: boolean } }) {
     );
   };
 
-  const results = query.trim() ? searchPeople(people, query).slice(0, 6) : [];
+  const results = query.trim() ? searchPeople(people, query, fam.generations).slice(0, 6) : [];
   const count = Object.keys(people).length;
 
   return (

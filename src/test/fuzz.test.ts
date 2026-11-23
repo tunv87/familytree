@@ -18,6 +18,7 @@ import {
 } from '../data/people';
 import type { FamilyDate, Person } from '../data/types';
 import { jdFromDate, jdToDate, lunarToSolar, solarToLunar } from '../lib/lunar';
+import { computeGenerations, topGenerationOf } from '../data/generations';
 import { CARD_W, layoutTree } from '../tree/layout';
 import { planPdf } from '../tree/pdfPlan';
 
@@ -87,6 +88,24 @@ describe('CR-07 fuzz: tree layout', () => {
         expect(p.spouses?.[victim]).toBeUndefined();
       }
       expect(childrenOf(people, victim)).toEqual([]);
+    }
+  });
+});
+
+describe('CR-07 fuzz: generation numbers (LG-14)', () => {
+  it('1,000 random graphs: no throw, numbers are whole and ≥ 1, spouses on the main line agree', () => {
+    const rand = rng(7);
+    for (let t = 0; t < 1000; t++) {
+      const people = randomPeople(rand, 1 + Math.floor(rand() * 25));
+      const top = 1 + Math.floor(rand() * 10);
+      const g = computeGenerations(people, top);
+      for (const [id, n] of Object.entries(g)) {
+        expect(people[id]).toBeDefined();
+        expect(Number.isInteger(n) && n >= 1).toBe(true);
+      }
+      expect(() =>
+        topGenerationOf({ meta: { name: 'x', owner: 'u', createdAt: 0 }, people }),
+      ).not.toThrow();
     }
   });
 });

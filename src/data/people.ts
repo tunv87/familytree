@@ -7,6 +7,33 @@ import type { Person } from './types';
 
 export type People = Record<string, Person>;
 
+/**
+ * Spouses and children of everyone, built in one pass. The helpers below scan the whole family
+ * on each call, which is fine for one person but O(n²) for whole-family work (tree roots,
+ * generation numbers) on a 1,000-person family.
+ */
+export interface LinkIndex {
+  spouses: Record<string, string[]>;
+  children: Record<string, string[]>;
+}
+
+export function linkIndex(people: People): LinkIndex {
+  const spouses: Record<string, Set<string>> = {};
+  const children: Record<string, string[]> = {};
+  for (const [id, p] of Object.entries(people)) {
+    for (const s of Object.keys(p.spouses ?? {}))
+      if (s !== id && people[s]) {
+        (spouses[id] ??= new Set()).add(s);
+        (spouses[s] ??= new Set()).add(id); // tolerate one-sided links
+      }
+    for (const par of new Set([p.fatherId, p.motherId]))
+      if (par && par !== id && people[par]) (children[par] ??= []).push(id);
+  }
+  const out: LinkIndex = { spouses: {}, children };
+  for (const [id, set] of Object.entries(spouses)) out.spouses[id] = [...set];
+  return out;
+}
+
 export function spousesOf(people: People, id: string): string[] {
   const p = people[id];
   if (!p) return [];
@@ -71,36 +98,31 @@ export function normalize(s: string): string {
 }
 
 /** Ids whose name contains the query (diacritics optional). */
-export function searchPeople(people: People, query: string): string[] {
+export function searchPeople(
+  people: People,
+  query: string,
+  gens: Record<string, number> = {},
+): string[] {
   const q = normalize(query);
   if (!q) return [];
   return Object.keys(people)
     .filter((id) => normalize(people[id].name).includes(q))
-    .sort((a, b) => (people[a].generation ?? 99) - (people[b].generation ?? 99));
+    .sort((a, b) => (gens[a] ?? 999) - (gens[b] ?? 999));
 }
 
-/** People grouped by generation (unknown generation last). */
-export function byGeneration(people: People): [number | null, string[]][] {
+/** People grouped by (computed) generation; those not connected to the tree last. */
+export function byGeneration(
+  people: People,
+  gens: Record<string, number>,
+): [number | null, string[]][] {
   const groups = new Map<number | null, string[]>();
   for (const id of Object.keys(people)) {
-    const g = people[id].generation ?? null;
+    const g = gens[id] ?? null;
     groups.set(g, [...(groups.get(g) ?? []), id]);
   }
   return [...groups.entries()]
     .sort(([a], [b]) => (a ?? 999) - (b ?? 999))
     .map(([g, ids]) => [g, ids.sort((a, b) => people[a].name.localeCompare(people[b].name, 'vi'))]);
-}
-
-/** Suggested generation for a new person from their relatives. */
-export function suggestGeneration(
-  people: People,
-  rel: { parentId?: string; childId?: string; spouseId?: string },
-): number | undefined {
-  const g = (id?: string) => (id ? people[id]?.generation : undefined);
-  if (g(rel.parentId)) return g(rel.parentId)! + 1;
-  if (g(rel.spouseId)) return g(rel.spouseId);
-  if (g(rel.childId) && g(rel.childId)! > 1) return g(rel.childId)! - 1;
-  return undefined;
 }
 
 export type Updates = Record<string, unknown>;
@@ -166,6 +188,8 @@ export function editPersonUpdates(
     fatherId: old?.fatherId,
     motherId: old?.motherId,
     spouses: old?.spouses,
+    // older data: keep the typed-in "đời thứ" (only used to keep the family's numbering)
+    generation: old?.generation,
     updatedAt: now,
   });
   return { [`people/${id}`]: p };

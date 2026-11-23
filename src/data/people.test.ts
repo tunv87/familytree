@@ -14,9 +14,9 @@ import {
   searchPeople,
   siblingsOf,
   spousesOf,
-  suggestGeneration,
   type People,
 } from './people';
+import { computeGenerations } from './generations';
 import type { Person } from './types';
 
 const P = (name: string, gender: Person['gender'], extra: Partial<Person> = {}): Person => ({
@@ -65,12 +65,14 @@ describe('LG-08 search', () => {
     expect(searchPeople(base, 'NGUYỄN').length).toBe(4);
     expect(searchPeople(base, '  ')).toEqual([]);
   });
-  it('groups by generation', () => {
-    expect(byGeneration(base).map(([g, ids]) => [g, ids.length])).toEqual([
-      [1, 2],
-      [2, 3],
-      [3, 1],
-    ]);
+  it('groups by (computed) generation', () => {
+    expect(byGeneration(base, computeGenerations(base)).map(([g, ids]) => [g, ids.length])).toEqual(
+      [
+        [1, 2],
+        [2, 3],
+        [3, 1],
+      ],
+    );
   });
 });
 
@@ -114,13 +116,6 @@ describe('LG-04 LG-08 adding people', () => {
       addPersonUpdates(people, 'me', P('Mẹ', 'f'), { childId: 'con' }, 1),
     );
     expect(after.con.motherId).toBe('me');
-  });
-
-  it('suggests a generation from relatives', () => {
-    expect(suggestGeneration(base, { parentId: 'cuong' })).toBe(3);
-    expect(suggestGeneration(base, { spouseId: 'dung' })).toBe(2);
-    expect(suggestGeneration(base, { childId: 'giang' })).toBe(2);
-    expect(suggestGeneration(base, { childId: 'an' })).toBeUndefined();
   });
 });
 

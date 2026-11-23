@@ -231,6 +231,19 @@ describe('SEC-01 more attacks', () => {
     );
   });
 
+  it('LG-14 top generation: whole number 1–60, only admins set it', async () => {
+    const a = await google();
+    await adminWrite('PUT', `families/${FID}`, family(a.uid));
+    const top = ref(a.db, `families/${FID}/meta/topGeneration`);
+    await ok(set(top, 8));
+    await denied(set(top, 0));
+    await denied(set(top, 61));
+    await denied(set(top, 2.5));
+    await denied(set(top, '8'));
+    const v = await viewer();
+    await denied(set(ref(v.db, `families/${FID}/meta/topGeneration`), 3));
+  });
+
   it('length and range limits', async () => {
     const a = await google();
     await adminWrite('PUT', `families/${FID}`, family(a.uid));

@@ -98,7 +98,9 @@ export function sanitizeFamily(raw: unknown): Family | null {
     name: typeof m.name === 'string' && m.name.trim() ? m.name.slice(0, 80) : 'Gia phả',
     owner: typeof m.owner === 'string' ? m.owner : '',
     createdAt: typeof m.createdAt === 'number' ? m.createdAt : 0,
-  };
+  } as Family['meta'];
+  const top = int(m.topGeneration, 1, 60);
+  if (top !== undefined) meta.topGeneration = top;
   const admins: Record<string, true> = {};
   if (isObj(raw.admins))
     for (const [k, v] of Object.entries(raw.admins)) if (v === true) admins[k] = true;

@@ -14,6 +14,13 @@ describe('CR-02 sanitizeFamily: damaged data becomes safe to show (B-02)', () =>
     expect(f.people).toEqual({});
   });
 
+  it('keeps a valid top generation, drops a strange one (LG-14)', () => {
+    const meta = (topGeneration: unknown) =>
+      sanitizeFamily({ meta: { name: 'Họ A', owner: 'x', createdAt: 1, topGeneration } })!.meta;
+    expect(meta(8).topGeneration).toBe(8);
+    for (const bad of [0, 61, 2.5, '8', null, -1]) expect(meta(bad).topGeneration).toBeUndefined();
+  });
+
   it('drops entries that are not people, names the nameless, fixes fields', () => {
     const f = sanitizeFamily({
       meta: { name: 'Họ A', owner: 'x', createdAt: 1 },

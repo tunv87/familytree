@@ -7,6 +7,7 @@ import { useEffect, useSyncExternalStore } from 'react';
 import { load, save } from '../lib/storage';
 import { createLogger } from '../lib/logger';
 import { watchFamily } from './families';
+import { familyGenerations, type Generations } from './generations';
 import { sanitizeFamily } from './sanitize';
 import { useAuth } from './firebase';
 import type { People } from './people';
@@ -21,6 +22,8 @@ export interface CurrentFamily {
   status: FamilyStatus;
   family: Family | null;
   people: People;
+  /** "đời thứ" of each person, computed from the relationships (see generations.ts) */
+  generations: Generations;
   /** showing cached data because Firebase hasn't answered (offline) */
   fromCache: boolean;
 }
@@ -31,6 +34,7 @@ let state: CurrentFamily = {
   status: 'none',
   family: null,
   people: EMPTY,
+  generations: {},
   fromCache: false,
 };
 const listeners = new Set<() => void>();
@@ -38,6 +42,9 @@ let stopWatch: (() => void) | null = null;
 let watchingId: string | null = null;
 
 function emit(patch: Partial<CurrentFamily>) {
+  // generations follow the family data; work them out once here rather than in every screen
+  if ('family' in patch && patch.family !== state.family)
+    patch = { ...patch, generations: familyGenerations(patch.family ?? null) };
   state = { ...state, ...patch };
   listeners.forEach((l) => l());
 }

@@ -127,6 +127,11 @@ export async function applyFamilyUpdates(familyId: string, updates: Updates) {
   return settle(update(ref(getDb(), `families/${familyId}`), updates));
 }
 
+/** "Người cao nhất trong gia phả là đời thứ …" — numbering of a branch of a bigger clan. */
+export async function setTopGeneration(familyId: string, n: number) {
+  return settle(update(ref(getDb(), `families/${familyId}/meta`), { topGeneration: n }));
+}
+
 export async function renameFamily(familyId: string, name: string) {
   const user = await ensureSignedIn();
   return settle(

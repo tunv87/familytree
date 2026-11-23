@@ -43,7 +43,10 @@ export const vi = {
   searchResults: 'Kết quả tìm',
   noResults: 'Không thấy ai tên như vậy',
   generation: 'Đời thứ {n}',
-  generationUnknown: 'Chưa rõ đời',
+  notLinked: 'Chưa nối vào cây',
+  topGeneration: 'Người cao nhất trong gia phả là đời thứ',
+  topGenerationHint:
+    'Để 1 nếu gia phả bắt đầu từ thủy tổ. Nếu đây là một chi của dòng họ lớn, ghi đời của người cao nhất (vd 8) — mọi người sẽ được đánh số theo.',
   addPerson: 'Thêm người',
   addFirst: 'Thêm thủy tổ (người đầu tiên)',
   emptyFamily: 'Gia phả chưa có ai.',
@@ -139,8 +142,9 @@ export const vi = {
   male: 'Nam',
   female: 'Nữ',
   unknown: 'Không rõ',
-  generationLabel: 'Đời thứ',
-  order: 'Con thứ mấy',
+  order: 'Con thứ mấy trong nhà',
+  orderHint:
+    'Con trưởng ghi 1, con thứ hai ghi 2… Dùng để xếp anh chị em. Đời thứ mấy thì app tự tính.',
   status: 'Tình trạng',
   alive: 'Còn sống',
   deceased: 'Đã mất',

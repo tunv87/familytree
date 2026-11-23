@@ -14,7 +14,8 @@ export type Gender = 'm' | 'f' | 'u';
 export interface Person {
   name: string;
   gender: Gender;
-  /** đời thứ (1 = thủy tổ) */
+  /** @deprecated typed-in "đời thứ" of older data; now computed (see generations.ts).
+   *  Still read once to keep a family's numbering when moving to the computed one. */
   generation?: number;
   deceased?: boolean;
   birth?: FamilyDate;
@@ -33,6 +34,8 @@ export interface FamilyMeta {
   name: string;
   owner: string;
   createdAt: number;
+  /** "đời thứ" of the top of the main line (1 unless this is a branch of a bigger clan) */
+  topGeneration?: number;
 }
 
 export interface Family {

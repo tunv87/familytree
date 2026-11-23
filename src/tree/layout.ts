@@ -5,7 +5,7 @@
  * into the family beside them (a "unit"); the unit's children hang below, in birth
  * order. Every person is drawn once, even when two relatives married each other.
  */
-import { childrenOf, spousesOf, type People } from '../data/people';
+import { childrenOf, linkIndex, spousesOf, type LinkIndex, type People } from '../data/people';
 import type { Person } from '../data/types';
 
 export const CARD_W = 150;
@@ -47,50 +47,56 @@ interface Unit {
   width: number;
 }
 
-/** People drawn as roots: no parents recorded and not married into a blood line. */
-export function findRoots(people: People): string[] {
+/** People drawn as roots: no parents recorded and not married into a blood line.
+ *  The first one is the main line (the biggest), which is also generation `top`. */
+export function findRoots(people: People, index: LinkIndex = linkIndex(people)): string[] {
   const hasParent = (id: string) => {
     const p = people[id];
     return Boolean((p.fatherId && people[p.fatherId]) || (p.motherId && people[p.motherId]));
   };
-  const isInLaw = (id: string) => !hasParent(id) && spousesOf(people, id).some(hasParent);
+  const spouses = (id: string) => index.spouses[id] ?? [];
+  const isInLaw = (id: string) => !hasParent(id) && spouses(id).some(hasParent);
   const roots = Object.keys(people).filter((id) => !hasParent(id) && !isInLaw(id));
+  const size = new Map(roots.map((id) => [id, descendantsCount(index, id)]));
+  // the main line (drawn first) is the biggest one; husband before wife for founding couples
+  roots.sort(
+    (a, b) =>
+      size.get(b)! - size.get(a)! ||
+      (people[a].gender === 'm' ? 0 : 1) - (people[b].gender === 'm' ? 0 : 1) ||
+      a.localeCompare(b),
+  );
   // a founding couple has two parentless spouses: keep one (the husband) as the root
   const chosen: string[] = [];
   const taken = new Set<string>();
-  for (const id of sortRoots(people, roots)) {
+  for (const id of roots) {
     if (taken.has(id)) continue;
     chosen.push(id);
     taken.add(id);
-    for (const s of spousesOf(people, id)) taken.add(s);
+    for (const s of spouses(id)) taken.add(s);
   }
   return chosen;
 }
 
-function sortRoots(people: People, ids: string[]): string[] {
-  const size = (id: string) => countDescendants(people, id);
-  return [...ids].sort((a, b) => {
-    const ga = people[a].generation ?? 99;
-    const gb = people[b].generation ?? 99;
-    if (ga !== gb) return ga - gb;
-    const sa = size(a);
-    const sb = size(b);
-    if (sa !== sb) return sb - sa;
-    // husband before wife for founding couples
-    const ma = people[a].gender === 'm' ? 0 : 1;
-    const mb = people[b].gender === 'm' ? 0 : 1;
-    if (ma !== mb) return ma - mb;
-    return a.localeCompare(b);
-  });
+/** Children, grandchildren… of a person and their spouses (each counted once). */
+function descendantsCount(index: LinkIndex, id: string): number {
+  const seen = new Set([id]);
+  const stack = [id];
+  let n = 0;
+  while (stack.length) {
+    const x = stack.pop()!;
+    for (const parent of [x, ...(index.spouses[x] ?? [])])
+      for (const c of index.children[parent] ?? [])
+        if (!seen.has(c)) {
+          seen.add(c);
+          n++;
+          stack.push(c);
+        }
+  }
+  return n;
 }
 
-export function countDescendants(people: People, id: string, seen = new Set<string>()): number {
-  if (seen.has(id)) return 0;
-  seen.add(id);
-  let n = 0;
-  const kids = new Set([id, ...spousesOf(people, id)].flatMap((x) => childrenOf(people, x)));
-  for (const c of kids) if (!seen.has(c)) n += 1 + countDescendants(people, c, seen);
-  return n;
+export function countDescendants(people: People, id: string): number {
+  return descendantsCount(linkIndex(people), id);
 }
 
 function hasParents(people: People, id: string): boolean {

@@ -23,12 +23,14 @@ test('LG-04 UX-11 admin builds a small family; a relative opens the link and can
   await expect(admin.getByTestId('gender-f')).toHaveAttribute('aria-pressed', 'true');
   await fillPerson(admin, { name: 'Trần Thị Bình' });
 
-  // their son — the other parent is picked automatically, generation suggested
+  // their son — the other parent is picked automatically; "đời thứ" is not typed (LG-14)
   await admin.getByTestId('person-' + (await idByName(admin, 'Nguyễn Văn An'))).click();
   await admin.getByTestId('add-child').click();
   await expect(admin.getByTestId('other-parent')).toContainText('Trần Thị Bình');
-  await expect(admin.getByTestId('generation')).toHaveValue('2');
+  await expect(admin.getByTestId('generation')).toHaveCount(0);
   await fillPerson(admin, { name: 'Nguyễn Văn Cường', birth: [15, 8, 1950] });
+  await expect(admin.getByTestId('person-name')).toHaveText('Nguyễn Văn Cường');
+  await expect(admin.getByText('Đời thứ 2')).toBeVisible();
   await expect(admin.getByText('Cha mẹ')).toBeVisible();
   await expect(admin.getByText('Nguyễn Văn An')).toBeVisible();
   await expect(admin.getByText('Trần Thị Bình')).toBeVisible();

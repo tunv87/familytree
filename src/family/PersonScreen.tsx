@@ -30,7 +30,15 @@ export function PersonScreen() {
   const t = useT();
   return (
     <FamilyGate title="">
-      {(fam) => <PersonView people={fam.people} familyId={fam.id!} isAdmin={fam.isAdmin} t={t} />}
+      {(fam) => (
+        <PersonView
+          people={fam.people}
+          generations={fam.generations}
+          familyId={fam.id!}
+          isAdmin={fam.isAdmin}
+          t={t}
+        />
+      )}
     </FamilyGate>
   );
 }
@@ -52,11 +60,13 @@ function DateLine({ label, date }: { label: string; date?: FamilyDate }) {
 
 function PersonView({
   people,
+  generations,
   familyId,
   isAdmin,
   t,
 }: {
   people: People;
+  generations: Record<string, number>;
   familyId: string;
   isAdmin: boolean;
   t: ReturnType<typeof useT>;
@@ -109,7 +119,10 @@ function PersonView({
         </span>
         <h2 data-testid="person-name">{p.name}</h2>
         <div className="muted">
-          {[p.generation && t('generation', { n: p.generation }), p.deceased && t('deceased')]
+          {[
+            generations[pid] ? t('generation', { n: generations[pid] }) : t('notLinked'),
+            p.deceased && t('deceased'),
+          ]
             .filter(Boolean)
             .join(' · ')}
         </div>

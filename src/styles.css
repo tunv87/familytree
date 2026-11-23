@@ -490,6 +490,10 @@ select.text-input {
   background: var(--surface);
 }
 
+.text-input.short {
+  max-width: 8em;
+}
+
 .row2 {
   display: grid;
   grid-template-columns: 1fr 1fr;

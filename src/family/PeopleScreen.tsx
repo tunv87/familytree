@@ -12,9 +12,9 @@ export function PeopleScreen() {
   const [query, setQuery] = useState('');
   return (
     <FamilyGate title={t('people')}>
-      {({ people, isAdmin }) => {
+      {({ people, generations, isAdmin }) => {
         const count = Object.keys(people).length;
-        const results = query.trim() ? searchPeople(people, query) : null;
+        const results = query.trim() ? searchPeople(people, query, generations) : null;
         return (
           <main className="screen">
             <TopBar
@@ -60,18 +60,16 @@ export function PeopleScreen() {
                         id={id}
                         person={people[id]}
                         label={
-                          people[id].generation
-                            ? t('generation', { n: people[id].generation! })
-                            : undefined
+                          generations[id] ? t('generation', { n: generations[id] }) : t('notLinked')
                         }
                       />
                     ))}
                   </div>
                 ) : (
-                  byGeneration(people).map(([g, ids]) => (
+                  byGeneration(people, generations).map(([g, ids]) => (
                     <section key={String(g)} className="list">
                       <h2 className="section-title">
-                        {g ? t('generation', { n: g }) : t('generationUnknown')}
+                        {g ? t('generation', { n: g }) : t('notLinked')}
                       </h2>
                       {ids.map((id) => (
                         <PersonRow key={id} id={id} person={people[id]} />
