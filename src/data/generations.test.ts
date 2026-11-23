@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { findRoots, layoutTree } from '../tree/layout';
+import { randomFamily } from '../test/randomFamily';
 import { computeGenerations, familyGenerations, topGenerationOf } from './generations';
 import { addPersonUpdates, applyUpdates, type People } from './people';
 import type { FamilyMeta, Person } from './types';
@@ -107,41 +108,6 @@ describe('LG-14 older data with typed-in numbers keeps its numbering', () => {
     expect(topGenerationOf({ meta: meta({ topGeneration: 2 }), people: typed })).toBe(2);
   });
 });
-
-/** Random family: a founding couple, then children, in-laws (some with their own parents). */
-function randomFamily(size: number, seed: number): People {
-  let s = seed;
-  const rnd = () => (s = (s * 1103515245 + 12345) % 2147483648) / 2147483648;
-  const people: People = {
-    p0: P('Tổ', 'm', { spouses: { p1: true } }),
-    p1: P('Bà Tổ', 'f', { spouses: { p0: true } }),
-  };
-  const blood = ['p0'];
-  let n = 2;
-  while (n < size) {
-    const parent = blood[Math.floor(rnd() * blood.length)];
-    const id = `p${n++}`;
-    const male = rnd() < 0.5;
-    const spouse = Object.keys(people[parent].spouses ?? {})[0];
-    people[id] = P(id, male ? 'm' : 'f', {
-      fatherId: people[parent].gender === 'm' ? parent : spouse,
-      motherId: people[parent].gender === 'm' ? spouse : parent,
-    });
-    blood.push(id);
-    if (rnd() < 0.6 && n < size) {
-      const w = `p${n++}`;
-      people[w] = P(w, male ? 'f' : 'm', { spouses: { [id]: true } });
-      people[id].spouses = { [w]: true };
-      if (rnd() < 0.3 && n + 1 < size) {
-        // the in-law's own parents are recorded too
-        const f = `p${n++}`;
-        people[f] = P(f, 'm');
-        people[w].fatherId = f;
-      }
-    }
-  }
-  return people;
-}
 
 describe('LG-14 the number always matches the row on the tree', () => {
   it.each([

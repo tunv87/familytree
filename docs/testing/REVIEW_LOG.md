@@ -104,3 +104,16 @@ danh sách chia theo đời) nhưng **nhập tay là sai chỗ** (B-24). Đổi 
 | R-32 | CR-07  | Fuzz 1.000 đồ thị ngẫu nhiên (vòng, tự liên kết, id treo) cho `computeGenerations`                                                                                                        |
 
 Kết quả: run-09, run-10, run-11 xanh liên tiếp trên `4101155` (130 unit, 22 rules, 65 e2e; LG-14 19/19). Bằng chứng UI mới nhất ở `runs/run-11/`.
+
+## Vòng 7 — Xưng hô (LG-13, 23/11/2026)
+
+Chức năng mới (trước đó chưa có). User chốt miền Trung (Bình Định): cô–dượng, dì–dượng, chú–thím, cậu–mợ.
+
+| #    | Case  | Quyết định                                                                                                                                                                                                         |
+| ---- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| R-33 | LG-13 | Bảng quy tắc viết **trước** code (`XUNG_HO.md`) để gia đình duyệt; các điểm suy đoán đánh dấu ⚠️ (chị của bố/mẹ ở miền Trung, ông sơ, ba/má, gọi em chồng)                                                         |
+| R-34 | LG-13 | Test theo bảng: một gia đình mẫu 5 đời (~45 người) với mọi vai trong bảng; mỗi dòng kiểm cả "gọi" lẫn "xưng"; 3 miền                                                                                               |
+| R-35 | LG-13 | "Xưng" không viết tay mà tính từ chiều ngược → test chiều ngược (chú/thím/mợ/dượng gọi lại cháu) để bắt lỗi bảng                                                                                                   |
+| R-36 | LG-13 | Vai thắng tuổi: con nhà bác sinh sau vẫn là anh; con nhà chú sinh trước vẫn là em — test riêng                                                                                                                     |
+| R-37 | LG-13 | Thuộc tính trên gia phả ngẫu nhiên 300 người: quan hệ máu đối xứng (lên/xuống đảo nhau) và khoảng cách đời khớp `computeGenerations` (LG-14); mọi cặp có từ gọi không rỗng; 1 trang hồ sơ trên 1.000 người < 50 ms |
+| R-38 | CR-07 | Fuzz 1.000 đồ thị hỏng × mọi cặp × 3 miền                                                                                                                                                                          |

@@ -19,6 +19,7 @@ import {
 import type { FamilyDate, Person } from '../data/types';
 import { jdFromDate, jdToDate, lunarToSolar, solarToLunar } from '../lib/lunar';
 import { computeGenerations, topGenerationOf } from '../data/generations';
+import { kinship } from '../data/kinship';
 import { CARD_W, layoutTree } from '../tree/layout';
 import { planPdf } from '../tree/pdfPlan';
 
@@ -106,6 +107,22 @@ describe('CR-07 fuzz: generation numbers (LG-14)', () => {
       expect(() =>
         topGenerationOf({ meta: { name: 'x', owner: 'u', createdAt: 0 }, people }),
       ).not.toThrow();
+    }
+  });
+});
+
+describe('CR-07 fuzz: xưng hô (LG-13)', () => {
+  it('1,000 random graphs (loops, self-links, dangling ids): every pair, all regions, no throw', () => {
+    const rand = rng(13);
+    for (let t = 0; t < 1000; t++) {
+      const people = randomPeople(rand, 1 + Math.floor(rand() * 12));
+      const ids = Object.keys(people);
+      for (const a of ids)
+        for (const b of ids)
+          for (const region of ['trung', 'bac', 'nam'] as const) {
+            const k = kinship(people, a, b, region);
+            if (k && a !== b) expect(k.call && k.self).toBeTruthy();
+          }
     }
   });
 });
