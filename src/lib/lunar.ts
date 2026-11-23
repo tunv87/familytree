@@ -227,8 +227,10 @@ export function lunarMonthDays(month: number, year: number, leap = false): numbe
  * Custom: an anniversary from a leap month is kept in the regular month, and day 30 is
  * kept on day 29 in years where that month only has 29 days.
  */
-export function lunarAnniversary(day: number, month: number, lunarYear: number): SolarDate {
-  return (lunarToSolar(day, month, lunarYear) ?? lunarToSolar(29, month, lunarYear))!;
+export function lunarAnniversary(day: number, month: number, lunarYear: number): SolarDate | null {
+  // null only for impossible input (month outside 1–12, day outside 1–30)
+  if (day < 1 || day > 30) return null;
+  return lunarToSolar(day, month, lunarYear) ?? lunarToSolar(29, month, lunarYear);
 }
 
 /** Lunar anniversaries landing in a given solar year (0, 1 or rarely 2 dates). */
@@ -239,6 +241,7 @@ export function lunarAnniversariesInSolarYear(
 ): SolarDate[] {
   return [solarYear - 1, solarYear]
     .map((y) => lunarAnniversary(day, month, y))
+    .filter((d): d is SolarDate => d !== null)
     .filter((d) => d.year === solarYear);
 }
 

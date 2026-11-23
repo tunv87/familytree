@@ -121,7 +121,7 @@ describe('LG-01 round trip', () => {
 
 describe('LG-02 anniversaries (giỗ)', () => {
   it('falls on the same lunar date each year', () => {
-    const s = lunarAnniversary(10, 3, 2027); // giỗ Tổ Hùng Vương
+    const s = lunarAnniversary(10, 3, 2027)!; // giỗ Tổ Hùng Vương
     expect(solarToLunar(s.day, s.month, s.year)).toMatchObject({ day: 10, month: 3, leap: false });
   });
 

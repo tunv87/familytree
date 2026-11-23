@@ -110,7 +110,7 @@ export function nextDeathAnniversary(
   const today = jd(from);
   for (let y = from.year - 1; y <= from.year + 1; y++) {
     const s = lunarAnniversary(key.d, key.m, y);
-    if (jd(s) >= today) return s;
+    if (s && jd(s) >= today) return s;
   }
   return null;
 }
@@ -122,7 +122,7 @@ export function nextBirthday(birth: FamilyDate | undefined, from: SolarDate): So
   if (birth.cal === 'l') {
     for (let y = from.year - 1; y <= from.year + 1; y++) {
       const s = lunarAnniversary(birth.d, birth.m, y);
-      if (jd(s) >= today) return s;
+      if (s && jd(s) >= today) return s;
     }
     return null;
   }

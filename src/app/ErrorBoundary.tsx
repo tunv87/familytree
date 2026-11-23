@@ -5,11 +5,20 @@ import { createLogger } from '../lib/logger';
 const log = createLogger('crash');
 
 /** Shows a friendly screen instead of a blank page if a screen crashes. */
-export class ErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+export class ErrorBoundary extends Component<
+  { children: ReactNode; resetKey?: string },
+  { failed: boolean }
+> {
   state = { failed: false };
 
   static getDerivedStateFromError() {
     return { failed: true };
+  }
+
+  // leaving the broken screen (B-03): the next screen gets a fresh start
+  componentDidUpdate(prev: { resetKey?: string }) {
+    if (this.state.failed && prev.resetKey !== this.props.resetKey)
+      this.setState({ failed: false });
   }
 
   componentDidCatch(error: Error, info: { componentStack?: string | null }) {

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { HashRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { CalendarScreen } from '../calendar/CalendarScreen';
 import { InviteScreen } from '../family/InviteScreen';
@@ -29,6 +29,12 @@ function RouteLogger() {
   return null;
 }
 
+/** Error boundary that resets when the user goes to another screen (B-03). */
+function ScreenBoundary({ children }: { children: ReactNode }) {
+  const loc = useLocation();
+  return <ErrorBoundary resetKey={loc.pathname}>{children}</ErrorBoundary>;
+}
+
 export function App() {
   const { bigText, lang } = useSettings();
   useEffect(() => {
@@ -38,7 +44,7 @@ export function App() {
   return (
     <HashRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <RouteLogger />
-      <ErrorBoundary>
+      <ScreenBoundary>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/f/:fid" element={<OpenFamilyLink />} />
@@ -57,7 +63,7 @@ export function App() {
           {testRoutes && <Route path="/__crash" element={<CrashForTest />} />}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </ErrorBoundary>
+      </ScreenBoundary>
     </HashRouter>
   );
 }

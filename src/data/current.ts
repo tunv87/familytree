@@ -7,6 +7,7 @@ import { useEffect, useSyncExternalStore } from 'react';
 import { load, save } from '../lib/storage';
 import { createLogger } from '../lib/logger';
 import { watchFamily } from './families';
+import { sanitizeFamily } from './sanitize';
 import { useAuth } from './firebase';
 import type { People } from './people';
 import type { Family } from './types';
@@ -55,7 +56,7 @@ function startWatch() {
     emit({ status: 'none', family: null, people: EMPTY, fromCache: false });
     return;
   }
-  const cached = load<{ family: Family | null }>(cacheKey(id), { family: null }).family;
+  const cached = sanitizeFamily(load<{ family: unknown }>(cacheKey(id), { family: null }).family);
   emit({
     status: cached ? 'ready' : 'loading',
     family: cached,
@@ -64,8 +65,9 @@ function startWatch() {
   });
   stopWatch = watchFamily(
     id,
-    (family) => {
+    (raw) => {
       if (watchingId !== id) return;
+      const family = sanitizeFamily(raw);
       if (!family) {
         emit({ status: 'missing', family: null, people: EMPTY, fromCache: false });
         return;
