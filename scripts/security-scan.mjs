@@ -1,7 +1,7 @@
 // SEC-04: dependency audit + secret scan. Writes test-results/security.json in the
 // same simple shape the report script reads: { tests: [{ title, status, message }] }.
 import { execSync } from 'node:child_process';
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 
 const tests = [];
 mkdirSync('test-results', { recursive: true });
@@ -15,14 +15,43 @@ try {
   audit = JSON.parse(e.stdout || '{}');
 }
 writeFileSync('test-results/npm-audit.json', JSON.stringify(audit, null, 2));
-const v = audit.metadata?.vulnerabilities ?? {};
-const bad = (v.high ?? 0) + (v.critical ?? 0);
+const allow = JSON.parse(readFileSync('scripts/security-allowlist.json', 'utf8')).packages;
+const vulns = Object.entries(audit.vulnerabilities ?? {});
+const serious = vulns.filter(([, x]) => x.severity === 'high' || x.severity === 'critical');
+const unexplained = serious.filter(([name]) => !allow[name]);
+const counts = {};
+for (const [, x] of vulns) counts[x.severity] = (counts[x.severity] ?? 0) + 1;
 tests.push({
   title: 'SEC-04 npm audit: no high/critical vulnerabilities in runtime dependencies',
-  status: audit.metadata ? (bad === 0 ? 'passed' : 'failed') : 'failed',
+  status: audit.metadata ? (unexplained.length === 0 ? 'passed' : 'failed') : 'failed',
   message: audit.metadata
-    ? `low ${v.low ?? 0}, moderate ${v.moderate ?? 0}, high ${v.high ?? 0}, critical ${v.critical ?? 0}`
+    ? `${JSON.stringify(counts)}; accepted (see security-allowlist.json): ${
+        serious
+          .filter(([n]) => allow[n])
+          .map(([n]) => n)
+          .join(', ') || 'none'
+      }; unexplained: ${unexplained.map(([n, x]) => `${n} (${x.severity})`).join(', ') || 'none'}`
     : 'npm audit did not return a report (offline?)',
+});
+
+// 1b) the accepted packages must really be absent from what users download
+execSync('npx vite build --outDir test-results/bundle --emptyOutDir', {
+  stdio: 'ignore',
+  env: { ...process.env, VITE_BASE: '/' },
+});
+const bundle = readdirSync('test-results/bundle/assets')
+  .filter((f) => f.endsWith('.js'))
+  .map((f) => readFileSync(`test-results/bundle/assets/${f}`, 'utf8'))
+  .join('\n');
+const found = Object.entries(allow).flatMap(([name, a]) =>
+  a.bundleMarkers.filter((m) => bundle.includes(m)).map((m) => `${name}: "${m}"`),
+);
+tests.push({
+  title: 'SEC-04 accepted vulnerable packages are not shipped in the app bundle',
+  status: found.length ? 'failed' : 'passed',
+  message: found.length
+    ? `found in bundle: ${found.join('; ')}`
+    : 'none of the markers found in the built JS',
 });
 
 // 2) secret scan of tracked files

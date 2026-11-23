@@ -1,0 +1,21 @@
+{
+  "_why": "Vulnerable packages that npm audit reports but that never run in the app users get. Each entry is re-checked by scripts/security-scan.mjs: the built bundle must not contain the marker strings.",
+  "packages": {
+    "@grpc/grpc-js": {
+      "reason": "Node-only gRPC transport of Firestore. The app does not use Firestore; the browser bundle only includes firebase/app, firebase/auth and firebase/database.",
+      "bundleMarkers": ["grpc"]
+    },
+    "@firebase/firestore": {
+      "reason": "Not imported anywhere (the app uses Realtime Database). Flagged only because it depends on @grpc/grpc-js.",
+      "bundleMarkers": ["firestore.googleapis.com"]
+    },
+    "@firebase/firestore-compat": {
+      "reason": "Not imported anywhere. Flagged only because it depends on @firebase/firestore.",
+      "bundleMarkers": ["firestore.googleapis.com"]
+    },
+    "firebase": {
+      "reason": "Umbrella package; flagged only through the Firestore packages above, which are tree-shaken out.",
+      "bundleMarkers": []
+    }
+  }
+}
