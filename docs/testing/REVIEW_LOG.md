@@ -102,3 +102,5 @@ danh sách chia theo đời) nhưng **nhập tay là sai chỗ** (B-24). Đổi 
 | R-30 | LG-14  | Gia phả cũ đã nhập số: lấy độ lệch xuất hiện nhiều nhất giữa số đã nhập và số tính được (không chỉ của người gốc), để thêm tổ tiên lên trên hoặc một số nhập sai không làm đổi cả gia phả |
 | R-31 | SEC-01 | Rules cho `meta/topGeneration`: số nguyên 1–60, chỉ admin                                                                                                                                 |
 | R-32 | CR-07  | Fuzz 1.000 đồ thị ngẫu nhiên (vòng, tự liên kết, id treo) cho `computeGenerations`                                                                                                        |
+
+Kết quả: run-09, run-10, run-11 xanh liên tiếp trên `4101155` (130 unit, 22 rules, 65 e2e; LG-14 19/19). Bằng chứng UI mới nhất ở `runs/run-11/`.
