@@ -45,6 +45,10 @@ const FAMILY: Record<string, SeedPerson> = {
     birth: { cal: 's', y: 1995 },
   }),
   conbac01: P('Con Bác', 'm', { fatherId: 'bac00001', birth: { cal: 's', y: 2001 } }),
+  // bên vợ
+  bovo0001: P('Ba Vợ', 'm'),
+  vo000001: P('Vợ Tôi', 'f', { fatherId: 'bovo0001', order: 1, ...wed('toi00001') }),
+  emvo0001: P('Em Gái Vợ', 'f', { fatherId: 'bovo0001', order: 2 }),
 };
 
 async function openPerson(page: Page, id: string) {
@@ -87,6 +91,8 @@ test('LG-13 a relative picks "this is me" and sees how to call everyone (Bình �
   expect(await callOf(page, 'ongnoi01')).toBe('Bạn gọi là ông nội · xưng cháu');
   // vai beats age: the son of bác is younger but still anh
   expect(await callOf(page, 'conbac01')).toBe('Bạn gọi là anh · xưng em');
+  // gia đình duyệt: em của vợ gọi thay con là cô
+  expect(await callOf(page, 'emvo0001')).toBe('Bạn gọi là cô · xưng anh');
 
   // remembered after a reload
   await page.reload();

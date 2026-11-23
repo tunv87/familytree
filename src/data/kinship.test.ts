@@ -58,6 +58,8 @@ const F: People = {
   meVo: P('Mẹ Vợ', 'f', wed('boVo')),
   chiVo: P('Chị Vợ', 'f', { ...kids('boVo', 'meVo'), order: 1, ...wed('anhCotCheo') }),
   vo: P('Vợ', 'f', { ...kids('boVo', 'meVo'), order: 2, ...wed('toi') }),
+  emVo: P('Em Gái Vợ', 'f', { ...kids('boVo', 'meVo'), order: 3 }),
+  emTraiVo: P('Em Trai Vợ', 'm', { ...kids('boVo', 'meVo'), order: 4 }),
   anhCotCheo: P('Chồng Chị Vợ', 'm', wed('chiVo')),
   // đời dưới
   conTrai: P('Con Trai', 'm', { ...kids('toi', 'vo'), ...wed('conDau') }),
@@ -97,7 +99,7 @@ const TRUNG: Row[] = [
   ['ongNgoai', 'ông ngoại', 'cháu', 'ông ngoại'],
   ['baNgoai', 'bà ngoại', 'cháu'],
   ['cuOng', 'ông cố', 'chắt'],
-  ['ky', 'ông sơ', 'chút'],
+  ['ky', 'ông kỵ', 'chút'], // gia đình duyệt: ông kỵ / bà kỵ
   ['ongChu', 'ông', 'cháu', 'ông chú'],
   // same generation
   ['anhRuot', 'anh', 'em', 'anh ruột'],
@@ -113,6 +115,9 @@ const TRUNG: Row[] = [
   ['meVo', 'má', 'con'],
   ['chiVo', 'chị', 'em', 'chị ruột (bên vợ)'],
   ['anhCotCheo', 'anh', 'em'],
+  // em của vợ / chồng: gọi thay con (gia đình duyệt)
+  ['emVo', 'cô', 'anh', 'em gái ruột (bên vợ)'],
+  ['emTraiVo', 'chú', 'anh'],
   // down
   ['conTrai', 'con', 'ba', 'con trai'],
   ['conGai', 'con', 'ba', 'con gái'],
@@ -120,7 +125,7 @@ const TRUNG: Row[] = [
   ['chauNoi', 'cháu', 'ông', 'cháu nội'],
   ['chauNgoai', 'cháu', 'ông', 'cháu ngoại'],
   ['chat', 'chắt', 'ông cố'],
-  ['chut', 'chút', 'ông sơ'],
+  ['chut', 'chút', 'ông kỵ'],
   ['chauRuot', 'cháu', 'chú', 'cháu ruột'],
 ];
 
@@ -138,6 +143,7 @@ const BAC: Row[] = [
   ['mo', 'mợ', 'cháu'],
   ['cuOng', 'cụ', 'chắt'],
   ['ky', 'kỵ', 'chút'],
+  ['emVo', 'em', 'anh'],
   ['conTrai', 'con', 'bố'],
 ];
 
@@ -150,6 +156,8 @@ const NAM: Row[] = [
   ['thim', 'thím', 'cháu'],
   ['mo', 'mợ', 'cháu'],
   ['cuOng', 'ông cố', 'chắt'],
+  ['ky', 'ông sơ', 'chút'],
+  ['emVo', 'em', 'anh'],
 ];
 
 function check(region: Region, rows: Row[]) {
@@ -175,6 +183,12 @@ describe('LG-13 xưng hô — other directions and edge cases', () => {
 
   it('vai beats age: con nhà chú (older) still calls con nhà bác (younger) anh', () => {
     expect(kinship(F, 'conChu', 'conBac')).toMatchObject({ call: 'anh', self: 'em' });
+  });
+
+  it('the wife calls her husband’s younger sister cô (Trung), em (Bắc); the sister still calls her chị and says em', () => {
+    expect(kinship(F, 'vo', 'emGai')).toMatchObject({ call: 'cô', self: 'chị' });
+    expect(kinship(F, 'vo', 'emGai', 'bac')).toMatchObject({ call: 'em', self: 'chị' });
+    expect(kinship(F, 'emGai', 'vo')).toMatchObject({ call: 'chị', self: 'em' });
   });
 
   it('the default region is Trung', () => {

@@ -7,7 +7,7 @@ thì sửa hàm tương ứng và dòng kỳ vọng trong `kinship.test.ts` — 
 - "Gọi" = tôi gọi người đó. "Xưng" = tôi tự xưng = cách người đó gọi tôi (app tính ngược lại, không viết riêng).
 - **Vai** (thứ bậc nhánh): con nhà anh luôn là anh/chị của con nhà em, **dù ít tuổi hơn**. Vai xét theo "Con thứ mấy
   trong nhà"; chưa nhập thì so năm sinh; thiếu cả hai thì app ghi "anh/chị hoặc em".
-- ⚠️ = điểm mình **suy đoán**, cần các cụ xác nhận.
+- Các điểm trước đây đánh dấu ⚠️ đã được gia đình duyệt ngày 23/11/2026 (xem mục "Đã chốt").
 
 ## Đã chốt (user, 23/11/2026)
 
@@ -18,16 +18,23 @@ thì sửa hàm tương ứng và dòng kỳ vọng trong `kinship.test.ts` — 
 | Em trai của bố      | chú | thím                   |
 | Anh, em trai của mẹ | cậu | mợ                     |
 
+Duyệt thêm (user, 23/11/2026):
+
+- Bố / mẹ: **ba / má** (giữ).
+- Chị của bố, anh / chị của mẹ: **cô / cậu / dì, không theo vai** (giữ — không gọi bác).
+- 4 đời trên: **ông kỵ / bà kỵ** (đổi, trước là ông sơ / bà sơ).
+- Em của chồng / em của vợ: **chú / cô — gọi thay con** (đổi, trước là "em"). Người em vẫn gọi lại "anh / chị" và xưng "em".
+
 ## Bảng đầy đủ
 
 ### Đời trên (trực hệ)
 
 | Quan hệ            | Trung (Bình Định)  | Bắc         | Nam            | Xưng |
 | ------------------ | ------------------ | ----------- | -------------- | ---- |
-| Bố / mẹ            | ba / má ⚠️         | bố / mẹ     | ba / má        | con  |
+| Bố / mẹ            | ba / má            | bố / mẹ     | ba / má        | con  |
 | Ông bà nội / ngoại | ông nội, bà ngoại… | (như Trung) | (như Trung)    | cháu |
 | 3 đời trên         | ông cố / bà cố     | cụ          | ông cố / bà cố | chắt |
-| 4 đời trên         | ông sơ / bà sơ ⚠️  | kỵ          | ông sơ / bà sơ | chút |
+| 4 đời trên         | ông kỵ / bà kỵ     | kỵ          | ông sơ / bà sơ | chút |
 | 5 đời trên trở lên | cụ tổ              | cụ tổ       | cụ tổ          | chít |
 
 ### Hàng cô chú bác (anh chị em của bố mẹ, cả họ xa cùng vai)
@@ -38,18 +45,18 @@ thì sửa hàm tương ứng và dòng kỳ vọng trong `kinship.test.ts` — 
 | Vợ anh của bố     | bác               | bác                      | bác   |
 | Em trai của bố    | **chú**           | chú                      | chú   |
 | Vợ em trai của bố | **thím**          | thím                     | thím  |
-| Chị của bố        | cô ⚠️             | bác                      | cô    |
+| Chị của bố        | cô                | bác                      | cô    |
 | Em gái của bố     | **cô**            | cô                       | cô    |
 | Chồng của cô      | **dượng**         | bác (chồng chị bố) / chú | dượng |
-| Anh của mẹ        | cậu ⚠️            | bác                      | cậu   |
+| Anh của mẹ        | cậu               | bác                      | cậu   |
 | Em trai của mẹ    | **cậu**           | cậu                      | cậu   |
 | Vợ của cậu        | **mợ**            | bác (vợ anh mẹ) / mợ     | mợ    |
-| Chị của mẹ        | dì ⚠️             | bác                      | dì    |
+| Chị của mẹ        | dì                | bác                      | dì    |
 | Em gái của mẹ     | **dì**            | dì                       | dì    |
 | Chồng của dì      | **dượng**         | bác (chồng chị mẹ) / chú | dượng |
 
 Xưng: **cháu**. Họ xa cùng vai (vd em trai họ của bố) gọi như trên, quan hệ ghi "chú họ".
-⚠️ Trung: chị của bố, anh/chị của mẹ **không** gọi bác (giống miền Nam) — cần xác nhận.
+Trung (Bình Định): chị của bố, anh/chị của mẹ **không** gọi bác (giống miền Nam) — đã duyệt.
 
 ### Cùng đời
 
@@ -72,7 +79,8 @@ Xưng: **cháu**. Họ xa cùng vai (vd em trai họ của bố) gọi như trê
 ### Họ hàng bên vợ / bên chồng
 
 Gọi **theo cách vợ/chồng mình gọi**: bố mẹ vợ → ba/má, anh của chồng → anh, cậu của vợ → cậu…
-⚠️ Nhiều nhà gọi em chồng là "chú/cô" (gọi thay con) — app hiện gọi là "em", cần xác nhận.
+Riêng **em** của chồng / của vợ (Bình Định, đã duyệt): gọi **chú / cô** thay con; người em gọi lại anh/chị, xưng em.
+Bắc / Nam vẫn gọi "em".
 
 ### Người chưa xác định
 

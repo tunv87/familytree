@@ -121,3 +121,10 @@ Chức năng mới (trước đó chưa có). User chốt miền Trung (Bình Đ
 | R-40 | LG-13 | E2E `kinship.spec.ts`: người xem tự chọn "Đây là tôi", kiểm 4 cặp đã chốt + bác/ba/ông nội/anh họ theo vai, nhớ sau khi tải lại, đổi miền Bắc, màn "Gọi nhau thế nào" hai chiều + đường quan hệ bấm được, bỏ chọn trong Cài đặt. Lượt đi UI thêm 2 màn (`kinship-card`, `kinship`) cho 10 cỡ màn + axe |
 
 Kết quả: run-12, run-13, run-14 xanh liên tiếp trên `5dcea33` (202 unit, 22 rules, 66 e2e; LG-13 73/73). Bằng chứng UI mới nhất ở `runs/run-14/` (có 2 màn xưng hô).
+
+## Vòng 8 — Gia đình duyệt bảng xưng hô (23/11/2026)
+
+| #    | Case  | Quyết định                                                                                                                                                                                                                             |
+| ---- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R-41 | LG-13 | 4 điểm ⚠️: giữ ba/má, giữ cô/cậu/dì không theo vai; **đổi** 4 đời trên → ông kỵ/bà kỵ; **đổi** em của chồng/vợ → chú/cô (gọi thay con). Chỉ cột Trung (Bình Định). Test sửa trước, đỏ đúng 4 chỗ rồi mới sửa code                      |
+| R-42 | LG-13 | Test bắt được lỗi logic: "xưng = cách người kia gọi mình" sai với gọi thay con (chị dâu gọi tôi "chú" nhưng tôi vẫn xưng "em") → thêm `theirSelf` cho trường hợp này; một kỳ vọng test viết sai (em chồng xưng "cô") đã sửa thành "em" |
