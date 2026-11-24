@@ -228,6 +228,8 @@ interface Report {
   tinyText: string[];
   smallLongText: string[];
   covered: string[];
+  /** main buttons (bottom action bar, buttons at the end of a dialog) not fully on screen */
+  mainHidden: string[];
   /** top bar without a title broke into two lines */
   barWrapped: boolean;
   wide: { screenW: number; contentW: number; treeW: number | null };
@@ -328,6 +330,24 @@ async function inspect(page: Page): Promise<Report> {
       })
       .map(describe);
 
+    // the main button must be on screen without scrolling (pinned to the bottom when needed)
+    const mainHidden = [
+      ...document.querySelectorAll(
+        modal
+          ? '.modal > .stack:last-child > .btn, .modal > .btn:last-child'
+          : // a bar in the middle of a page (.inline) flows away once scrolled past
+            window.scrollY > 0
+            ? '.action-bar:not(.inline) .btn'
+            : '.action-bar .btn',
+      ),
+    ]
+      .filter(visible)
+      .filter((el) => {
+        const r = el.getBoundingClientRect();
+        return r.top < 0 || r.bottom > H + 0.5;
+      })
+      .map(describe);
+
     const bar = document.querySelector('.topbar');
     const barBtn = bar?.querySelector('button');
     const barWrapped = Boolean(
@@ -347,6 +367,7 @@ async function inspect(page: Page): Promise<Report> {
       tinyText,
       smallLongText,
       covered,
+      mainHidden,
       barWrapped,
       wide: {
         screenW: W,
@@ -366,6 +387,7 @@ function assertReport(screen: string, r: Report) {
     0,
   );
   s(r.offscreen, `UI-01 ${screen}: controls cut off at the screen edge`).toEqual([]);
+  s(r.mainHidden, `UI-10 ${screen}: main button not on screen`).toEqual([]);
   s(r.barWrapped, `UI-01 ${screen}: top bar without a title wraps to two lines`).toBe(false);
   s(r.badFont, `UI-02 ${screen}: text not in Nunito`).toEqual([]);
   s(r.vietMissing, `UI-02 ${screen}: Vietnamese font subset not loaded`).toBe(false);

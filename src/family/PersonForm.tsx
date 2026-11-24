@@ -396,9 +396,11 @@ function PersonForm({
             {error}
           </div>
         )}
-        <button className="btn" disabled={busy} data-testid="save">
-          💾 {t('save')}
-        </button>
+        <div className="action-bar">
+          <button className="btn" disabled={busy} data-testid="save">
+            💾 {t('save')}
+          </button>
+        </div>
       </form>
       {confirmLeave && (
         <DiscardConfirm onCancel={() => setConfirmLeave(false)} onConfirm={nav.up} />

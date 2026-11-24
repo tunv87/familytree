@@ -114,11 +114,12 @@ export function Onboarding({
               <span className="onb-chip">{t('generationsCount', { n: generations })}</span>
             )}
           </div>
-          <div className="grow" />
-          {!fam.isAdmin && <p className="muted center">{t('onbViewOnly')}</p>}
-          <button className="btn onb-main" data-testid="onb-next" onClick={next}>
-            {t('continue')}
-          </button>
+          <div className="action-bar">
+            {!fam.isAdmin && <p className="muted center">{t('onbViewOnly')}</p>}
+            <button className="btn onb-main" data-testid="onb-next" onClick={next}>
+              {t('continue')}
+            </button>
+          </div>
         </>
       )}
 
@@ -159,10 +160,11 @@ export function Onboarding({
               <div className="muted center">{t('noResults')}</div>
             )}
           </div>
-          <div className="grow" />
-          <button className="btn secondary" data-testid="onb-not-in-tree" onClick={next}>
-            {t('onbNotInTree')}
-          </button>
+          <div className="action-bar">
+            <button className="btn secondary" data-testid="onb-not-in-tree" onClick={next}>
+              {t('onbNotInTree')}
+            </button>
+          </div>
         </>
       )}
 
@@ -196,10 +198,11 @@ export function Onboarding({
             ))}
           </ol>
           <p className="muted small">{os === 'ios' ? t('onbZaloIos') : t('onbZaloAndroid')}</p>
-          <div className="grow" />
-          <button className="btn onb-main" data-testid="onb-done" onClick={finish}>
-            {t('onbDone')}
-          </button>
+          <div className="action-bar">
+            <button className="btn onb-main" data-testid="onb-done" onClick={finish}>
+              {t('onbDone')}
+            </button>
+          </div>
         </>
       )}
     </main>

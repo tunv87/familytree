@@ -1385,3 +1385,49 @@ select.text-input {
 .muted.small {
   font-size: calc(var(--font) * 0.9);
 }
+
+/*
+ * The main button of a screen is always on screen: it sits at the bottom of the page while the
+ * page is short, and stays pinned to the bottom edge while the rest scrolls (user, 24/11/2026:
+ * "Hiện luôn … apply cho all screens").
+ */
+.action-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: auto calc(-1 * (env(safe-area-inset-right) + 16px))
+    calc(-1 * (env(safe-area-inset-bottom) + 16px)) calc(-1 * (env(safe-area-inset-left) + 16px));
+  padding: 12px calc(env(safe-area-inset-right) + 16px) calc(env(safe-area-inset-bottom) + 16px)
+    calc(env(safe-area-inset-left) + 16px);
+  background: var(--bg);
+  box-shadow: 0 -8px 12px -10px rgba(0, 0, 0, 0.35);
+}
+.action-bar > p {
+  margin: 0;
+}
+/* in the middle of a page: pinned to the bottom edge until scrolled to, then flows in place */
+.action-bar.inline {
+  margin: 0 calc(-1 * (env(safe-area-inset-right) + 16px)) 0
+    calc(-1 * (env(safe-area-inset-left) + 16px));
+  padding-bottom: calc(env(safe-area-inset-bottom) + 12px);
+  box-shadow: none;
+}
+/* dialogs: the buttons at the end stay visible while a long dialog scrolls */
+.modal > .stack:last-child,
+.modal > .btn:last-child {
+  position: sticky;
+  bottom: -24px;
+  margin: 0 -24px -24px;
+  padding: 12px 24px 24px;
+  background: var(--surface);
+  box-shadow: 0 -8px 12px -10px rgba(0, 0, 0, 0.35);
+}
+.modal > .btn:last-child {
+  margin: 0 0 -24px;
+  box-shadow:
+    0 -8px 0 0 var(--surface),
+    0 -14px 12px -10px rgba(0, 0, 0, 0.35);
+}

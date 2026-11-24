@@ -21,23 +21,25 @@ export function DebugScreen() {
       <pre className="log-view" data-count={logs}>
         {text}
       </pre>
-      <div className="players">
-        <button
-          className="btn grow"
-          onClick={async () => {
-            try {
-              await navigator.clipboard.writeText(text);
-              setCopied(true);
-            } catch {
-              setCopied(false);
-            }
-          }}
-        >
-          📋 {copied ? t('copied') : t('copyLogs')}
-        </button>
-        <button className="btn secondary" onClick={clearLogs}>
-          🗑️ {t('clearLogs')}
-        </button>
+      <div className="action-bar">
+        <div className="players">
+          <button
+            className="btn grow"
+            onClick={async () => {
+              try {
+                await navigator.clipboard.writeText(text);
+                setCopied(true);
+              } catch {
+                setCopied(false);
+              }
+            }}
+          >
+            📋 {copied ? t('copied') : t('copyLogs')}
+          </button>
+          <button className="btn secondary" onClick={clearLogs}>
+            🗑️ {t('clearLogs')}
+          </button>
+        </div>
       </div>
     </main>
   );

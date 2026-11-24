@@ -192,10 +192,16 @@ function RelationsForm({
       </div>
       <div className="muted small">{t('relationsHint')}</div>
       {error && <div className="error">{t('saveError')}</div>}
-      <div className="grow" />
-      <button className="btn" disabled={!dirty || busy} data-testid="save-relations" onClick={save}>
-        💾 {t('save')}
-      </button>
+      <div className="action-bar">
+        <button
+          className="btn"
+          disabled={!dirty || busy}
+          data-testid="save-relations"
+          onClick={save}
+        >
+          💾 {t('save')}
+        </button>
+      </div>
       {confirmLeave && (
         <DiscardConfirm onCancel={() => setConfirmLeave(false)} onConfirm={nav.up} />
       )}

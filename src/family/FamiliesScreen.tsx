@@ -145,9 +145,11 @@ export function NewFamilyScreen() {
             />
           </label>
           {error && <div className="error">{t('saveError')}</div>}
-          <button className="btn" disabled={!valid || busy} data-testid="create-family">
-            {t('create')}
-          </button>
+          <div className="action-bar">
+            <button className="btn" disabled={!valid || busy} data-testid="create-family">
+              {t('create')}
+            </button>
+          </div>
         </form>
       )}
     </main>

@@ -188,3 +188,13 @@ Từ báo cáo benchmark; mock trước, user chọn: nhắc trước 3 ngày + 
 | R-60 | LG-04 LG-15 UX-01 UX-M1 | run-27 đỏ 4 test cũ, đều do giả định của test, không phải lỗi app: thông báo "Đã xoá …" có tên người (kiểm danh sách thay vì cả trang); ảnh giữ 10 giây cho Hoàn tác rồi mới xoá (chờ 16 giây); test prod mở link lần đầu nên gặp hướng dẫn (đánh dấu đã xem như các test khác) |
 
 Kết quả: run-28, run-29, run-30 xanh liên tiếp trên `838cb7a` (263 unit, 24 rules, 78 e2e; LG-18 + UX-14…17 đạt). run-27 đỏ 4 test cũ (R-60). Bằng chứng UI mới nhất ở `runs/run-30/`.
+
+## Vòng 13 — Nút chính luôn hiện (UI-10, 24/11/2026)
+
+User: "Hiện luôn. Check và apply cho all screens" (nút "Xong, vào gia phả" phải kéo mới thấy trên iPhone).
+
+| #    | Case  | Quyết định                                                                                                                                                                                                                                                                                      |
+| ---- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R-61 | UI-10 | Đo trước trên 10 cỡ màn: mọi nút tô màu khuất khỏi màn khi mở. Nút chính của màn → thanh ghim đáy: hướng dẫn 3 bước, Thêm/Sửa người (Lưu), Quan hệ (Lưu), Tạo gia phả, Nhật ký lỗi (Chép); Mời: "Gửi link" ghim tới khi kéo tới nó; hộp thoại: hàng nút cuối ghim đáy hộp (PDF, Nhắn Zalo, Xoá) |
+| R-62 | UI-10 | Không ghim (mục phụ giữa trang, không phải việc chính của màn): nút thẻ "Thêm vào lịch" ở đầu Lịch; Đổi tên / Đời của người đầu tiên ở cuối màn Mời (chỉ admin)                                                                                                                                 |
+| R-63 | UI-10 | Kiểm tự động trong UI walk cả 2 trạng thái (vừa mở, đã kéo xuống cuối); nội dung trượt dưới thanh ghim không tính là "bị che" (UI-06 đã có ngoại lệ sticky)                                                                                                                                     |

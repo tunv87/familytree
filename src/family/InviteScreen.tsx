@@ -70,9 +70,12 @@ function Invite({ fam }: { fam: CurrentFamily & { isAdmin: boolean } }) {
           dangerouslySetInnerHTML={{ __html: qr }}
         />
       </div>
-      <button className="btn" data-testid="share" onClick={share}>
-        📨 {t('sendLink')}
-      </button>
+      {/* pinned to the bottom until the page is scrolled down to it */}
+      <div className="action-bar inline">
+        <button className="btn" data-testid="share" onClick={share}>
+          📨 {t('sendLink')}
+        </button>
+      </div>
       <button className="btn secondary" data-testid="copy-link" onClick={copy}>
         📋 {copied ? t('copied') : t('copyLink')}
       </button>
