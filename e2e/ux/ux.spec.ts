@@ -307,3 +307,74 @@ test('UX-10 icon-only buttons have names; keyboard users can reach and see focus
     `UX-10 focused button is visibly marked (${JSON.stringify(focus)})`,
   ).toBe(true);
 });
+
+test('UX-13 ← goes to the parent screen, 🏠 to the home page (mock: H2, P2)', async ({
+  browser,
+}) => {
+  const page = await newDevice(browser);
+  const uid = await signInAdmin(page, 'ux13');
+  const fid = await seedFamily('Họ Nguyễn', sampleFamily(), { admins: [uid] });
+  await page.goto(`/#/f/${fid}`);
+  await expect(page.getByTestId('home-tree')).toBeVisible();
+  const back = () => page.getByTestId('nav-back').click();
+  const home = () => page.getByTestId('nav-home').click();
+
+  // 🏠 on every screen but the home page; none on the home page itself
+  await expect(page.getByTestId('nav-home')).toHaveCount(0);
+  for (const hash of [
+    '/people',
+    '/p/to00000001',
+    '/tree',
+    '/calendar',
+    '/invite',
+    '/settings',
+    '/edit/to00000001',
+  ]) {
+    await page.goto(`/#${hash}`);
+    await expect.soft(page.getByTestId('nav-home'), `UX-13 ${hash} has 🏠`).toBeVisible();
+  }
+  await home();
+  await expect(page.getByTestId('home-tree')).toBeVisible();
+
+  // a deep link (e.g. opened from Zalo): ← goes to its parent, never out of the app
+  await page.goto('/#/p/p000000001');
+  await page.reload();
+  await expect(page.getByTestId('person-name')).toBeVisible();
+  await back();
+  await expect(page.getByTestId('search')).toBeVisible(); // Danh sách
+  await back();
+  await expect(page.getByTestId('home-tree')).toBeVisible();
+
+  // edit → save goes to the profile; ← from there goes to the list, not back into the form
+  await page.goto('/#/p/p000000001');
+  await page.getByTestId('edit-person').click();
+  await page.getByTestId('place').fill('Huế');
+  await page.getByTestId('save').click();
+  await expect(page.getByTestId('person-place')).toContainText('Huế');
+  await back();
+  await expect(page.getByTestId('search')).toBeVisible();
+
+  // from the tree: profile ← returns to the tree, centred on that person (P2)
+  await page.goto('/#/tree');
+  await page.getByTestId('card-p000000001').click();
+  await expect(page.getByTestId('person-name')).toBeVisible();
+  await back();
+  await expect(page).toHaveURL(/#\/tree\?focus=p000000001/);
+  await expect(page.getByTestId('card-p000000001')).toHaveClass(/focus/);
+
+  // from the calendar: back to the calendar
+  await page.goto('/#/calendar');
+  const event = page.locator('[data-testid^="event-"]').first();
+  await event.click();
+  await expect(page.getByTestId('person-name')).toBeVisible();
+  await back();
+  await expect(page).toHaveURL(/#\/calendar/);
+
+  // deeper screens: settings → debug ← settings; 🏠 from anywhere
+  await page.goto('/#/debug');
+  await back();
+  await expect(page).toHaveURL(/#\/settings$/);
+  await page.goto('/#/relations/p000000001');
+  await home();
+  await expect(page.getByTestId('home-tree')).toBeVisible();
+});

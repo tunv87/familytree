@@ -166,7 +166,7 @@ export function CalendarScreen() {
             key={e.type + e.personId}
             e={e}
             people={people}
-            onOpen={(id) => navigate(`/p/${id}`)}
+            onOpen={(id) => navigate(`/p/${id}`, { state: { from: '/calendar' } })}
           />
         ))}
       </section>
@@ -181,7 +181,7 @@ export function CalendarScreen() {
               e={e}
               people={people}
               withDate
-              onOpen={(id) => navigate(`/p/${id}`)}
+              onOpen={(id) => navigate(`/p/${id}`, { state: { from: '/calendar' } })}
             />
           ))}
         </section>

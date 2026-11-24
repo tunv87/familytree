@@ -1,7 +1,11 @@
 import type { ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNav } from '../app/nav';
 import { useT } from '../i18n';
 
+/**
+ * Top bar: ← goes to the screen's parent (see app/nav.ts), the title, the screen's own actions,
+ * then 🏠 back to the home page (on every screen but the home page — kiểu H2 on the mock).
+ */
 export function TopBar({
   title,
   onBack,
@@ -13,19 +17,22 @@ export function TopBar({
   title: string;
   noBack?: boolean;
   left?: ReactNode;
+  /** replaces the plain "go to parent" (e.g. to ask before leaving a form) */
   onBack?: () => void;
   right?: ReactNode;
   onTitleTap?: () => void;
 }) {
   const t = useT();
-  const navigate = useNavigate();
+  const nav = useNav();
+  const showHome = nav.parent !== null;
   return (
     <header className="topbar">
-      {!noBack ? (
+      {!noBack && nav.parent !== null ? (
         <button
           className="icon-btn"
           aria-label={t('back')}
-          onClick={() => (onBack ? onBack() : navigate(-1))}
+          data-testid="nav-back"
+          onClick={() => (onBack ? onBack() : nav.up())}
         >
           ⬅️
         </button>
@@ -33,7 +40,23 @@ export function TopBar({
         (left ?? <span style={{ width: 'var(--tap)' }} />)
       )}
       <h1 onClick={onTitleTap}>{title}</h1>
-      {right ?? <span style={{ width: 'var(--tap)' }} />}
+      {right || showHome ? (
+        <div className="topbar-actions">
+          {right}
+          {showHome && (
+            <button
+              className="icon-btn"
+              aria-label={t('home')}
+              data-testid="nav-home"
+              onClick={nav.home}
+            >
+              🏠
+            </button>
+          )}
+        </div>
+      ) : (
+        <span style={{ width: 'var(--tap)' }} />
+      )}
     </header>
   );
 }

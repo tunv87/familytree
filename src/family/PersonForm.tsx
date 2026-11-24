@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNav } from '../app/nav';
 import { dateError, isEmpty } from '../data/dates';
 import { applyFamilyUpdates, randomId } from '../data/families';
 import { makeAvatar, savePhoto, useThumbs, type Avatar as AvatarData } from '../data/photos';
@@ -90,6 +91,7 @@ function PersonForm({
 }) {
   const t = useT();
   const navigate = useNavigate();
+  const nav = useNav();
   const [params] = useSearchParams();
   const parentId = params.get('parent') ?? undefined;
   const spouseId = params.get('spouse') ?? undefined;
@@ -149,7 +151,7 @@ function PersonForm({
       if (editId) {
         await applyFamilyUpdates(familyId, editPersonUpdates(people, editId, person, now));
         if (photo !== undefined) await savePhoto(familyId, editId, photo);
-        navigate(-1);
+        nav.goTo(`/p/${editId}`);
       } else {
         const id = randomId(12);
         const links: NewPersonLinks = { spouseId, childId };
@@ -173,7 +175,7 @@ function PersonForm({
     <main className="screen">
       <TopBar
         title={editId ? t('editPerson') : first ? t('addFirst') : t('newPerson')}
-        onBack={() => (dirty ? setConfirmLeave(true) : navigate(-1))}
+        onBack={() => (dirty ? setConfirmLeave(true) : nav.up())}
       />
       {context && <div className="banner">{context}</div>}
       <form
@@ -383,7 +385,7 @@ function PersonForm({
         </button>
       </form>
       {confirmLeave && (
-        <DiscardConfirm onCancel={() => setConfirmLeave(false)} onConfirm={() => navigate(-1)} />
+        <DiscardConfirm onCancel={() => setConfirmLeave(false)} onConfirm={nav.up} />
       )}
     </main>
   );

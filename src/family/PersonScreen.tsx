@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useNav } from '../app/nav';
 import { applyFamilyUpdates } from '../data/families';
 import {
   daysBetween,
@@ -77,6 +78,7 @@ function PersonView({
 }) {
   const { pid = '' } = useParams();
   const navigate = useNavigate();
+  const nav = useNav();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [error, setError] = useState(false);
   const p = people[pid];
@@ -255,7 +257,7 @@ function PersonView({
                   await applyFamilyUpdates(familyId, deletePersonUpdates(people, pid));
                   // their photo goes too (kept outside the family node)
                   savePhoto(familyId, pid, null).catch((e) => log.warn('photo not removed', e));
-                  navigate(-1);
+                  nav.goTo('/people');
                 } catch (e) {
                   log.error('delete failed', e);
                   setError(true);

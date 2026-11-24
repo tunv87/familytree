@@ -187,7 +187,12 @@ function TreeView({ fam }: { fam: CurrentFamily & { isAdmin: boolean } }) {
               layout={layout}
               people={people}
               focusId={focusId}
-              onSelect={(id) => navigate(`/p/${id}`)}
+              onSelect={(id) => {
+                // ← on the profile comes back here, centred on that person (P2)
+                const back = new URLSearchParams(params);
+                back.set('focus', id);
+                navigate(`/p/${id}`, { state: { from: `/tree?${back}` } });
+              }}
               onToggle={toggle}
               thumbs={thumbs}
               badges={badges}

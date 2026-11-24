@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useNav } from '../app/nav';
 import { applyFamilyUpdates } from '../data/families';
 import {
   descendantsAndSelf,
@@ -49,7 +50,7 @@ function RelationsForm({
   familyId: string;
 }) {
   const t = useT();
-  const navigate = useNavigate();
+  const nav = useNav();
   const { pid = '' } = useParams();
   const p = people[pid];
   const initial = useMemo(
@@ -97,7 +98,7 @@ function RelationsForm({
           spouses: rel.spouses,
         }),
       );
-      navigate(-1);
+      nav.goTo(`/p/${pid}`);
     } catch (e) {
       log.error('relink failed', e);
       setError(true);
@@ -109,7 +110,7 @@ function RelationsForm({
     <main className="screen">
       <TopBar
         title={t('editRelations')}
-        onBack={() => (dirty ? setConfirmLeave(true) : navigate(-1))}
+        onBack={() => (dirty ? setConfirmLeave(true) : nav.up())}
       />
       <div className="banner">{p.name}</div>
       <label className="field">
@@ -196,7 +197,7 @@ function RelationsForm({
         💾 {t('save')}
       </button>
       {confirmLeave && (
-        <DiscardConfirm onCancel={() => setConfirmLeave(false)} onConfirm={() => navigate(-1)} />
+        <DiscardConfirm onCancel={() => setConfirmLeave(false)} onConfirm={nav.up} />
       )}
     </main>
   );

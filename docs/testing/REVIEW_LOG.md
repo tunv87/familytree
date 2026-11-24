@@ -159,3 +159,14 @@ Mock trước (trang "Ô cây" trong https://claude.ai/artifact/KQF33a7n8P3GyVGm
 | R-51 | LG-17 | Xem ảnh 1:1 thấy nhãn dài ("Em trai") đè dòng tên 2 dòng (mock không lộ vì ô mock có khoảng trống trên) → đẩy nhãn lên trên mép ô; thêm kiểm hình học "nhãn không thấp hơn mép trên ô" vào e2e |
 
 Kết quả: run-21, run-22, run-23 xanh liên tiếp trên `7732787` (230 unit, 24 rules, 71 e2e; LG-17 16/16). Bằng chứng UI mới nhất ở `runs/run-23/`.
+
+## Vòng 11 — Nút Trang chủ + ← về màn cha (UX-13, 24/11/2026)
+
+User: "nút back về trang trước UX chưa ok → về parent page; thêm nút Trang chủ ở các màn con". Mock trước (trang
+"Điều hướng"); user chọn 🏠 góc phải (H2), duyệt sơ đồ màn cha, hồ sơ mở từ Cây/Lịch thì ← về chỗ đó (P2).
+
+| #    | Case  | Quyết định                                                                                                                                                                                      |
+| ---- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R-52 | UX-13 | Sơ đồ màn cha là hàm thuần `parentPath` → test bảng 24 dòng (mọi màn + tham số `?parent/spouse/child/first/root/a/b`)                                                                           |
+| R-53 | UX-13 | ← "lùi" khi màn trước đúng là màn cha (giữ nút back của điện thoại hoạt động), còn lại thay bằng màn cha — e2e kiểm link sâu sau khi tải lại không văng ra ngoài, Sửa→Lưu→← không quay vào form |
+| R-54 | UX-02 | Giữ nguyên (mọi màn có nút quay lại, back trình duyệt vẫn đúng) — xanh với cách mới                                                                                                             |

@@ -1,4 +1,5 @@
 import { useEffect, type ReactNode } from 'react';
+import { useTrackHistory } from './nav';
 import { HashRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { CalendarScreen } from '../calendar/CalendarScreen';
 import { InviteScreen } from '../family/InviteScreen';
@@ -27,6 +28,7 @@ const testRoutes = import.meta.env.VITE_USE_EMULATOR === '1';
 
 function RouteLogger() {
   const loc = useLocation();
+  useTrackHistory();
   useEffect(() => log.info('route', { path: loc.pathname + loc.search }), [loc]);
   return null;
 }
