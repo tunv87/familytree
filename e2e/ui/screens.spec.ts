@@ -408,7 +408,7 @@ function assertReport(screen: string, r: Report) {
 }
 
 for (const variant of ['normal', 'big'] as const) {
-  test(`UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (${variant} text)`, async ({
+  test(`UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 UI-10 every screen (${variant} text)`, async ({
     page,
   }) => {
     test.setTimeout(300_000);
