@@ -1,0 +1,3619 @@
+{
+  "run": "run-30",
+  "commit": "838cb7a",
+  "steps": [
+    {
+      "name": "static",
+      "ok": true,
+      "seconds": 10
+    },
+    {
+      "name": "unit",
+      "ok": true,
+      "seconds": 6
+    },
+    {
+      "name": "rules",
+      "ok": true,
+      "seconds": 7
+    },
+    {
+      "name": "e2e",
+      "ok": true,
+      "seconds": 518
+    },
+    {
+      "name": "security",
+      "ok": true,
+      "seconds": 4
+    },
+    {
+      "name": "pwa",
+      "ok": true,
+      "seconds": 15
+    }
+  ],
+  "totals": {
+    "tests": 377,
+    "failedIds": 0,
+    "missing": []
+  },
+  "cases": {
+    "CR-01": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "CR-02": {
+      "tests": 10,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "CR-03": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "CR-04": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "CR-05": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "CR-06": {
+      "tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "CR-07": {
+      "tests": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "CR-08": {
+      "tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "LG-01": {
+      "tests": 34,
+      "passed": 34,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "LG-02": {
+      "tests": 14,
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "LG-03": {
+      "tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "LG-04": {
+      "tests": 16,
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "LG-05": {
+      "tests": 17,
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "LG-06": {
+      "tests": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "LG-07": {
+      "tests": 6,
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "LG-08": {
+      "tests": 7,
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "LG-09": {
+      "tests": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "LG-10": {
+      "tests": 6,
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "LG-11": {
+      "tests": 3,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "LG-12": {
+      "tests": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "LG-13": {
+      "tests": 79,
+      "passed": 79,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "LG-14": {
+      "tests": 19,
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "LG-15": {
+      "tests": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "LG-16": {
+      "tests": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "LG-17": {
+      "tests": 16,
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "LG-18": {
+      "tests": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "SEC-01": {
+      "tests": 24,
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "SEC-02": {
+      "tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "SEC-03": {
+      "tests": 3,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "SEC-04": {
+      "tests": 3,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "SEC-05": {
+      "tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "SEC-06": {
+      "tests": 0,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "SEC-07": {
+      "tests": 0,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UI-01": {
+      "tests": 20,
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UI-02": {
+      "tests": 20,
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UI-03": {
+      "tests": 20,
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UI-04": {
+      "tests": 20,
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UI-05": {
+      "tests": 10,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 8,
+      "failures": []
+    },
+    "UI-06": {
+      "tests": 20,
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UI-07": {
+      "tests": 20,
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UI-08": {
+      "tests": 20,
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UI-09": {
+      "tests": 20,
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-01": {
+      "tests": 3,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-02": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-03": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-04": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-05": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-06": {
+      "tests": 3,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-07": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-08": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-09": {
+      "tests": 3,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-10": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-11": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-12": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-13": {
+      "tests": 25,
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-14": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-15": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-16": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-17": {
+      "tests": 3,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-M1": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-M2": {
+      "tests": 0,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-M3": {
+      "tests": 0,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "UX-M4": {
+      "tests": 0,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    }
+  },
+  "tests": [
+    {
+      "suite": "unit",
+      "title": "LG-06 LG-02 events › puts giỗ on the lunar date and counts the years",
+      "project": "",
+      "status": "passed",
+      "ms": 2,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-06 LG-02 events › converts a solar death date to lunar for the giỗ",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-06 LG-02 events › birthdays: solar on the same day, lunar follows the moon, with age",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-06 LG-02 events › skips people without a usable date",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-06 LG-02 events › lists the next 30 days across the new year",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-06 monthGrid › starts on Monday and covers the month",
+      "project": "",
+      "status": "passed",
+      "ms": 2,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-06 monthGrid › includes days from the previous month",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-18 nhắc giỗ vào lịch điện thoại › lists every giỗ of the next 10 years, on the right lunar day each year",
+      "project": "",
+      "status": "passed",
+      "ms": 6,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-18 nhắc giỗ vào lịch điện thoại › a giỗ already past this year still gets 10 reminders (the next 10 years)",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-18 nhắc giỗ vào lịch điện thoại › counts people whose giỗ date is known (not the living, not unknown dates)",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-18 nhắc giỗ vào lịch điện thoại › builds a calendar file phones accept: all-day events with 2 reminders",
+      "project": "",
+      "status": "passed",
+      "ms": 19,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-18 nhắc giỗ vào lịch điện thoại › escapes and folds text the way calendars expect",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-18 nhắc giỗ vào lịch điện thoại › the Zalo message names the person, the lunar and the solar day",
+      "project": "",
+      "status": "passed",
+      "ms": 7,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-18 nhắc giỗ vào lịch điện thoại › file name has no accents",
+      "project": "",
+      "status": "passed",
+      "ms": 3,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › / → null",
+      "project": "",
+      "status": "passed",
+      "ms": 2,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /people → /",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /tree → /",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /tree?focus=a1 → /",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /tree?root=a1 → /p/a1",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /calendar → /",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /invite → /",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /settings → /",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /debug → /settings",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /families → /",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /new-family → /families",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /p/a1 → /people",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /edit/a1 → /p/a1",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /relations/a1 → /p/a1",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /add?parent=a1 → /p/a1",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /add?spouse=a1 → /p/a1",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /add?child=a1&gender=m → /p/a1",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /add?first=1 → /",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /add → /people",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /kinship?a=me&b=a1 → /p/a1",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /kinship → /",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /f/AbCdEfGhJkMnPqRsTuVw → /",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › /khong-co → /",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock) › a profile opened from the tree or the calendar goes back there (P2)",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-10 formatting › shows whatever is known",
+      "project": "",
+      "status": "passed",
+      "ms": 2,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-10 formatting › shows the other calendar",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-10 conversion › converts complete dates",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-10 validation › accepts partial dates",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-10 validation › rejects impossible dates",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-02 giỗ › uses the lunar date of death, converting from solar if needed",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-02 giỗ › finds the next giỗ",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-02 giỗ › a giỗ late in tháng Chạp can fall in January",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-03 birthdays › solar birthdays repeat on the same day",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-03 birthdays › lunar birthdays follow the lunar calendar",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-14 generation numbers are computed from the relationships › numbers the main line from the top, spouses share their partner’s number",
+      "project": "",
+      "status": "passed",
+      "ms": 2,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-14 generation numbers are computed from the relationships › a daughter-in-law’s own parents sit one generation above her",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-14 generation numbers are computed from the relationships › someone not connected to the tree has no number",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-14 generation numbers are computed from the relationships › adding a father above the top renumbers everyone by itself",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-14 generation numbers are computed from the relationships › a branch of a bigger clan starts from its own top number",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-14 generation numbers are computed from the relationships › empty family, loops and self-links do not hang or throw",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-14 older data with typed-in numbers keeps its numbering › uses the number typed for the top person",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-14 older data with typed-in numbers keeps its numbering › still keeps it after an ancestor is added above the old top",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-14 older data with typed-in numbers keeps its numbering › a single wrong typed number is outvoted",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-14 older data with typed-in numbers keeps its numbering › the family setting wins over typed numbers",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-14 the number always matches the row on the tree › 40 people (seed 1)",
+      "project": "",
+      "status": "passed",
+      "ms": 2,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-14 the number always matches the row on the tree › 300 people (seed 2)",
+      "project": "",
+      "status": "passed",
+      "ms": 36,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-14 the number always matches the row on the tree › 1000 people (seed 3)",
+      "project": "",
+      "status": "passed",
+      "ms": 259,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-14 the number always matches the row on the tree › 1,000 people are numbered quickly",
+      "project": "",
+      "status": "passed",
+      "ms": 10,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → coUt: gọi \"cô\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 4,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → duongUt: gọi \"dượng\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → diLon: gọi \"dì\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → duongNgoai: gọi \"dượng\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → chu: gọi \"chú\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → thim: gọi \"thím\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → cau: gọi \"cậu\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → mo: gọi \"mợ\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → bacTrai: gọi \"bác\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → bacGai: gọi \"bác\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → coLon: gọi \"cô\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → duongLon: gọi \"dượng\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → bo: gọi \"ba\", xưng \"con\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → me: gọi \"má\", xưng \"con\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → ongNoi: gọi \"ông nội\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → baNoi: gọi \"bà nội\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → ongNgoai: gọi \"ông ngoại\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → baNgoai: gọi \"bà ngoại\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → cuOng: gọi \"ông cố\", xưng \"chắt\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → ky: gọi \"ông kỵ\", xưng \"chút\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → ongChu: gọi \"ông\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → anhRuot: gọi \"anh\", xưng \"em\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → emGai: gọi \"em\", xưng \"anh\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → chiDau: gọi \"chị\", xưng \"em\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → emRe: gọi \"em\", xưng \"anh\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → conBac: gọi \"anh\", xưng \"em\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → conChu: gọi \"em\", xưng \"anh\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → chuaRo: gọi \"anh/chị hoặc em\", xưng \"anh hoặc em\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → vo: gọi \"em\", xưng \"anh\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → boVo: gọi \"ba\", xưng \"con\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → meVo: gọi \"má\", xưng \"con\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → chiVo: gọi \"chị\", xưng \"em\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → anhCotCheo: gọi \"anh\", xưng \"em\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → emVo: gọi \"cô\", xưng \"anh\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → emTraiVo: gọi \"chú\", xưng \"anh\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → conTrai: gọi \"con\", xưng \"ba\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → conGai: gọi \"con\", xưng \"ba\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → conDau: gọi \"con\", xưng \"ba\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → chauNoi: gọi \"cháu\", xưng \"ông\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → chauNgoai: gọi \"cháu\", xưng \"ông\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → chat: gọi \"chắt\", xưng \"ông cố\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → chut: gọi \"chút\", xưng \"ông kỵ\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Trung (Bình Định, mặc định) › tôi → chauRuot: gọi \"cháu\", xưng \"chú\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Bắc › tôi → bo: gọi \"bố\", xưng \"con\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Bắc › tôi → me: gọi \"mẹ\", xưng \"con\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Bắc › tôi → coLon: gọi \"bác\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Bắc › tôi → duongLon: gọi \"bác\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Bắc › tôi → diLon: gọi \"bác\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Bắc › tôi → duongNgoai: gọi \"bác\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Bắc › tôi → coUt: gọi \"cô\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Bắc › tôi → duongUt: gọi \"chú\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Bắc › tôi → cau: gọi \"cậu\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Bắc › tôi → mo: gọi \"mợ\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Bắc › tôi → cuOng: gọi \"cụ\", xưng \"chắt\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Bắc › tôi → ky: gọi \"kỵ\", xưng \"chút\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Bắc › tôi → emVo: gọi \"em\", xưng \"anh\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Bắc › tôi → conTrai: gọi \"con\", xưng \"bố\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Nam › tôi → bo: gọi \"ba\", xưng \"con\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Nam › tôi → coLon: gọi \"cô\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Nam › tôi → duongUt: gọi \"dượng\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Nam › tôi → diLon: gọi \"dì\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Nam › tôi → thim: gọi \"thím\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Nam › tôi → mo: gọi \"mợ\", xưng \"cháu\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Nam › tôi → cuOng: gọi \"ông cố\", xưng \"chắt\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Nam › tôi → ky: gọi \"ông sơ\", xưng \"chút\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — miền Nam › tôi → emVo: gọi \"em\", xưng \"anh\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — other directions and edge cases › the uncle side: chú calls me cháu and calls himself chú; thím calls herself thím",
+      "project": "",
+      "status": "passed",
+      "ms": 8,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — other directions and edge cases › vai beats age: con nhà chú (older) still calls con nhà bác (younger) anh",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — other directions and edge cases › the wife calls her husband’s younger sister cô (Trung), em (Bắc); the sister still calls her chị and says em",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — other directions and edge cases › the default region is Trung",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — other directions and edge cases › myself and strangers",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — other directions and edge cases › the path goes through the common ancestor",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — other directions and edge cases › unknown gender gets a neutral word",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 xưng hô — other directions and edge cases › missing order and birth year at the common ancestor → seniority unknown",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 properties on random families › blood links are mirror images, and the generation gap matches the computed \"đời\"",
+      "project": "",
+      "status": "passed",
+      "ms": 14,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 properties on random families › every pair gets words or \"unrelated\", never a crash or an empty word",
+      "project": "",
+      "status": "passed",
+      "ms": 28,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-13 properties on random families › one person page on a 1,000-person family is fast",
+      "project": "",
+      "status": "passed",
+      "ms": 9,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-04 LG-09 relationships › children in birth order",
+      "project": "",
+      "status": "passed",
+      "ms": 2,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-04 LG-09 relationships › parents, spouses, siblings",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-04 LG-09 relationships › tolerates one-sided spouse links",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-08 search › ignores diacritics and case",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-08 search › groups by (computed) generation",
+      "project": "",
+      "status": "passed",
+      "ms": 7,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-04 LG-08 adding people › adds a child with both parents",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-04 LG-08 adding people › adds a spouse on both sides",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-04 LG-08 adding people › adds a father to a child and marries him to the existing mother",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-04 LG-08 adding people › adds a mother when the father is already set",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-04 editing and deleting › editing keeps links even if the form does not send them",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-04 editing and deleting › removes undefined fields (RTDB rejects them)",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-04 editing and deleting › deleting removes every link to the person",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-10 lifespan › formats known years",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-04 relinking › changes parents and spouses on both sides",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-04 relinking › removes a marriage on both sides",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-04 relinking › writes nothing when nothing changed",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-04 relinking › knows who cannot be a parent (no loops)",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-17 inverseUpdates (Hoàn tác) › undoing a delete puts back the person and every link to them",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "UX-17 inverseUpdates (Hoàn tác) › undoing an edit restores the old values; a new path is removed again",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-15 ảnh đại diện: cắt vuông và kiểm dữ liệu › crops the centred square of portrait, landscape and square pictures",
+      "project": "",
+      "status": "passed",
+      "ms": 2,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-15 ảnh đại diện: cắt vuông và kiểm dữ liệu › accepts only JPEG data URLs within the size limit",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-15 ô trên cây kiểu B (ảnh bên trái tên) › text-only cards centre the name; photo cards put it right of the photo",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-15 ô trên cây kiểu B (ảnh bên trái tên) › long names wrap to two lines that fit beside the photo",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-15 ô trên cây kiểu B (ảnh bên trái tên) › wider cards never overlap and the tree just gets wider",
+      "project": "",
+      "status": "passed",
+      "ms": 78,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-16 nơi ở › is kept trimmed (max 120), dropped when not text",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-16 nơi ở › search finds people by where they live, without diacritics",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "CR-02 sanitizeFamily: damaged data becomes safe to show (B-02) › returns null for nothing usable",
+      "project": "",
+      "status": "passed",
+      "ms": 2,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "CR-02 sanitizeFamily: damaged data becomes safe to show (B-02) › fills a missing meta and keeps only true admin flags",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "CR-02 sanitizeFamily: damaged data becomes safe to show (B-02) › keeps a valid top generation, drops a strange one (LG-14)",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "CR-02 sanitizeFamily: damaged data becomes safe to show (B-02) › drops entries that are not people, names the nameless, fixes fields",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "CR-02 sanitizeFamily: damaged data becomes safe to show (B-02) › accepts people stored as an array (numeric keys)",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "CR-02 sanitizeFamily: damaged data becomes safe to show (B-02) › removes links to missing people, to oneself, and parent loops",
+      "project": "",
+      "status": "passed",
+      "ms": 2,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "CR-02 sanitizeFamily: damaged data becomes safe to show (B-02) › cleans dates",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "CR-02 sanitizeFamily: damaged data becomes safe to show (B-02) › leaves good data unchanged",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-11 translate › returns Vietnamese by default",
+      "project": "",
+      "status": "passed",
+      "ms": 2,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-11 translate › falls back to Vietnamese when an English key is missing",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 Julian day › matches known values",
+      "project": "",
+      "status": "passed",
+      "ms": 2,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 Tết Nguyên đán (Vietnam, UTC+7) › Tết 2020",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 Tết Nguyên đán (Vietnam, UTC+7) › Tết 2021",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 Tết Nguyên đán (Vietnam, UTC+7) › Tết 2022",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 Tết Nguyên đán (Vietnam, UTC+7) › Tết 2023",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 Tết Nguyên đán (Vietnam, UTC+7) › Tết 2024",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 Tết Nguyên đán (Vietnam, UTC+7) › Tết 2025",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 Tết Nguyên đán (Vietnam, UTC+7) › Tết 2026",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 Tết Nguyên đán (Vietnam, UTC+7) › Tết 2027",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 Tết Nguyên đán (Vietnam, UTC+7) › Tết 2028",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 Tết Nguyên đán (Vietnam, UTC+7) › Tết 2029",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 Tết Nguyên đán (Vietnam, UTC+7) › Tết 2030",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 Tết Nguyên đán (Vietnam, UTC+7) › uses the Vietnamese time zone, not China’s",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 leap months › 2017 → nhuận tháng 6",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 leap months › 2020 → nhuận tháng 4",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 leap months › 2023 → nhuận tháng 2",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 leap months › 2025 → nhuận tháng 6",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 leap months › 2028 → nhuận tháng 5",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 leap months › 2026 → nhuận tháng 0",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 leap months › 2027 → nhuận tháng 0",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 leap months › distinguishes tháng 6 and tháng 6 nhuận in 2025",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 leap months › rejects a leap month the year does not have",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 known dates › Trung thu 2026 is 25/9/2026",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 known dates › dates around the lunar new year belong to the previous lunar year",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 round trip › every day 1900–2100 converts to lunar and back (day 1–30, valid month)",
+      "project": "",
+      "status": "passed",
+      "ms": 333,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 round trip › lunar months have 29 or 30 days and day 30 of a short month does not exist",
+      "project": "",
+      "status": "passed",
+      "ms": 6,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-02 anniversaries (giỗ) › falls on the same lunar date each year",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-02 anniversaries (giỗ) › moves day 30 to day 29 when the month is short",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-02 anniversaries (giỗ) › finds the giỗ dates inside a solar year",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 names › year can chi",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 names › day can chi",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 names › formats",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 names › holiday marks",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "CR-07 fuzz: tree layout › 1,000 random graphs (loops, self-links, dangling ids): no throw, each person once, no overlaps",
+      "project": "",
+      "status": "passed",
+      "ms": 254,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "CR-07 fuzz: tree layout › random collapse sets and branch roots never throw",
+      "project": "",
+      "status": "passed",
+      "ms": 24,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "CR-07 fuzz: tree layout › deleting random people keeps the graph consistent",
+      "project": "",
+      "status": "passed",
+      "ms": 53,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "CR-07 fuzz: generation numbers (LG-14) › 1,000 random graphs: no throw, numbers are whole and ≥ 1, spouses on the main line agree",
+      "project": "",
+      "status": "passed",
+      "ms": 146,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "CR-07 fuzz: xưng hô (LG-13) › 1,000 random graphs (loops, self-links, dangling ids): every pair, all regions, no throw",
+      "project": "",
+      "status": "passed",
+      "ms": 1360,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "CR-07 fuzz: dates and lunar calendar › random partial / invalid dates never throw",
+      "project": "",
+      "status": "passed",
+      "ms": 161,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "CR-07 fuzz: dates and lunar calendar › every valid lunar date converts back to itself (random sample 1800–2199)",
+      "project": "",
+      "status": "passed",
+      "ms": 46,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "CR-07 fuzz: dates and lunar calendar › random families: yearly events, month grids and search never throw",
+      "project": "",
+      "status": "passed",
+      "ms": 40,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "CR-07 fuzz: PDF pages › random tree sizes always produce a sane plan that covers the tree",
+      "project": "",
+      "status": "passed",
+      "ms": 51,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 lunar calendar invariants › each lunar year has 12 months, or 13 with exactly one leap month",
+      "project": "",
+      "status": "passed",
+      "ms": 107,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 lunar calendar invariants › about 7 leap years in every 19 (Metonic cycle)",
+      "project": "",
+      "status": "passed",
+      "ms": 4,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 lunar calendar invariants › a lunar year is 353–355 or 383–385 days long",
+      "project": "",
+      "status": "passed",
+      "ms": 3,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-01 lunar calendar invariants › Tết always falls between 21/1 and 20/2",
+      "project": "",
+      "status": "passed",
+      "ms": 2,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-02 giỗ for deaths in a leap month or on day 30 › a death in tháng 6 nhuận 2025 is remembered in (regular) tháng 6",
+      "project": "",
+      "status": "passed",
+      "ms": 2,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-02 giỗ for deaths in a leap month or on day 30 › a death on day 30 is remembered on day 29 when the month is short",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-09 sibling order: birth order, then birth year, then name › orders children correctly",
+      "project": "",
+      "status": "passed",
+      "ms": 7,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-08 search: accents, đ/Đ, case and spaces › matches the way people type on a phone",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "SEC-03 family codes are long and random › 20 characters from a 57-letter alphabet, no look-alike letters",
+      "project": "",
+      "status": "passed",
+      "ms": 3,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "SEC-03 family codes are long and random › no repeats in 100,000 codes and letters are evenly used",
+      "project": "",
+      "status": "passed",
+      "ms": 481,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-17 dòng phụ trên ô cây (mock: đã mất D3, còn sống bỏ chữ \"Sinh\") › passed away: \"(1960–2022), 20/8 ÂL\" — years and the lunar giỗ date",
+      "project": "",
+      "status": "passed",
+      "ms": 2,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-17 dòng phụ trên ô cây (mock: đã mất D3, còn sống bỏ chữ \"Sinh\") › a solar death date is turned into the lunar giỗ date",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-17 dòng phụ trên ô cây (mock: đã mất D3, còn sống bỏ chữ \"Sinh\") › shows whatever is known",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-17 dòng phụ trên ô cây (mock: đã mất D3, còn sống bỏ chữ \"Sinh\") › living: birth year and where they live, no \"Sinh\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-17 dòng phụ trên ô cây (mock: đã mất D3, còn sống bỏ chữ \"Sinh\") › long lines are cut with \"…\" to fit the card",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-17 nhãn danh xưng (K1) › thanh → \"Bà nội\"",
+      "project": "",
+      "status": "passed",
+      "ms": 2,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-17 nhãn danh xưng (K1) › thanhB → \"Ba\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-17 nhãn danh xưng (K1) › thuan → \"Má\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-17 nhãn danh xưng (K1) › tra → \"Vợ\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-17 nhãn danh xưng (K1) › lap → \"Em gái\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-17 nhãn danh xưng (K1) › long → \"Em rể\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-17 nhãn danh xưng (K1) › nguyen → \"Con gái\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-17 nhãn danh xưng (K1) › minh → \"Con trai\"",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-17 nhãn danh xưng (K1) › no label for strangers",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-17 nhãn danh xưng (K1) › labels for a whole 1,000-person tree are computed quickly",
+      "project": "",
+      "status": "passed",
+      "ms": 30,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-05 roots › a founding couple is one root (the husband)",
+      "project": "",
+      "status": "passed",
+      "ms": 2,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-05 roots › in-laws are not roots",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-05 roots › unrelated people become separate roots, biggest family first",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-05 roots › counts descendants",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-05 layout › draws everyone exactly once",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-05 layout › puts each generation on its own row",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-05 layout › draws in-laws beside their spouse",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-05 layout › keeps siblings in birth order",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-05 layout › never overlaps cards",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-05 layout › centres parents over their children",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-05 layout › collapsing a branch hides its descendants",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-05 layout › can start from any person (branch view)",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-05 layout › handles a large generated family without overlaps",
+      "project": "",
+      "status": "passed",
+      "ms": 63,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-05 layout › survives a cousin marriage (both blood relatives) and drawing each once",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-05 wrapName › wraps long Vietnamese names into two lines",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-05 wrapName › cuts a name without spaces so it stays inside the card (B-20)",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-07 planPdf › a small tree goes on one sheet, not blown up too much",
+      "project": "",
+      "status": "passed",
+      "ms": 2,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-07 planPdf › a medium tree still fits one sheet while it stays legible",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-07 planPdf › a big tree is tiled so that every part is covered",
+      "project": "",
+      "status": "passed",
+      "ms": 20,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-07 planPdf › A3 needs fewer sheets than A4",
+      "project": "",
+      "status": "passed",
+      "ms": 1,
+      "errors": []
+    },
+    {
+      "suite": "unit",
+      "title": "LG-07 planPdf › \"one\" forces a single sheet even if tiny",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 creating a family › a Google user can create a family they own",
+      "project": "",
+      "status": "passed",
+      "ms": 770,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 creating a family › an anonymous viewer cannot create one",
+      "project": "",
+      "status": "passed",
+      "ms": 123,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 creating a family › cannot create a family owned by someone else",
+      "project": "",
+      "status": "passed",
+      "ms": 51,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 creating a family › cannot take over an existing family",
+      "project": "",
+      "status": "passed",
+      "ms": 92,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 creating a family › requires a long random id and a valid name",
+      "project": "",
+      "status": "passed",
+      "ms": 60,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 reading › anyone signed in (even anonymously) with the id can read the family",
+      "project": "",
+      "status": "passed",
+      "ms": 94,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 reading › nobody can list all families, and a session is required",
+      "project": "",
+      "status": "passed",
+      "ms": 66,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 reading › a user list is private",
+      "project": "",
+      "status": "passed",
+      "ms": 74,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 editing people › admins can add, edit and delete people",
+      "project": "",
+      "status": "passed",
+      "ms": 90,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 editing people › viewers and other Google users cannot edit",
+      "project": "",
+      "status": "passed",
+      "ms": 94,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 editing people › an admin can add another admin, who can then edit",
+      "project": "",
+      "status": "passed",
+      "ms": 90,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 editing people › the owner field cannot be changed",
+      "project": "",
+      "status": "passed",
+      "ms": 47,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 editing people › validates person fields",
+      "project": "",
+      "status": "passed",
+      "ms": 77,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 editing people › only admins can delete the family",
+      "project": "",
+      "status": "passed",
+      "ms": 64,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 everything else › is closed",
+      "project": "",
+      "status": "passed",
+      "ms": 36,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 more attacks › the owner always stays an admin (another admin cannot remove them)",
+      "project": "",
+      "status": "passed",
+      "ms": 66,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 more attacks › admin flags and spouse links must be plain true (no smuggled data)",
+      "project": "",
+      "status": "passed",
+      "ms": 39,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 more attacks › LG-15 photos: only admins of that family write them, JPEG only, size-limited",
+      "project": "",
+      "status": "passed",
+      "ms": 143,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 more attacks › LG-16 nơi ở is text up to 120 characters",
+      "project": "",
+      "status": "passed",
+      "ms": 66,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 more attacks › LG-14 top generation: whole number 1–60, only admins set it",
+      "project": "",
+      "status": "passed",
+      "ms": 92,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 more attacks › length and range limits",
+      "project": "",
+      "status": "passed",
+      "ms": 75,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 more attacks › nobody writes another user's list or the database root; anonymous users have no list",
+      "project": "",
+      "status": "passed",
+      "ms": 87,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 more attacks › a viewer cannot delete people or the family",
+      "project": "",
+      "status": "passed",
+      "ms": 53,
+      "errors": []
+    },
+    {
+      "suite": "rules",
+      "title": "SEC-01 more attacks › a family must keep its meta and admins",
+      "project": "",
+      "status": "passed",
+      "ms": 47,
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-06 LG-02 calendar shows lunar days, Tết, giỗ from the family, and converts dates",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 2376,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-06 calendar works before any family is opened",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 360,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "CR-01 monkey test: 200 random actions as a viewer and as an admin",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 64913,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "CR-02 damaged data in the database never crashes a screen",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 11009,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "CR-03 a 1,000-person family: tree, list, calendar and PDF still work",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 6276,
+      "notes": [
+        "timings (ms): {\"total\":1000,\"treeMs\":1230}"
+      ],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "CR-04 losing the connection while saving never leaves the form stuck",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 6802,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "CR-05 broken or blocked local storage",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 1296,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "CR-06 odd addresses: unknown route, missing person, malformed family code",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 2339,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "CR-08 if a screen crashes, a friendly page appears and Home recovers",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 468,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-04 UX-11 admin builds a small family; a relative opens the link and can only view",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 13507,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "CR-06 opening a wrong link says so",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 435,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-14 \"đời thứ\" is worked out from the tree and follows changes by itself",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 910,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-14 older families keep the numbers they typed in",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 453,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-12 invite screen shows a QR code and the link a relative can open",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 1031,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-12 admin renames the family; it shows everywhere",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 928,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-12 closing a family forgets it on this device",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 900,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-12 when the clipboard is blocked, the user is told how to copy by hand",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 515,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-13 a relative picks \"this is me\" and sees how to call everyone (Bình Định)",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 1313,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-17 tree cards: giỗ line for those who passed away, labels once \"this is me\" is chosen",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 626,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-07 print the tree to a PDF (one sheet and tiled sheets)",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 3578,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-15 admin adds a photo; it shows on the page, in lists and on the tree; viewers see it",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 5880,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-15 a new person can get a photo in the form; deleting them deletes the photo",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 13132,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "CR-02 picking a file that is not a picture says so and nothing breaks",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 669,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-16 nơi ở: typed in the form, shown on the page and in lists, found by search",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 690,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-04 admin fixes a wrong parent and links two existing people as spouses",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 1357,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-09 works offline: the last-seen family opens without a connection",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 1189,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-01 a 300-person family stays fast",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 1042,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-18 giỗ go into the phone calendar, reminding 3 days and 1 day before",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 609,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-18 \"Nhắn cả nhà\": a ready message to paste in Zalo",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 852,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-16 \"Sắp tới\" on Home: up to 3 giỗ/birthdays in the next 30 days",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 723,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-17 Hoàn tác for 10 seconds after deleting a person or saving an edit",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 22281,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-15 icon buttons at the top always have a word under them",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 639,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-14 first open of a link: 3 steps, each with \"Để sau\", shown once",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 1932,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "SEC-02 names and notes with HTML/JS are shown as text, never run",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 3721,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "SEC-02 typing HTML into the forms stores and shows it as text",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 798,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "SEC-05 signing out removes editing at once; viewers cannot create a family",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 604,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "SEC-03 share links reveal only that family and are not guessable",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 471,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-09 first open: invites to open a link or create a family",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 555,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-08 large text setting is remembered after reload",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 702,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-11 language switch to English and back",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 576,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "CR-08 tapping the title 5 times opens the error log",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 762,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "SEC-05 settings offers Google sign-in for admins",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 589,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "LG-05 UX-06 tree: full view, open a person, collapse a branch, search, branch view",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 1308,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-06 tree: dragging pans without opening a card",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 615,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-01 screens open within 500 ms and buttons react when pressed",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 1202,
+      "notes": [
+        "timings (ms): {\"home-people\":71,\"home-tree\":81,\"home-calendar\":66,\"home-invite\":70}"
+      ],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-02 no dead ends: every screen has a way back, browser Back works",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 1015,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-03 double-tapping Save or Create does not make duplicates",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 669,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-04 destructive actions always ask first",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 1693,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-05 forms: focus, inline errors, keep what was typed, Enter saves",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 779,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-06 tree gestures: pinch zooms around the fingers, limits, fit, big toggle targets",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 2604,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-07 deep links keep working after a reload",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 1470,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-09 empty, missing and offline states explain themselves",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 669,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-10 icon-only buttons have names; keyboard users can reach and see focus",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 1938,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-13 ← goes to the parent screen, 🏠 to the home page (mock: H2, P2)",
+      "project": "iphone",
+      "status": "passed",
+      "ms": 1762,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-01 first load of the built app is under 3 s and the 300-person tree under 1.5 s",
+      "project": "prod",
+      "status": "passed",
+      "ms": 765,
+      "notes": [
+        "timings (ms): {\"firstScreen\":302,\"domContentLoaded\":70,\"load\":70,\"tree300\":196}"
+      ],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UX-M1(auto) installed app opens with no network at all (service worker + saved copy)",
+      "project": "prod",
+      "status": "passed",
+      "ms": 928,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (normal text)",
+      "project": "ui-small-320",
+      "status": "passed",
+      "ms": 13087,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (big text)",
+      "project": "ui-small-320",
+      "status": "passed",
+      "ms": 12907,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-05 accessibility & colour contrast (axe, WCAG 2 AA)",
+      "project": "ui-small-320",
+      "status": "skipped",
+      "ms": 81,
+      "notes": [
+        "skip: scanned on iphone-14 and desktop-1920 only"
+      ],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (normal text)",
+      "project": "ui-iphone-se-3",
+      "status": "passed",
+      "ms": 12343,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (big text)",
+      "project": "ui-iphone-se-3",
+      "status": "passed",
+      "ms": 12699,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-05 accessibility & colour contrast (axe, WCAG 2 AA)",
+      "project": "ui-iphone-se-3",
+      "status": "skipped",
+      "ms": 84,
+      "notes": [
+        "skip: scanned on iphone-14 and desktop-1920 only"
+      ],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (normal text)",
+      "project": "ui-iphone-14",
+      "status": "passed",
+      "ms": 13279,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (big text)",
+      "project": "ui-iphone-14",
+      "status": "passed",
+      "ms": 13430,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-05 accessibility & colour contrast (axe, WCAG 2 AA)",
+      "project": "ui-iphone-14",
+      "status": "passed",
+      "ms": 22256,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (normal text)",
+      "project": "ui-iphone-14-pro-max",
+      "status": "passed",
+      "ms": 13188,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (big text)",
+      "project": "ui-iphone-14-pro-max",
+      "status": "passed",
+      "ms": 13325,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-05 accessibility & colour contrast (axe, WCAG 2 AA)",
+      "project": "ui-iphone-14-pro-max",
+      "status": "skipped",
+      "ms": 178,
+      "notes": [
+        "skip: scanned on iphone-14 and desktop-1920 only"
+      ],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (normal text)",
+      "project": "ui-galaxy-s8",
+      "status": "passed",
+      "ms": 12888,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (big text)",
+      "project": "ui-galaxy-s8",
+      "status": "passed",
+      "ms": 13437,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-05 accessibility & colour contrast (axe, WCAG 2 AA)",
+      "project": "ui-galaxy-s8",
+      "status": "skipped",
+      "ms": 128,
+      "notes": [
+        "skip: scanned on iphone-14 and desktop-1920 only"
+      ],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (normal text)",
+      "project": "ui-pixel-7",
+      "status": "passed",
+      "ms": 12887,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (big text)",
+      "project": "ui-pixel-7",
+      "status": "passed",
+      "ms": 13146,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-05 accessibility & colour contrast (axe, WCAG 2 AA)",
+      "project": "ui-pixel-7",
+      "status": "skipped",
+      "ms": 127,
+      "notes": [
+        "skip: scanned on iphone-14 and desktop-1920 only"
+      ],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (normal text)",
+      "project": "ui-iphone-14-landscape",
+      "status": "passed",
+      "ms": 13555,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (big text)",
+      "project": "ui-iphone-14-landscape",
+      "status": "passed",
+      "ms": 13764,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-05 accessibility & colour contrast (axe, WCAG 2 AA)",
+      "project": "ui-iphone-14-landscape",
+      "status": "skipped",
+      "ms": 118,
+      "notes": [
+        "skip: scanned on iphone-14 and desktop-1920 only"
+      ],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (normal text)",
+      "project": "ui-ipad-mini",
+      "status": "passed",
+      "ms": 12862,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (big text)",
+      "project": "ui-ipad-mini",
+      "status": "passed",
+      "ms": 12900,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-05 accessibility & colour contrast (axe, WCAG 2 AA)",
+      "project": "ui-ipad-mini",
+      "status": "skipped",
+      "ms": 145,
+      "notes": [
+        "skip: scanned on iphone-14 and desktop-1920 only"
+      ],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (normal text)",
+      "project": "ui-laptop-1366",
+      "status": "passed",
+      "ms": 11704,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (big text)",
+      "project": "ui-laptop-1366",
+      "status": "passed",
+      "ms": 11734,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-05 accessibility & colour contrast (axe, WCAG 2 AA)",
+      "project": "ui-laptop-1366",
+      "status": "skipped",
+      "ms": 93,
+      "notes": [
+        "skip: scanned on iphone-14 and desktop-1920 only"
+      ],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (normal text)",
+      "project": "ui-desktop-1920",
+      "status": "passed",
+      "ms": 11820,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-01 UI-02 UI-03 UI-04 UI-06 UI-07 UI-08 UI-09 every screen (big text)",
+      "project": "ui-desktop-1920",
+      "status": "passed",
+      "ms": 11469,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "e2e",
+      "title": "UI-05 accessibility & colour contrast (axe, WCAG 2 AA)",
+      "project": "ui-desktop-1920",
+      "status": "passed",
+      "ms": 21527,
+      "notes": [],
+      "errors": []
+    },
+    {
+      "suite": "security",
+      "title": "SEC-04 npm audit: no high/critical vulnerabilities in runtime dependencies",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "notes": [
+        "{\"high\":4,\"moderate\":2}; accepted (see security-allowlist.json): @firebase/firestore, @firebase/firestore-compat, @grpc/grpc-js, firebase; unexplained: none"
+      ],
+      "errors": []
+    },
+    {
+      "suite": "security",
+      "title": "SEC-04 accepted vulnerable packages are not shipped in the app bundle",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "notes": [
+        "none of the markers found in the built JS"
+      ],
+      "errors": []
+    },
+    {
+      "suite": "security",
+      "title": "SEC-04 no secrets committed (Firebase web config is public by design)",
+      "project": "",
+      "status": "passed",
+      "ms": 0,
+      "notes": [
+        "205 files scanned"
+      ],
+      "errors": []
+    },
+    {
+      "suite": "pwa",
+      "title": "UX-12 an installed app picks up a new deployment on the next open",
+      "project": "chromium",
+      "status": "passed",
+      "ms": 15000,
+      "errors": []
+    }
+  ]
+}
