@@ -12,6 +12,7 @@ import {
   seedFamily,
   seedRaw,
   signInAdmin,
+  skipOnboarding,
   trackErrors,
 } from '../helpers';
 
@@ -30,6 +31,10 @@ interface Screen {
 
 /** Signs in, seeds a family the admin owns, and returns the list of screens to visit. */
 async function prepare(page: Page): Promise<Screen[]> {
+  await skipOnboarding(page.context());
+  // a fixed day two weeks before the giỗ of 10/3 ÂL (16/4/2027), so "Sắp tới" and the
+  // calendar's upcoming list always have something to show
+  await page.clock.setFixedTime(new Date('2027-04-01T09:00:00+07:00'));
   const uid = await signInAdmin(page, `ui-${test.info().project.name}`);
   const people = sampleFamily();
   people.long000001 = {
@@ -62,6 +67,33 @@ async function prepare(page: Page): Promise<Screen[]> {
       open: async (p) => {
         await p.goto(`/#/f/${fid}`);
         await expect(p.getByTestId('home-tree')).toBeVisible();
+      },
+    },
+    // the first-open guide, as someone opening the link for the first time sees it
+    {
+      name: 'onboarding-1',
+      open: async (p) => {
+        await p.evaluate(() => localStorage.setItem('ft:onboarded', '{}'));
+        await p.goto(`/#/f/${fid}`);
+        await p.reload();
+        await expect(p.getByTestId('onb-next')).toBeVisible();
+      },
+    },
+    {
+      name: 'onboarding-2',
+      open: async (p) => {
+        await p.getByTestId('onb-next').click();
+        await p.getByTestId('onb-search').fill('nguyen');
+        await expect(p.locator('[data-testid^="onb-pick-"]').first()).toBeVisible();
+      },
+    },
+    {
+      name: 'onboarding-3',
+      open: async (p) => {
+        await p.getByTestId('onb-not-in-tree').click();
+        await expect(p.getByTestId('onb-install-steps')).toBeVisible();
+        // leave the guide so the next screens open normally
+        await p.evaluate(() => localStorage.setItem('ft:onboarded', '{"all":true}'));
       },
     },
     {
@@ -133,6 +165,13 @@ async function prepare(page: Page): Promise<Screen[]> {
       open: async (p) => {
         await p.goto('/#/calendar');
         await expect(p.getByTestId('cal-grid')).toBeVisible();
+      },
+    },
+    {
+      name: 'calendar-message',
+      open: async (p) => {
+        await p.locator('[data-testid^="message-"]').first().click();
+        await expect(p.getByTestId('message-text')).toBeVisible();
       },
     },
     {

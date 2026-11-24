@@ -13,6 +13,7 @@ import {
 import {
   childrenOf,
   deletePersonUpdates,
+  inverseUpdates,
   parentsOf,
   siblingsOf,
   spousesOf,
@@ -254,9 +255,29 @@ function PersonView({
               data-testid="confirm-delete"
               onClick={async () => {
                 try {
-                  await applyFamilyUpdates(familyId, deletePersonUpdates(people, pid));
-                  // their photo goes too (kept outside the family node)
-                  savePhoto(familyId, pid, null).catch((e) => log.warn('photo not removed', e));
+                  const updates = deletePersonUpdates(people, pid);
+                  const undo = inverseUpdates(people, updates);
+                  await applyFamilyUpdates(familyId, updates);
+                  // their photo goes too (kept outside the family node), once "Hoàn tác" has
+                  // had its 10 seconds
+                  const photoGone = setTimeout(
+                    () =>
+                      savePhoto(familyId, pid, null).catch((e) => log.warn('photo not removed', e)),
+                    11_000,
+                  );
+                  showToast(t('deletedPerson', { name: p.name }), {
+                    label: t('undo'),
+                    onClick: () => {
+                      clearTimeout(photoGone);
+                      applyFamilyUpdates(familyId, undo).then(
+                        () => showToast(t('restored', { name: p.name })),
+                        (e) => {
+                          log.error('undo failed', e);
+                          showToast(t('saveError'));
+                        },
+                      );
+                    },
+                  });
                   nav.goTo('/people');
                 } catch (e) {
                   log.error('delete failed', e);

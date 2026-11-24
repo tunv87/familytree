@@ -198,6 +198,22 @@ export function editPersonUpdates(
   return { [`people/${id}`]: p };
 }
 
+/**
+ * The updates that put back what `updates` is about to change (for "Hoàn tác"): for each path,
+ * the value it has now in `people`, or null where there was nothing.
+ */
+export function inverseUpdates(people: People, updates: Updates): Updates {
+  const out: Updates = {};
+  for (const path of Object.keys(updates)) {
+    const [root, ...keys] = path.split('/');
+    let v: unknown = root === 'people' ? people : undefined;
+    for (const k of keys)
+      v = v && typeof v === 'object' ? (v as Record<string, unknown>)[k] : undefined;
+    out[path] = v === undefined ? null : clean(v);
+  }
+  return out;
+}
+
 /** Updates that delete a person and every link pointing at them. */
 export function deletePersonUpdates(people: People, id: string): Updates {
   const u: Updates = { [`people/${id}`]: null };

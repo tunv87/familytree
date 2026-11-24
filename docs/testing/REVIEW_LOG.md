@@ -172,3 +172,16 @@ User: "nút back về trang trước UX chưa ok → về parent page; thêm nú
 | R-54 | UX-02 | Giữ nguyên (mọi màn có nút quay lại, back trình duyệt vẫn đúng) — xanh với cách mới                                                                                                             |
 
 Kết quả: run-24, run-25, run-26 xanh liên tiếp trên `bdae35f` (254 unit, 24 rules, 72 e2e; UX-13 25/25). Bằng chứng UI mới nhất ở `runs/run-26/`.
+
+## Vòng 12 — Đợt 1 cho người lớn tuổi (LG-18, UX-14…17, 24/11/2026)
+
+Từ báo cáo benchmark; mock trước, user chọn: nhắc trước 3 ngày + 1 ngày, hướng dẫn đủ 3 bước, chữ dưới nút luôn hiện,
+"Sắp tới" + Hoàn tác như mock.
+
+| #    | Case  | Quyết định                                                                                                                                                                    |
+| ---- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R-55 | LG-18 | Lần chạy e2e đầu đỏ: mở ngày 1/4 thì giỗ Tết năm nay đã qua → bà chỉ có 9 lần nhắc. Lỗi app thật: đổi thành "10 lần giỗ kế tiếp mỗi người", thêm unit test cho trường hợp này |
+| R-56 | LG-18 | Kiểm file .ics thật tải về từ trình duyệt (số sự kiện, ngày, 2 lời nhắc), không chỉ hàm tạo file                                                                              |
+| R-57 | UX-14 | Test cũ mở link giả định vào thẳng trang chủ → đánh dấu "đã xem hướng dẫn" sẵn cho test cũ; test riêng dùng máy mới chưa xem. UI walk có thêm 3 màn hướng dẫn + bảng tin nhắn |
+| R-58 | UX-17 | Hoàn tác xoá kiểm bằng người có cha, vợ và con (không phải người lẻ) để chắc liên kết cũng quay lại; unit test xoá → hoàn tác = y như cũ                                      |
+| R-59 | UI    | UI walk cố định ngày 1/4/2027 để "Sắp tới" và nút "Nhắn cả nhà" luôn có trên ảnh                                                                                              |

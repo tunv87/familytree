@@ -1,14 +1,17 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCurrentFamily } from '../data/current';
 import { useT } from '../i18n';
 import { Card, TopBar } from '../ui/components';
+import { Onboarding, needsOnboarding } from './Onboarding';
+import { Upcoming } from './Upcoming';
 
 export function Home() {
   const t = useT();
   const navigate = useNavigate();
   const fam = useCurrentFamily();
   const taps = useRef<number[]>([]);
+  const [showGuide, setShowGuide] = useState(true);
   // Hidden shortcut: tap the title 5 times quickly to open the debug log.
   const onTitleTap = () => {
     const now = Date.now();
@@ -24,6 +27,7 @@ export function Home() {
     <button
       className="icon-btn"
       aria-label={t('switchFamily')}
+      data-label={t('familiesShort')}
       onClick={() => navigate('/families')}
     >
       📚
@@ -72,6 +76,9 @@ export function Home() {
     );
   }
 
+  if (showGuide && fam.id && needsOnboarding(fam.id))
+    return <Onboarding fam={fam} onDone={() => setShowGuide(false)} />;
+
   const count = Object.keys(fam.people).length;
   return (
     <main className="screen">
@@ -83,6 +90,7 @@ export function Home() {
         right={settings}
       />
       {fam.fromCache && <div className="banner">📴 {t('offlineCopy')}</div>}
+      <Upcoming people={fam.people} />
       <div className="home-grid">
         <Card
           className="home-card"

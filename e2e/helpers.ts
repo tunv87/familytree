@@ -1,10 +1,12 @@
-import { devices, expect, type Browser, type Page } from '@playwright/test';
+import { devices, expect, type Browser, type BrowserContext, type Page } from '@playwright/test';
 
 export async function newDevice(
   browser: Browser,
-  opts: { bigText?: boolean; device?: string } = {},
+  opts: { bigText?: boolean; device?: string; onboarded?: boolean } = {},
 ) {
   const ctx = await browser.newContext({ ...devices[opts.device ?? 'iPhone 14'] });
+  // the first-open guide is tested on its own (onboarded: false); elsewhere it is already seen
+  if (opts.onboarded !== false) await skipOnboarding(ctx);
   if (opts.bigText)
     await ctx.addInitScript(() =>
       localStorage.setItem('ft:settings', JSON.stringify({ bigText: true })),
@@ -12,6 +14,14 @@ export async function newDevice(
   const page = await ctx.newPage();
   trackErrors(page);
   return page;
+}
+
+/** Marks the first-open guide as seen (unless a test already set it). */
+export async function skipOnboarding(ctx: BrowserContext) {
+  await ctx.addInitScript(() => {
+    if (!localStorage.getItem('ft:onboarded'))
+      localStorage.setItem('ft:onboarded', JSON.stringify({ all: true }));
+  });
 }
 
 /** Collects uncaught page errors so tests can assert there were none. */

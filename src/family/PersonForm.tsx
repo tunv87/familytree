@@ -7,6 +7,7 @@ import { makeAvatar, savePhoto, useThumbs, type Avatar as AvatarData } from '../
 import {
   addPersonUpdates,
   editPersonUpdates,
+  inverseUpdates,
   spousesOf,
   type NewPersonLinks,
   type People,
@@ -17,6 +18,7 @@ import { createLogger } from '../lib/logger';
 import { DateInput } from '../ui/DateInput';
 import { GENDER_ICON } from '../ui/Avatar';
 import { DiscardConfirm, TopBar } from '../ui/components';
+import { showToast } from '../ui/toast';
 import { FamilyGate } from './useFamilyGate';
 
 const log = createLogger('person-form');
@@ -149,8 +151,22 @@ function PersonForm({
     const now = Date.now();
     try {
       if (editId) {
-        await applyFamilyUpdates(familyId, editPersonUpdates(people, editId, person, now));
+        const updates = editPersonUpdates(people, editId, person, now);
+        const undo = inverseUpdates(people, updates);
+        await applyFamilyUpdates(familyId, updates);
         if (photo !== undefined) await savePhoto(familyId, editId, photo);
+        showToast(t('savedChanges'), {
+          label: t('undo'),
+          onClick: () => {
+            applyFamilyUpdates(familyId, undo).then(
+              () => showToast(t('undone')),
+              (e) => {
+                log.error('undo failed', e);
+                showToast(t('saveError'));
+              },
+            );
+          },
+        });
         nav.goTo(`/p/${editId}`);
       } else {
         const id = randomId(12);

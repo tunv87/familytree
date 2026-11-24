@@ -6,6 +6,7 @@ import {
   childrenOf,
   deletePersonUpdates,
   editPersonUpdates,
+  inverseUpdates,
   descendantsAndSelf,
   lifespan,
   relinkUpdates,
@@ -190,5 +191,31 @@ describe('LG-04 relinking', () => {
 
   it('knows who cannot be a parent (no loops)', () => {
     expect([...descendantsAndSelf(base, 'an')].sort()).toEqual(['an', 'cuong', 'dung', 'giang']);
+  });
+});
+
+describe('UX-17 inverseUpdates (Hoàn tác)', () => {
+  const fam = (): People => ({
+    dad: { name: 'Ba', gender: 'm', spouses: { mom: true } },
+    mom: { name: 'Má', gender: 'f', spouses: { dad: true } },
+    kid: { name: 'Con', gender: 'm', fatherId: 'dad', motherId: 'mom' },
+  });
+
+  it('undoing a delete puts back the person and every link to them', () => {
+    const before = fam();
+    const del = deletePersonUpdates(before, 'dad');
+    const undo = inverseUpdates(before, del);
+    const after = applyUpdates(applyUpdates(before, del), undo);
+    expect(after).toEqual(before);
+  });
+
+  it('undoing an edit restores the old values; a new path is removed again', () => {
+    const before = fam();
+    const edit = editPersonUpdates(before, 'kid', { name: 'Con Sửa', gender: 'm' }, 5);
+    const undo = inverseUpdates(before, edit);
+    expect(applyUpdates(applyUpdates(before, edit), undo)).toEqual(before);
+    expect(inverseUpdates(before, { 'people/new': { name: 'Mới' } })).toEqual({
+      'people/new': null,
+    });
   });
 });

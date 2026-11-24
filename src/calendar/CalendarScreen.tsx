@@ -17,6 +17,7 @@ import {
 import { DateInput } from '../ui/DateInput';
 import { TopBar } from '../ui/components';
 import { eventsByDay, monthGrid, upcomingEvents, type FamilyEvent } from './events';
+import { AddToCalendarCard, MessageButton } from './GioReminders';
 
 const NO_PEOPLE: People = {};
 const WEEKDAYS = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
@@ -60,6 +61,9 @@ export function CalendarScreen() {
   return (
     <main className="screen">
       <TopBar title={t('calendar')} />
+      {fam.status === 'ready' && fam.family && fam.id && (
+        <AddToCalendarCard people={people} familyName={fam.family.meta.name} familyId={fam.id} />
+      )}
       <div className="cal-head">
         <button
           className="icon-btn"
@@ -176,13 +180,15 @@ export function CalendarScreen() {
           <h3 className="section-title">{t('upcoming30')}</h3>
           {upcoming.length === 0 && <div className="muted">{t('noUpcoming')}</div>}
           {upcoming.map((e) => (
-            <EventRow
-              key={e.type + e.personId + e.date.year}
-              e={e}
-              people={people}
-              withDate
-              onOpen={(id) => navigate(`/p/${id}`, { state: { from: '/calendar' } })}
-            />
+            <div key={e.type + e.personId + e.date.year} className="event-block">
+              <EventRow
+                e={e}
+                people={people}
+                withDate
+                onOpen={(id) => navigate(`/p/${id}`, { state: { from: '/calendar' } })}
+              />
+              {e.type === 'gio' && <MessageButton e={e} people={people} />}
+            </div>
           ))}
         </section>
       )}

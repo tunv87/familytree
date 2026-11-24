@@ -1137,3 +1137,251 @@ select.text-input {
   font: inherit;
   cursor: pointer;
 }
+
+/* ---------- nhắc giỗ ---------- */
+.remind-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border-radius: var(--radius);
+  border: 2px solid var(--accent);
+  background: #fdf1d6;
+}
+
+.remind-card h2 {
+  margin: 0;
+  font-size: 1.05em;
+  font-weight: 900;
+}
+
+.remind-card p {
+  margin: 0;
+  font-size: 0.85em;
+  line-height: 1.4;
+}
+
+.event-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.btn.small-btn {
+  min-height: 48px;
+  padding: 6px 16px;
+  font-size: 0.85em;
+}
+
+.event-block .small-btn {
+  align-self: flex-start;
+}
+
+.btn.share-btn {
+  background: #0068ff;
+}
+
+/* toast with an action (Hoàn tác): text left, big button right */
+.toast.with-action {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+
+.toast-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.toast-action {
+  flex: none;
+  min-height: 56px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 14px;
+  background: #fdf1d6;
+  color: #1f2937;
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+/* ---------- sắp tới (trang chủ) ---------- */
+.upcoming {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  border-radius: var(--radius);
+  border: 2px solid var(--accent);
+  background: #fdf1d6;
+}
+
+.upcoming h2 {
+  margin: 0;
+  font-size: 1.05em;
+  font-weight: 900;
+}
+
+.upcoming-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 6px 10px;
+  border-radius: 14px;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9em;
+  text-align: left;
+  cursor: pointer;
+}
+
+.upcoming-row.first {
+  min-height: 64px;
+  border-color: var(--primary);
+  font-size: 1em;
+}
+
+.upcoming-icon {
+  font-size: 1.3em;
+}
+
+.upcoming-title {
+  display: block;
+  font-weight: 800;
+}
+
+.upcoming-date {
+  display: block;
+  font-size: 0.85em;
+  color: var(--muted);
+}
+
+.upcoming-row.first .upcoming-date {
+  color: var(--text);
+}
+
+.upcoming-left {
+  flex: none;
+  font-size: 0.85em;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.upcoming-row.first .upcoming-left {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--primary-ink);
+  font-weight: 900;
+}
+
+.upcoming .link-btn {
+  align-self: flex-start;
+}
+
+/* ---------- chữ dưới các nút hình ở thanh trên cùng (Đợt 1, luôn có chữ) ---------- */
+.topbar .icon-btn {
+  position: relative;
+  width: calc(var(--tap) - 8px);
+  height: calc(var(--tap) - 8px);
+  margin-bottom: calc(var(--font) * 1.1);
+}
+
+.topbar .icon-btn::after {
+  content: attr(aria-label);
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: calc(var(--font) * 0.7);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.topbar .icon-btn[data-label]::after {
+  content: attr(data-label);
+}
+
+/* onboarding (first open of a link) */
+.onboarding {
+  gap: 14px;
+}
+.onb-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: var(--tap);
+}
+.onb-step {
+  font-weight: 800;
+  color: var(--muted);
+}
+.onb-hero {
+  font-size: 5em;
+  text-align: center;
+  margin-top: 8px;
+}
+.onb-title {
+  font-size: calc(var(--font) * 1.5);
+  line-height: 1.25;
+  margin: 0;
+}
+.onb-text {
+  font-size: calc(var(--font) * 1.1);
+  margin: 0;
+}
+.onb-chips {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.onb-chip {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-weight: 800;
+}
+.btn.onb-main {
+  min-height: 64px;
+  font-size: calc(var(--font) * 1.15);
+}
+.onb-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.onb-steps li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  padding: 12px;
+}
+.onb-num {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+.muted.small {
+  font-size: calc(var(--font) * 0.9);
+}

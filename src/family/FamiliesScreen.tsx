@@ -1,3 +1,4 @@
+import { markOnboarded } from '../app/Onboarding';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AccountRow } from '../app/AccountRow';
@@ -121,6 +122,7 @@ export function NewFamilyScreen() {
             setError(false);
             try {
               const id = await createFamily(name.trim());
+              markOnboarded(id); // the one who made it needs no tour
               openFamily(id);
               navigate('/add?first=1', { replace: true });
             } catch (err) {

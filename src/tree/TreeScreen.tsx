@@ -124,6 +124,7 @@ function TreeView({ fam }: { fam: CurrentFamily & { isAdmin: boolean } }) {
             <button
               className="icon-btn"
               aria-label={t('printPdf')}
+              data-label={t('printShort')}
               data-testid="print"
               onClick={() => setPrinting(true)}
             >
@@ -132,6 +133,7 @@ function TreeView({ fam }: { fam: CurrentFamily & { isAdmin: boolean } }) {
             <button
               className="icon-btn"
               aria-label={t('search')}
+              data-label={t('searchShort')}
               data-testid="tree-search-toggle"
               onClick={() => setSearching((s) => !s)}
             >
