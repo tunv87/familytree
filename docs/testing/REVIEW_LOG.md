@@ -157,3 +157,5 @@ Mock trước (trang "Ô cây" trong https://claude.ai/artifact/KQF33a7n8P3GyVGm
 | R-49 | LG-17 | Nhãn dùng từ gọi; khi từ gọi chung chung (anh/chị/em/con) thì ghi quan hệ cụ thể (Vợ, Em gái, Em rể, Con trai) — test theo đúng cây user gửi                                                   |
 | R-50 | LG-17 | Lần chạy e2e đầu đỏ: Lập ghi "Chị hoặc em" vì dữ liệu **test** thiếu thứ tự con của Tự — app đúng; sửa dữ liệu test                                                                            |
 | R-51 | LG-17 | Xem ảnh 1:1 thấy nhãn dài ("Em trai") đè dòng tên 2 dòng (mock không lộ vì ô mock có khoảng trống trên) → đẩy nhãn lên trên mép ô; thêm kiểm hình học "nhãn không thấp hơn mép trên ô" vào e2e |
+
+Kết quả: run-21, run-22, run-23 xanh liên tiếp trên `7732787` (230 unit, 24 rules, 71 e2e; LG-17 16/16). Bằng chứng UI mới nhất ở `runs/run-23/`.
