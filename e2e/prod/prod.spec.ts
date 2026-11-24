@@ -1,6 +1,9 @@
 /** Runs against a production build (vite preview) pointed at the emulators. */
 import { expect, test } from '@playwright/test';
-import { sampleFamily, seedFamily, type SeedPerson } from '../helpers';
+import { sampleFamily, seedFamily, skipOnboarding, type SeedPerson } from '../helpers';
+
+// the first-open guide is tested in round1.spec.ts; here the link should open straight to Home
+test.beforeEach(async ({ context }) => skipOnboarding(context));
 
 test('UX-01 first load of the built app is under 3 s and the 300-person tree under 1.5 s', async ({
   page,

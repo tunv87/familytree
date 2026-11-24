@@ -82,7 +82,8 @@ test('LG-04 UX-11 admin builds a small family; a relative opens the link and can
   await expect(admin).not.toHaveURL(/#\/p\//);
   await admin.goto('/#/people');
   await expect(admin.locator('.person-row')).toHaveCount(2);
-  await expect(admin.getByText('Nguyễn Văn Cường (Cả)')).toHaveCount(0);
+  // (the "Đã xoá …" notice with Hoàn tác still names them; the list must not)
+  await expect(admin.locator('.person-row', { hasText: 'Nguyễn Văn Cường (Cả)' })).toHaveCount(0);
 });
 
 test('CR-06 opening a wrong link says so', async ({ browser }) => {

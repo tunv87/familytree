@@ -102,8 +102,9 @@ test('LG-15 a new person can get a photo in the form; deleting them deletes the 
   await admin.getByTestId('delete-person').click();
   await admin.getByTestId('confirm-delete').click();
   await expect(admin).not.toHaveURL(new RegExp(`/p/${pid}$`));
-  await expect.poll(() => readRaw(`thumbs/${fid}/${pid}`)).toBeNull();
-  await expect.poll(() => readRaw(`photos/${fid}/${pid}`)).toBeNull();
+  // photos stay while "Hoàn tác" is offered (10 s), then go
+  await expect.poll(() => readRaw(`thumbs/${fid}/${pid}`), { timeout: 16_000 }).toBeNull();
+  await expect.poll(() => readRaw(`photos/${fid}/${pid}`), { timeout: 16_000 }).toBeNull();
 });
 
 test('CR-02 picking a file that is not a picture says so and nothing breaks', async ({
