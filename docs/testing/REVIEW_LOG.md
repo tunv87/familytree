@@ -170,3 +170,5 @@ User: "nút back về trang trước UX chưa ok → về parent page; thêm nú
 | R-52 | UX-13 | Sơ đồ màn cha là hàm thuần `parentPath` → test bảng 24 dòng (mọi màn + tham số `?parent/spouse/child/first/root/a/b`)                                                                           |
 | R-53 | UX-13 | ← "lùi" khi màn trước đúng là màn cha (giữ nút back của điện thoại hoạt động), còn lại thay bằng màn cha — e2e kiểm link sâu sau khi tải lại không văng ra ngoài, Sửa→Lưu→← không quay vào form |
 | R-54 | UX-02 | Giữ nguyên (mọi màn có nút quay lại, back trình duyệt vẫn đúng) — xanh với cách mới                                                                                                             |
+
+Kết quả: run-24, run-25, run-26 xanh liên tiếp trên `bdae35f` (254 unit, 24 rules, 72 e2e; UX-13 25/25). Bằng chứng UI mới nhất ở `runs/run-26/`.
