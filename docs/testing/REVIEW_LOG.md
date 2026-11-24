@@ -144,3 +144,5 @@ hồ sơ/danh sách như mock, PDF mặc định "Có ảnh".
 | R-46 | LG-15  | Lần chạy đầu 4 test đỏ do **test** mở thẳng `/#/edit/...` (app quay về màn trước sau khi lưu) → test đi như người dùng: hồ sơ → Sửa. Không phải lỗi app                                        |
 | R-47 | CR-02  | File không phải ảnh, và file đuôi .jpg nhưng hỏng → báo lỗi thân thiện, form vẫn lưu được                                                                                                      |
 | R-48 | UI     | Lượt đi UI seed ảnh cho vài người (ảnh và hình mặc định cạnh nhau) trên 10 cỡ màn + axe                                                                                                        |
+
+Kết quả: run-18, run-19, run-20 xanh liên tiếp trên `6deb7ad` (215 unit, 24 rules, 70 e2e; LG-15 8/8, LG-16 4/4). Bằng chứng UI mới nhất (có ảnh đại diện) ở `runs/run-20/`.
