@@ -198,3 +198,7 @@ User: "Hiện luôn. Check và apply cho all screens" (nút "Xong, vào gia ph�
 | R-61 | UI-10 | Đo trước trên 10 cỡ màn các nút tô màu bị khuất khi mở màn. Nút chính của màn → thanh ghim đáy: hướng dẫn 3 bước, Thêm/Sửa người (Lưu), Quan hệ (Lưu), Tạo gia phả, Nhật ký lỗi (Chép); Mời: "Gửi link" ghim tới khi kéo tới nó; hộp thoại: hàng nút cuối ghim đáy hộp (PDF, Nhắn Zalo, Xoá) |
 | R-62 | UI-10 | Không ghim (mục phụ giữa trang, không phải việc chính của màn): nút thẻ "Thêm vào lịch" ở đầu Lịch; Đổi tên / Đời của người đầu tiên ở cuối màn Mời (chỉ admin)                                                                                                                              |
 | R-63 | UI-10 | Kiểm tự động trong UI walk cả 2 trạng thái (vừa mở, đã kéo xuống cuối); nội dung trượt dưới thanh ghim không tính là "bị che" (UI-06 đã có ngoại lệ sticky)                                                                                                                                  |
+
+Kết quả: run-31, run-32, run-33 xanh liên tiếp trên `074e9b5` (263 unit, 24 rules, 78 e2e; UI-10 20/20). Các lượt trước đó
+trên `3c7e141`/`8175ae5` không tính: bước static đỏ vì định dạng bảng của chính file này, và UI-10 chưa có trong tên test.
+Bằng chứng UI mới nhất ở `runs/run-33/`.
