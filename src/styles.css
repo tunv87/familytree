@@ -659,29 +659,64 @@ select.text-input {
   cursor: pointer;
 }
 
-.tree-card rect {
+.tree-card > rect {
   fill: #ffffff;
   stroke: #9b8b6e;
   stroke-width: 2;
 }
 
-.tree-card.g-m rect {
+.tree-card.g-m > rect {
   stroke: #2f6fae;
 }
 
-.tree-card.g-f rect {
+.tree-card.g-f > rect {
   stroke: #c0507a;
 }
 
-.tree-card.inlaw rect {
+.tree-card.inlaw > rect {
   stroke-dasharray: 6 4;
 }
 
-.tree-card.dead rect {
-  fill: #f1ece2;
+/* passed away (kiểu D3, chosen on the mock): darker card, photo in grey */
+.tree-card.dead > rect {
+  fill: #d9cfbd;
 }
 
-.tree-card.focus rect {
+.tree-card.dead .tree-photo {
+  filter: grayscale(1);
+}
+
+.tree-card.dead .tree-photo circle {
+  fill: #c8bda9;
+}
+
+.tree-card.dead .tree-years {
+  fill: #2f2a24;
+  font-weight: 700;
+}
+
+/* the viewer's own card */
+.tree-card.me > rect {
+  stroke: var(--text);
+  stroke-width: 4;
+}
+
+/* danh xưng label on the top edge of a card (K1) */
+.tree-badge rect {
+  fill: var(--primary);
+}
+
+.tree-badge.me rect {
+  fill: var(--text);
+}
+
+.tree-badge text {
+  fill: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.tree-card.focus > rect {
   stroke: var(--primary);
   stroke-width: 5;
 }

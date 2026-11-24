@@ -146,3 +146,14 @@ hồ sơ/danh sách như mock, PDF mặc định "Có ảnh".
 | R-48 | UI     | Lượt đi UI seed ảnh cho vài người (ảnh và hình mặc định cạnh nhau) trên 10 cỡ màn + axe                                                                                                        |
 
 Kết quả: run-18, run-19, run-20 xanh liên tiếp trên `6deb7ad` (215 unit, 24 rules, 70 e2e; LG-15 8/8, LG-16 4/4). Bằng chứng UI mới nhất (có ảnh đại diện) ở `runs/run-20/`.
+
+## Vòng 10 — Ô trên cây: đã mất, năm sinh + nơi ở, danh xưng (LG-17, 24/11/2026)
+
+Mock trước (trang "Ô cây" trong https://claude.ai/artifact/KQF33a7n8P3GyVGmV9pczu); user chọn: đã mất D3 với mẫu
+"(1960–2022), 20/8 ÂL"; còn sống bỏ chữ "Sinh"; danh xưng K1 (nhãn đỏ trên mép ô).
+
+| #    | Case  | Quyết định                                                                                                                                                                                     |
+| ---- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R-49 | LG-17 | Nhãn dùng từ gọi; khi từ gọi chung chung (anh/chị/em/con) thì ghi quan hệ cụ thể (Vợ, Em gái, Em rể, Con trai) — test theo đúng cây user gửi                                                   |
+| R-50 | LG-17 | Lần chạy e2e đầu đỏ: Lập ghi "Chị hoặc em" vì dữ liệu **test** thiếu thứ tự con của Tự — app đúng; sửa dữ liệu test                                                                            |
+| R-51 | LG-17 | Xem ảnh 1:1 thấy nhãn dài ("Em trai") đè dòng tên 2 dòng (mock không lộ vì ô mock có khoảng trống trên) → đẩy nhãn lên trên mép ô; thêm kiểm hình học "nhãn không thấp hơn mép trên ô" vào e2e |

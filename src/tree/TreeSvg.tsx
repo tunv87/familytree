@@ -1,7 +1,6 @@
 import type { People } from '../data/people';
-import { lifespan } from '../data/people';
 import { GENDER_ICON } from '../ui/Avatar';
-import { cardContent, LINE_H } from './card';
+import { cardContent, cardSubtitle, LINE_H } from './card';
 import { CARD_H, type TreeLayout } from './layout';
 
 /** Draws a laid-out tree. Colours come from CSS classes (see .tree-* in styles.css). */
@@ -12,11 +11,17 @@ export function TreeSvg({
   onSelect,
   onToggle,
   thumbs = {},
+  badges = {},
+  meId = null,
 }: {
   layout: TreeLayout;
   people: People;
   /** small photos by person id (cards with room for a photo show them) */
   thumbs?: Record<string, string>;
+  /** danh xưng labels by person id, when the viewer has said who they are */
+  badges?: Record<string, string>;
+  /** the viewer's own card ("Bạn") */
+  meId?: string | null;
   focusId?: string | null;
   onSelect: (id: string) => void;
   onToggle: (id: string) => void;
@@ -42,14 +47,16 @@ export function TreeSvg({
       </g>
       {layout.nodes.map((n) => {
         const p = people[n.id];
-        const years = lifespan(p);
+        const years = cardSubtitle(p, CARD_W);
         const c = cardContent(p.name, years, CARD_W);
+        const isMe = meId === n.id;
+        const badge = isMe ? 'Bạn' : badges[n.id];
         const thumb = thumbs[n.id];
         return (
           <g
             key={n.id}
             transform={`translate(${n.x},${n.y})`}
-            className={`tree-card g-${p.gender}${p.deceased ? ' dead' : ''}${n.inLaw ? ' inlaw' : ''}${focusId === n.id ? ' focus' : ''}`}
+            className={`tree-card g-${p.gender}${p.deceased ? ' dead' : ''}${n.inLaw ? ' inlaw' : ''}${focusId === n.id ? ' focus' : ''}${isMe ? ' me' : ''}`}
             data-testid={`card-${n.id}`}
             onClick={() => onSelect(n.id)}
           >
@@ -96,6 +103,18 @@ export function TreeSvg({
                 {years}
               </text>
             )}
+            {badge && (
+              <g
+                className={`tree-badge${isMe ? ' me' : ''}`}
+                transform="translate(10,-20)"
+                data-testid={`badge-${n.id}`}
+              >
+                <rect width={badgeWidth(badge)} height={22} rx={11} />
+                <text x={badgeWidth(badge) / 2} y={16} textAnchor="middle">
+                  {badge}
+                </text>
+              </g>
+            )}
             {n.hasChildren && (
               <g
                 className="tree-toggle"
@@ -117,4 +136,9 @@ export function TreeSvg({
       })}
     </svg>
   );
+}
+
+/** Width of a danh xưng label (13 px bold; Vietnamese letters are about 7.6 px wide). */
+export function badgeWidth(text: string): number {
+  return Math.round([...text].length * 7.6 + 18);
 }

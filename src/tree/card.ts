@@ -3,6 +3,9 @@
  * (drawTree) so they always match. Two looks: text only (150 px), or a small round photo left
  * of the name (kiểu B, 190 px — chosen by the family on the mock).
  */
+import { deathAnniversaryKey } from '../data/dates';
+import type { Kinship } from '../data/kinship';
+import type { Person } from '../data/types';
 import { CARD_H, PHOTO_CARD_W, wrapName } from './layout';
 
 export interface CardContent {
@@ -31,4 +34,57 @@ export function cardContent(name: string, years: string, cardW: number): CardCon
     nameY,
     yearsY: nameY + lines.length * LINE_H + 1,
   };
+}
+
+/** Cuts a line to `max` characters with "…" (cards are fixed size). */
+export function fit(s: string, max: number): string {
+  const chars = [...s];
+  return chars.length <= max
+    ? s
+    : `${chars
+        .slice(0, max - 1)
+        .join('')
+        .trimEnd()}…`;
+}
+
+/** Characters that fit on the small line of a card. */
+export function subtitleRoom(cardW: number): number {
+  return cardW >= PHOTO_CARD_W ? 20 : 24;
+}
+
+/**
+ * The small line under the name (chosen by the family on the mock):
+ *  - passed away: "(1960–2022), 20/8 ÂL" — years and the lunar giỗ date, whatever is known;
+ *  - living: "1987 · TP. Hồ Chí Minh" — birth year and where they live (no "Sinh").
+ */
+export function cardSubtitle(p: Person, cardW: number): string {
+  let text: string;
+  if (p.deceased) {
+    const b = p.birth?.y;
+    const d = p.death?.y;
+    const years = b || d ? `(${b ?? '?'}–${d ?? '?'})` : '';
+    const key = deathAnniversaryKey(p.death);
+    const gio = key ? `${key.d}/${key.m} ÂL` : '';
+    text = [years, gio].filter(Boolean).join(', ') || 'Đã mất';
+  } else {
+    text = [p.birth?.y, p.place].filter(Boolean).join(' · ');
+  }
+  return fit(text, subtitleRoom(cardW));
+}
+
+/**
+ * The red label on the edge of a card when the viewer has said who they are (K1):
+ * what they call this person. Plain words like "em" or "con" become the precise relation
+ * ("Em gái", "Vợ", "Con trai") so the label says something on its own.
+ */
+export function kinBadge(k: Kinship | null): string | null {
+  if (!k) return null;
+  const generic = /^(anh|chị|em|con|anh\/chị hoặc em|chị hoặc em|anh hoặc em)$/;
+  const relation = k.relation
+    .replace(/\s*\(.*\)$/, '') // "(bên vợ)", "(3 đời trên)"
+    .replace(/ ruột$/, '')
+    .trim();
+  const word = generic.test(k.call) && relation ? relation : k.call;
+  if (!word) return null;
+  return fit(word.charAt(0).toUpperCase() + word.slice(1), 14);
 }

@@ -5,7 +5,10 @@ import { useT } from '../i18n';
 import { load, save } from '../lib/storage';
 import { TopBar } from '../ui/components';
 import { FamilyGate } from '../family/useFamilyGate';
+import { useSettings } from '../app/settings';
+import { kinship } from '../data/kinship';
 import { useThumbs } from '../data/photos';
+import { kinBadge } from './card';
 import { CARD_H, layoutTree, PHOTO_CARD_W } from './layout';
 import { PanZoom, type PanZoomHandle } from './PanZoom';
 import { PdfDialog } from './PdfDialog';
@@ -39,6 +42,19 @@ function TreeView({ fam }: { fam: CurrentFamily & { isAdmin: boolean } }) {
     () => layoutTree(people, { collapsed, rootId: rootId ?? undefined, cardW: PHOTO_CARD_W }),
     [people, collapsed, rootId],
   );
+  // danh xưng on every card once the viewer has said who they are ("Đây là tôi")
+  const { me: meMap, region } = useSettings();
+  const meId = fam.id && meMap?.[fam.id] && people[meMap[fam.id]] ? meMap[fam.id] : null;
+  const badges = useMemo(() => {
+    const out: Record<string, string> = {};
+    if (!meId) return out;
+    for (const n of layout.nodes) {
+      if (n.id === meId) continue;
+      const b = kinBadge(kinship(people, meId, n.id, region));
+      if (b) out[n.id] = b;
+    }
+    return out;
+  }, [layout, people, meId, region]);
   const nodeOf = (id: string | null) => (id ? layout.nodes.find((n) => n.id === id) : undefined);
   const initialNode = nodeOf(focusParam);
 
@@ -174,6 +190,8 @@ function TreeView({ fam }: { fam: CurrentFamily & { isAdmin: boolean } }) {
               onSelect={(id) => navigate(`/p/${id}`)}
               onToggle={toggle}
               thumbs={thumbs}
+              badges={badges}
+              meId={meId}
             />
           </PanZoom>
           <div className="tree-controls">

@@ -133,3 +133,60 @@ test('LG-13 a relative picks "this is me" and sees how to call everyone (Bình �
   await openPerson(page, 'co000001');
   await expect(page.getByTestId('set-me')).toBeVisible();
 });
+
+test('LG-17 tree cards: giỗ line for those who passed away, labels once "this is me" is chosen', async ({
+  browser,
+}) => {
+  const fid = await seedFamily('Họ Nguyễn (cây)', {
+    thanh001: {
+      name: 'Nguyễn Thị Thanh',
+      gender: 'f',
+      deceased: true,
+      birth: { cal: 's', y: 1935 },
+      death: { cal: 'l', d: 20, m: 8, y: 2022 },
+    },
+    thanhb01: {
+      name: 'Nguyễn Văn Thành',
+      gender: 'm',
+      motherId: 'thanh001',
+      birth: { cal: 's', y: 1960 },
+      place: 'Hoài Nhơn',
+    },
+    tu000001: {
+      name: 'Nguyễn Văn Tự',
+      gender: 'm',
+      fatherId: 'thanhb01',
+      order: 1,
+      birth: { cal: 's', y: 1987 },
+    },
+    lap00001: { name: 'Nguyễn Thị Lập', gender: 'f', fatherId: 'thanhb01', order: 2 },
+  });
+  const page = await newDevice(browser);
+  await page.goto(`/#/f/${fid}`);
+  await expect(page.getByTestId('home-people')).toBeVisible();
+
+  // no "this is me" yet: names only, no labels
+  await page.goto('/#/tree');
+  const card = (id: string) => page.getByTestId(`card-${id}`);
+  await expect(card('thanh001')).toContainText('(1935–2022), 20/8 ÂL');
+  await expect(card('thanh001')).toHaveClass(/dead/);
+  await expect(card('thanhb01')).toContainText('1960 · Hoài Nhơn');
+  await expect(card('thanhb01')).not.toContainText('Sinh');
+  await expect(page.locator('[data-testid^="badge-"]')).toHaveCount(0);
+
+  // "this is me" → every card says what I call them
+  await page.goto('/#/p/tu000001');
+  await page.getByTestId('set-me').click();
+  await page.goto('/#/tree');
+  await expect(page.getByTestId('badge-tu000001')).toHaveText('Bạn');
+  await expect(page.getByTestId('badge-thanhb01')).toHaveText('Ba');
+  await expect(page.getByTestId('badge-thanh001')).toHaveText('Bà nội');
+  await expect(page.getByTestId('badge-lap00001')).toHaveText('Em gái');
+  await expect(card('tu000001')).toHaveClass(/\bme\b/);
+  // a label sits on the top edge of its card, never over the name
+  for (const id of ['thanhb01', 'thanh001', 'lap00001']) {
+    const b = (await page.getByTestId(`badge-${id}`).boundingBox())!;
+    const c = (await card(id).locator('> rect').boundingBox())!;
+    expect(b.y + b.height).toBeLessThanOrEqual(c.y + 4);
+  }
+});

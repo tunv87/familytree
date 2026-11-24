@@ -1,7 +1,7 @@
 /** Draws a laid-out tree on a 2D canvas (used for the printable PDF). Mirrors TreeSvg. */
-import { lifespan, type People } from '../data/people';
+import type { People } from '../data/people';
 import { GENDER_ICON } from '../ui/Avatar';
-import { cardContent, LINE_H } from './card';
+import { cardContent, cardSubtitle, LINE_H } from './card';
 import { CARD_H, type TreeLayout } from './layout';
 
 const C = {
@@ -11,7 +11,9 @@ const C = {
   f: '#c0507a',
   u: '#9b8b6e',
   card: '#ffffff',
-  dead: '#f1ece2',
+  dead: '#d9cfbd',
+  deadText: '#2f2a24',
+  deadAvatarBg: '#c8bda9',
   text: '#1f2937',
   muted: '#59606b',
   avatarBg: '#fdf1d6',
@@ -71,7 +73,7 @@ export function drawTree(
     ctx.setLineDash(n.inLaw ? [6, 4] : []);
     ctx.stroke();
     ctx.setLineDash([]);
-    const years = lifespan(p);
+    const years = cardSubtitle(p, CARD_W);
     const c = cardContent(p.name, years, CARD_W);
     if (c.photo) {
       const cx = n.x + c.photo.cx;
@@ -79,9 +81,10 @@ export function drawTree(
       ctx.save();
       ctx.beginPath();
       ctx.arc(cx, cy, c.photo.r, 0, Math.PI * 2);
-      ctx.fillStyle = C.avatarBg;
+      ctx.fillStyle = p.deceased ? C.deadAvatarBg : C.avatarBg;
       ctx.fill();
       const img = photos[n.id];
+      if (p.deceased) ctx.filter = 'grayscale(1)';
       if (img) {
         ctx.clip();
         const d = c.photo.r * 2;
@@ -99,8 +102,8 @@ export function drawTree(
     ctx.font = `800 15px ${FONT}`;
     c.lines.forEach((l, i) => ctx.fillText(l, n.x + c.textX, n.y + c.nameY + i * LINE_H));
     if (years) {
-      ctx.fillStyle = C.muted;
-      ctx.font = `400 12px ${FONT}`;
+      ctx.fillStyle = p.deceased ? C.deadText : C.muted;
+      ctx.font = `${p.deceased ? 700 : 400} 12px ${FONT}`;
       ctx.fillText(years, n.x + c.textX, n.y + c.yearsY);
     }
   }
