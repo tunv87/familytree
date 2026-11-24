@@ -2,6 +2,7 @@ import { useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { dateError, isEmpty } from '../data/dates';
 import { applyFamilyUpdates, randomId } from '../data/families';
+import { makeAvatar, savePhoto, useThumbs, type Avatar as AvatarData } from '../data/photos';
 import {
   addPersonUpdates,
   editPersonUpdates,
@@ -13,6 +14,7 @@ import type { FamilyDate, Gender, Person } from '../data/types';
 import { useT } from '../i18n';
 import { createLogger } from '../lib/logger';
 import { DateInput } from '../ui/DateInput';
+import { GENDER_ICON } from '../ui/Avatar';
 import { DiscardConfirm, TopBar } from '../ui/components';
 import { FamilyGate } from './useFamilyGate';
 
@@ -45,6 +47,7 @@ interface FormState {
   birth: FamilyDate;
   death: FamilyDate;
   note: string;
+  place: string;
 }
 
 function fromPerson(p: Person): FormState {
@@ -56,6 +59,7 @@ function fromPerson(p: Person): FormState {
     birth: p.birth ?? { cal: 's' },
     death: p.death ?? { cal: 'l' },
     note: p.note ?? '',
+    place: p.place ?? '',
   };
 }
 
@@ -69,6 +73,7 @@ function toPerson(f: FormState): Person {
     birth: isEmpty(f.birth) ? undefined : f.birth,
     death: f.deceased && !isEmpty(f.death) ? f.death : undefined,
     note: f.note.trim() || undefined,
+    place: f.place.trim() || undefined,
   };
 }
 
@@ -108,7 +113,14 @@ function PersonForm({
   const [error, setError] = useState<string | null>(null);
   const [confirmLeave, setConfirmLeave] = useState(false);
   const nameRef = useRef<HTMLInputElement>(null);
-  const dirty = JSON.stringify(form) !== JSON.stringify(initial);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const savedThumb = useThumbs()[editId ?? ''];
+  /** undefined = unchanged, null = remove the photo */
+  const [photo, setPhoto] = useState<AvatarData | null | undefined>(undefined);
+  const [photoBusy, setPhotoBusy] = useState(false);
+  const [photoError, setPhotoError] = useState<string | null>(null);
+  const shownThumb = photo === undefined ? savedThumb : photo?.thumb;
+  const dirty = JSON.stringify(form) !== JSON.stringify(initial) || photo !== undefined;
   const set = (patch: Partial<FormState>) => setForm((f) => ({ ...f, ...patch }));
 
   const context = parentId
@@ -136,6 +148,7 @@ function PersonForm({
     try {
       if (editId) {
         await applyFamilyUpdates(familyId, editPersonUpdates(people, editId, person, now));
+        if (photo !== undefined) await savePhoto(familyId, editId, photo);
         navigate(-1);
       } else {
         const id = randomId(12);
@@ -146,6 +159,7 @@ function PersonForm({
           links.motherId = isMother ? parentId : otherParent || undefined;
         }
         await applyFamilyUpdates(familyId, addPersonUpdates(people, id, person, links, now));
+        if (photo) await savePhoto(familyId, id, photo);
         navigate(`/p/${id}`, { replace: true });
       }
     } catch (e) {
@@ -188,6 +202,61 @@ function PersonForm({
             </span>
           )}
         </label>
+
+        <div className="field">
+          <span>{t('photo')}</span>
+          <div className="photo-pick">
+            {shownThumb ? (
+              <img className="avatar photo" src={shownThumb} alt="" data-testid="form-photo" />
+            ) : (
+              <span className="avatar" aria-hidden>
+                {GENDER_ICON[form.gender]}
+              </span>
+            )}
+            <button
+              type="button"
+              className="btn secondary"
+              disabled={photoBusy}
+              data-testid="pick-photo"
+              onClick={() => fileRef.current?.click()}
+            >
+              📷 {photoBusy ? t('photoWorking') : shownThumb ? t('changePhoto') : t('choosePhoto')}
+            </button>
+            {shownThumb && (
+              <button
+                type="button"
+                className="link-btn"
+                data-testid="remove-photo"
+                onClick={() => setPhoto(null)}
+              >
+                {t('removePhoto')}
+              </button>
+            )}
+            <input
+              ref={fileRef}
+              type="file"
+              accept="image/*"
+              hidden
+              data-testid="photo-file"
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                e.target.value = '';
+                if (!file) return;
+                setPhotoBusy(true);
+                setPhotoError(null);
+                const r = await makeAvatar(file);
+                setPhotoBusy(false);
+                if (typeof r === 'string') setPhotoError(t(`photo_${r}`));
+                else setPhoto(r);
+              }}
+            />
+          </div>
+          {photoError && (
+            <span className="error" role="alert" data-testid="photo-error">
+              {photoError}
+            </span>
+          )}
+        </div>
 
         <div className="field">
           <span>{t('gender')}</span>
@@ -280,6 +349,18 @@ function PersonForm({
             <span className="muted small">{t('deathHint')}</span>
           </div>
         )}
+
+        <label className="field">
+          <span>{t('place')}</span>
+          <input
+            className="text-input"
+            value={form.place}
+            maxLength={120}
+            placeholder={t('placeHint')}
+            data-testid="place"
+            onChange={(e) => set({ place: e.target.value })}
+          />
+        </label>
 
         <label className="field">
           <span>{t('note')}</span>

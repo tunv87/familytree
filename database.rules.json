@@ -74,11 +74,32 @@
             "note": {
               ".validate": "newData.isString() && newData.val().length <= 2000"
             },
+            "place": {
+              ".validate": "newData.isString() && newData.val().length <= 120"
+            },
             "updatedAt": { ".validate": "newData.isNumber()" },
             "$other": { ".validate": false }
           }
         },
         "$other": { ".validate": false }
+      }
+    },
+    "thumbs": {
+      "$fid": {
+        ".read": "auth != null",
+        "$pid": {
+          ".write": "auth != null && auth.token.firebase.sign_in_provider === 'google.com' && root.child('families').child($fid).child('admins').child(auth.uid).val() === true",
+          ".validate": "$pid.matches(/^[A-Za-z0-9]{8,24}$/) && newData.isString() && newData.val().beginsWith('data:image/jpeg;base64,') && newData.val().length <= 16000"
+        }
+      }
+    },
+    "photos": {
+      "$fid": {
+        ".read": "auth != null",
+        "$pid": {
+          ".write": "auth != null && auth.token.firebase.sign_in_provider === 'google.com' && root.child('families').child($fid).child('admins').child(auth.uid).val() === true",
+          ".validate": "$pid.matches(/^[A-Za-z0-9]{8,24}$/) && newData.isString() && newData.val().beginsWith('data:image/jpeg;base64,') && newData.val().length <= 100000"
+        }
       }
     },
     "users": {

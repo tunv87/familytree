@@ -1,6 +1,8 @@
 /** Draws a laid-out tree on a 2D canvas (used for the printable PDF). Mirrors TreeSvg. */
 import { lifespan, type People } from '../data/people';
-import { CARD_H, CARD_W, wrapName, type TreeLayout } from './layout';
+import { GENDER_ICON } from '../ui/Avatar';
+import { cardContent, LINE_H } from './card';
+import { CARD_H, type TreeLayout } from './layout';
 
 const C = {
   line: '#9b8b6e',
@@ -11,7 +13,8 @@ const C = {
   card: '#ffffff',
   dead: '#f1ece2',
   text: '#1f2937',
-  muted: '#6b7280',
+  muted: '#59606b',
+  avatarBg: '#fdf1d6',
 };
 export const FONT = "'Nunito', 'Segoe UI', Arial, sans-serif";
 
@@ -32,7 +35,14 @@ function roundRect(
   ctx.closePath();
 }
 
-export function drawTree(ctx: CanvasRenderingContext2D, layout: TreeLayout, people: People) {
+export function drawTree(
+  ctx: CanvasRenderingContext2D,
+  layout: TreeLayout,
+  people: People,
+  /** decoded small photos by person id (used when the cards have room for a photo) */
+  photos: Record<string, CanvasImageSource> = {},
+) {
+  const CARD_W = layout.cardW;
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
   ctx.strokeStyle = C.line;
@@ -50,7 +60,6 @@ export function drawTree(ctx: CanvasRenderingContext2D, layout: TreeLayout, peop
     ctx.lineTo(x2, y2);
     ctx.stroke();
   }
-  ctx.textAlign = 'center';
   ctx.textBaseline = 'alphabetic';
   for (const n of layout.nodes) {
     const p = people[n.id];
@@ -62,16 +71,37 @@ export function drawTree(ctx: CanvasRenderingContext2D, layout: TreeLayout, peop
     ctx.setLineDash(n.inLaw ? [6, 4] : []);
     ctx.stroke();
     ctx.setLineDash([]);
-    const lines = wrapName(p.name);
     const years = lifespan(p);
-    const top = years ? (lines.length === 1 ? 26 : 19) : lines.length === 1 ? 37 : 28;
+    const c = cardContent(p.name, years, CARD_W);
+    if (c.photo) {
+      const cx = n.x + c.photo.cx;
+      const cy = n.y + c.photo.cy;
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, c.photo.r, 0, Math.PI * 2);
+      ctx.fillStyle = C.avatarBg;
+      ctx.fill();
+      const img = photos[n.id];
+      if (img) {
+        ctx.clip();
+        const d = c.photo.r * 2;
+        ctx.drawImage(img, cx - c.photo.r, cy - c.photo.r, d, d);
+      } else {
+        ctx.textAlign = 'center';
+        ctx.font = `26px ${FONT}`;
+        ctx.fillStyle = C.text;
+        ctx.fillText(GENDER_ICON[p.gender], cx, cy + 9);
+      }
+      ctx.restore();
+    }
+    ctx.textAlign = c.anchor === 'start' ? 'left' : 'center';
     ctx.fillStyle = C.text;
     ctx.font = `800 15px ${FONT}`;
-    lines.forEach((l, i) => ctx.fillText(l, n.x + CARD_W / 2, n.y + top + i * 17));
+    c.lines.forEach((l, i) => ctx.fillText(l, n.x + c.textX, n.y + c.nameY + i * LINE_H));
     if (years) {
       ctx.fillStyle = C.muted;
       ctx.font = `400 12px ${FONT}`;
-      ctx.fillText(years, n.x + CARD_W / 2, n.y + top + lines.length * 17 + 1);
+      ctx.fillText(years, n.x + c.textX, n.y + c.yearsY);
     }
   }
 }

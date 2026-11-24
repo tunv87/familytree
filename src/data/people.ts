@@ -97,7 +97,7 @@ export function normalize(s: string): string {
     .trim();
 }
 
-/** Ids whose name contains the query (diacritics optional). */
+/** Ids whose name — or nơi ở — contains the query (diacritics optional). */
 export function searchPeople(
   people: People,
   query: string,
@@ -106,7 +106,10 @@ export function searchPeople(
   const q = normalize(query);
   if (!q) return [];
   return Object.keys(people)
-    .filter((id) => normalize(people[id].name).includes(q))
+    .filter(
+      (id) =>
+        normalize(people[id].name).includes(q) || normalize(people[id].place ?? '').includes(q),
+    )
     .sort((a, b) => (gens[a] ?? 999) - (gens[b] ?? 999));
 }
 

@@ -89,6 +89,7 @@ export type SeedPerson = {
   birth?: { cal: 's' | 'l'; d?: number; m?: number; y?: number; leap?: boolean };
   death?: { cal: 's' | 'l'; d?: number; m?: number; y?: number; leap?: boolean };
   note?: string;
+  place?: string;
 };
 
 /** Writes a family straight into the emulator (bypassing rules) and returns its id. */

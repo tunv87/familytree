@@ -27,6 +27,8 @@ export interface Person {
   /** thứ tự con trong nhà (con trưởng = 1) */
   order?: number;
   note?: string;
+  /** nơi ở — free text, e.g. "Hoài Nhơn, Bình Định" */
+  place?: string;
   updatedAt?: number;
 }
 

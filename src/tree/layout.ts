@@ -9,6 +9,8 @@ import { childrenOf, linkIndex, spousesOf, type LinkIndex, type People } from '.
 import type { Person } from '../data/types';
 
 export const CARD_W = 150;
+/** card with a small round photo left of the name (kiểu B) */
+export const PHOTO_CARD_W = 190;
 export const CARD_H = 66;
 export const SPOUSE_GAP = 14;
 export const SIBLING_GAP = 22;
@@ -35,6 +37,8 @@ export interface TreeLayout {
   marriages: [number, number, number, number][];
   width: number;
   height: number;
+  /** width of every card in this layout (CARD_W, or PHOTO_CARD_W with photos) */
+  cardW: number;
 }
 
 interface Unit {
@@ -160,24 +164,25 @@ function buildUnit(
   };
 }
 
-function unitCardsWidth(u: Unit): number {
+function unitCardsWidth(u: Unit, cardW: number): number {
   const n = 1 + u.spouses.length;
-  return n * CARD_W + (n - 1) * SPOUSE_GAP;
+  return n * cardW + (n - 1) * SPOUSE_GAP;
 }
 
-function measure(u: Unit): number {
-  const kids = u.children.map(measure);
+function measure(u: Unit, cardW: number): number {
+  const kids = u.children.map((c) => measure(c, cardW));
   const kidsWidth = kids.length
     ? kids.reduce((a, b) => a + b, 0) + SIBLING_GAP * (kids.length - 1)
     : 0;
-  u.width = Math.max(unitCardsWidth(u), kidsWidth);
+  u.width = Math.max(unitCardsWidth(u, cardW), kidsWidth);
   return u.width;
 }
 
 export function layoutTree(
   people: People,
-  opts: { collapsed?: ReadonlySet<string>; rootId?: string } = {},
+  opts: { collapsed?: ReadonlySet<string>; rootId?: string; cardW?: number } = {},
 ): TreeLayout {
+  const CARD_W = opts.cardW ?? 150;
   const collapsed = opts.collapsed ?? new Set<string>();
   const placed = new Set<string>();
   const roots = opts.rootId && people[opts.rootId] ? [opts.rootId] : findRoots(people);
@@ -197,7 +202,7 @@ export function layoutTree(
   const place = (u: Unit, left: number, depth: number) => {
     maxDepth = Math.max(maxDepth, depth);
     const y = MARGIN + depth * (CARD_H + ROW_GAP);
-    const cards = unitCardsWidth(u);
+    const cards = unitCardsWidth(u, CARD_W);
     const startX = left + (u.width - cards) / 2;
     const ids = [u.main, ...u.spouses];
     ids.forEach((id, i) => {
@@ -223,7 +228,7 @@ export function layoutTree(
     const tops: number[] = [];
     for (const c of u.children) {
       place(c, cx, depth + 1);
-      const childCards = unitCardsWidth(c);
+      const childCards = unitCardsWidth(c, CARD_W);
       tops.push(cx + (c.width - childCards) / 2 + CARD_W / 2);
       cx += c.width + SIBLING_GAP;
     }
@@ -252,7 +257,7 @@ export function layoutTree(
 
   let left = MARGIN;
   for (const u of units) {
-    measure(u);
+    measure(u, CARD_W);
     place(u, left, 0);
     left += u.width + SIBLING_GAP * 2;
   }
@@ -262,6 +267,7 @@ export function layoutTree(
     marriages,
     width: Math.max(left - SIBLING_GAP * 2 + MARGIN, 2 * MARGIN + CARD_W),
     height: MARGIN * 2 + (maxDepth + 1) * CARD_H + maxDepth * ROW_GAP,
+    cardW: CARD_W,
   };
 }
 

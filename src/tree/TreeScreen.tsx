@@ -5,7 +5,8 @@ import { useT } from '../i18n';
 import { load, save } from '../lib/storage';
 import { TopBar } from '../ui/components';
 import { FamilyGate } from '../family/useFamilyGate';
-import { CARD_H, CARD_W, layoutTree } from './layout';
+import { useThumbs } from '../data/photos';
+import { CARD_H, layoutTree, PHOTO_CARD_W } from './layout';
 import { PanZoom, type PanZoomHandle } from './PanZoom';
 import { PdfDialog } from './PdfDialog';
 import { TreeSvg } from './TreeSvg';
@@ -23,6 +24,7 @@ function TreeView({ fam }: { fam: CurrentFamily & { isAdmin: boolean } }) {
   const rootId = params.get('root');
   const focusParam = params.get('focus');
   const people = fam.people;
+  const thumbs = useThumbs();
   const key = `collapsed:${fam.id}`;
   const [collapsed, setCollapsed] = useState<Set<string>>(
     () => new Set(load<{ ids: string[] }>(key, { ids: [] }).ids),
@@ -34,7 +36,7 @@ function TreeView({ fam }: { fam: CurrentFamily & { isAdmin: boolean } }) {
   const pz = useRef<PanZoomHandle>(null);
 
   const layout = useMemo(
-    () => layoutTree(people, { collapsed, rootId: rootId ?? undefined }),
+    () => layoutTree(people, { collapsed, rootId: rootId ?? undefined, cardW: PHOTO_CARD_W }),
     [people, collapsed, rootId],
   );
   const nodeOf = (id: string | null) => (id ? layout.nodes.find((n) => n.id === id) : undefined);
@@ -72,10 +74,12 @@ function TreeView({ fam }: { fam: CurrentFamily & { isAdmin: boolean } }) {
     // wait for the new layout before centring
     requestAnimationFrame(() =>
       requestAnimationFrame(() => {
-        const n = layoutTree(people, { collapsed: next, rootId: rootId ?? undefined }).nodes.find(
-          (x) => x.id === id,
-        );
-        if (n) pz.current?.centerOn(n.x + CARD_W / 2, n.y + CARD_H / 2, 1);
+        const n = layoutTree(people, {
+          collapsed: next,
+          rootId: rootId ?? undefined,
+          cardW: PHOTO_CARD_W,
+        }).nodes.find((x) => x.id === id);
+        if (n) pz.current?.centerOn(n.x + PHOTO_CARD_W / 2, n.y + CARD_H / 2, 1);
       }),
     );
   };
@@ -158,7 +162,9 @@ function TreeView({ fam }: { fam: CurrentFamily & { isAdmin: boolean } }) {
             height={layout.height}
             handleRef={pz}
             initial={
-              initialNode ? { x: initialNode.x + CARD_W / 2, y: initialNode.y + CARD_H / 2 } : null
+              initialNode
+                ? { x: initialNode.x + PHOTO_CARD_W / 2, y: initialNode.y + CARD_H / 2 }
+                : null
             }
           >
             <TreeSvg
@@ -167,6 +173,7 @@ function TreeView({ fam }: { fam: CurrentFamily & { isAdmin: boolean } }) {
               focusId={focusId}
               onSelect={(id) => navigate(`/p/${id}`)}
               onToggle={toggle}
+              thumbs={thumbs}
             />
           </PanZoom>
           <div className="tree-controls">

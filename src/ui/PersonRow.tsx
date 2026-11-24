@@ -1,10 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { lifespan } from '../data/people';
 import type { Person } from '../data/types';
+import { Avatar } from './Avatar';
 
-export const GENDER_ICON: Record<Person['gender'], string> = { m: '👨', f: '👩', u: '🧑' };
-
-/** One tappable line for a person: icon, name, years. */
+/** One tappable line for a person: photo (or default picture), name, years, where they live. */
 export function PersonRow({ id, person, label }: { id: string; person: Person; label?: string }) {
   const navigate = useNavigate();
   const years = lifespan(person);
@@ -14,13 +13,11 @@ export function PersonRow({ id, person, label }: { id: string; person: Person; l
       data-testid={`person-${id}`}
       onClick={() => navigate(`/p/${id}`)}
     >
-      <span className="avatar" aria-hidden>
-        {GENDER_ICON[person.gender]}
-      </span>
+      <Avatar id={id} person={person} />
       <span className="grow">
         <span className="name">{person.name}</span>
-        {(label || years) && (
-          <span className="sub">{[label, years].filter(Boolean).join(' · ')}</span>
+        {(label || years || person.place) && (
+          <span className="sub">{[label, years, person.place].filter(Boolean).join(' · ')}</span>
         )}
       </span>
       <span aria-hidden className="chev">

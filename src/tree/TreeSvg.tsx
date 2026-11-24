@@ -1,6 +1,8 @@
 import type { People } from '../data/people';
 import { lifespan } from '../data/people';
-import { CARD_H, CARD_W, wrapName, type TreeLayout } from './layout';
+import { GENDER_ICON } from '../ui/Avatar';
+import { cardContent, LINE_H } from './card';
+import { CARD_H, type TreeLayout } from './layout';
 
 /** Draws a laid-out tree. Colours come from CSS classes (see .tree-* in styles.css). */
 export function TreeSvg({
@@ -9,13 +11,17 @@ export function TreeSvg({
   focusId,
   onSelect,
   onToggle,
+  thumbs = {},
 }: {
   layout: TreeLayout;
   people: People;
+  /** small photos by person id (cards with room for a photo show them) */
+  thumbs?: Record<string, string>;
   focusId?: string | null;
   onSelect: (id: string) => void;
   onToggle: (id: string) => void;
 }) {
+  const CARD_W = layout.cardW;
   return (
     <svg
       className="tree-svg"
@@ -36,9 +42,9 @@ export function TreeSvg({
       </g>
       {layout.nodes.map((n) => {
         const p = people[n.id];
-        const lines = wrapName(p.name);
         const years = lifespan(p);
-        const textTop = years ? (lines.length === 1 ? 26 : 19) : lines.length === 1 ? 37 : 28;
+        const c = cardContent(p.name, years, CARD_W);
+        const thumb = thumbs[n.id];
         return (
           <g
             key={n.id}
@@ -48,13 +54,45 @@ export function TreeSvg({
             onClick={() => onSelect(n.id)}
           >
             <rect width={CARD_W} height={CARD_H} rx={12} />
-            {lines.map((l, i) => (
-              <text key={i} x={CARD_W / 2} y={textTop + i * 17} className="tree-name">
+            {c.photo && (
+              <g className="tree-photo">
+                <circle cx={c.photo.cx} cy={c.photo.cy} r={c.photo.r} />
+                {thumb ? (
+                  <>
+                    <clipPath id={`clip-${n.id}`}>
+                      <circle cx={c.photo.cx} cy={c.photo.cy} r={c.photo.r} />
+                    </clipPath>
+                    <image
+                      href={thumb}
+                      x={c.photo.cx - c.photo.r}
+                      y={c.photo.cy - c.photo.r}
+                      width={c.photo.r * 2}
+                      height={c.photo.r * 2}
+                      clipPath={`url(#clip-${n.id})`}
+                      preserveAspectRatio="xMidYMid slice"
+                      data-testid={`tree-photo-${n.id}`}
+                    />
+                  </>
+                ) : (
+                  <text x={c.photo.cx} y={c.photo.cy + 9} className="tree-default" aria-hidden>
+                    {GENDER_ICON[p.gender]}
+                  </text>
+                )}
+              </g>
+            )}
+            {c.lines.map((l, i) => (
+              <text
+                key={i}
+                x={c.textX}
+                y={c.nameY + i * LINE_H}
+                className="tree-name"
+                textAnchor={c.anchor}
+              >
                 {l}
               </text>
             ))}
             {years && (
-              <text x={CARD_W / 2} y={textTop + lines.length * 17 + 1} className="tree-years">
+              <text x={c.textX} y={c.yearsY} className="tree-years" textAnchor={c.anchor}>
                 {years}
               </text>
             )}

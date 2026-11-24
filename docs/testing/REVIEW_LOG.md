@@ -130,3 +130,17 @@ Kết quả: run-12, run-13, run-14 xanh liên tiếp trên `5dcea33` (202 unit,
 | R-42 | LG-13 | Test bắt được lỗi logic: "xưng = cách người kia gọi mình" sai với gọi thay con (chị dâu gọi tôi "chú" nhưng tôi vẫn xưng "em") → thêm `theirSelf` cho trường hợp này; một kỳ vọng test viết sai (em chồng xưng "cô") đã sửa thành "em" |
 
 Kết quả: run-15, run-16, run-17 xanh liên tiếp trên cùng code `992d2df` (208 unit, 22 rules, 66 e2e; LG-13 79/79). Bằng chứng UI mới nhất ở `runs/run-17/`.
+
+## Vòng 9 — Ảnh đại diện + Nơi ở (LG-15, LG-16, 24/11/2026)
+
+Làm mock trước (https://claude.ai/artifact/KQF33a7n8P3GyVGmV9pczu); user chọn: ô cây kiểu B, mặc định hình người,
+hồ sơ/danh sách như mock, PDF mặc định "Có ảnh".
+
+| #    | Case   | Quyết định                                                                                                                                                                                     |
+| ---- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R-43 | LG-15  | Ảnh lưu trong Realtime Database (Storage cần gói trả phí), **ngoài** `families/<fid>` để dữ liệu gia phả không phình; 2 cỡ: thumb 96 px cho danh sách/cây/PDF, ảnh 320 px chỉ tải khi mở hồ sơ |
+| R-44 | SEC-01 | Rules ảnh: người xem đọc được, chỉ quản trị **của gia phả đó** ghi; chỉ nhận `data:image/jpeg;base64,` trong giới hạn (chặn SVG, link ngoài, chuỗi quá dài)                                    |
+| R-45 | LG-15  | E2E dùng ảnh điện thoại thật cỡ dọc có thẻ EXIF xoay; kiểm ảnh lưu đúng 320×320, nằm ngoài dữ liệu người; người xem thấy ảnh, không có nút Đổi ảnh                                             |
+| R-46 | LG-15  | Lần chạy đầu 4 test đỏ do **test** mở thẳng `/#/edit/...` (app quay về màn trước sau khi lưu) → test đi như người dùng: hồ sơ → Sửa. Không phải lỗi app                                        |
+| R-47 | CR-02  | File không phải ảnh, và file đuôi .jpg nhưng hỏng → báo lỗi thân thiện, form vẫn lưu được                                                                                                      |
+| R-48 | UI     | Lượt đi UI seed ảnh cho vài người (ảnh và hình mặc định cạnh nhau) trên 10 cỡ màn + axe                                                                                                        |

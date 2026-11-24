@@ -3,7 +3,8 @@ import type { People } from '../data/people';
 import { useT } from '../i18n';
 import { createLogger } from '../lib/logger';
 import { Modal } from '../ui/components';
-import { layoutTree } from './layout';
+import { useThumbs } from '../data/photos';
+import { CARD_W, layoutTree, PHOTO_CARD_W } from './layout';
 import { planPdf, type Paper, type PdfMode } from './pdfPlan';
 
 const log = createLogger('pdf-dialog');
@@ -22,9 +23,12 @@ export function PdfDialog({
   const t = useT();
   const [paper, setPaper] = useState<Paper>('a4');
   const [mode, setMode] = useState<PdfMode>('auto');
+  // "Có ảnh" by default (the family's choice); the cards are wider then
+  const [withPhotos, setWithPhotos] = useState(true);
+  const thumbs = useThumbs();
   const [progress, setProgress] = useState<string | null>(null);
   const [error, setError] = useState(false);
-  const layout = layoutTree(people, { rootId });
+  const layout = layoutTree(people, { rootId, cardW: withPhotos ? PHOTO_CARD_W : CARD_W });
   const plan = planPdf(layout.width, layout.height, paper, mode);
 
   const make = async () => {
@@ -39,6 +43,8 @@ export function PdfDialog({
         title,
         paper,
         mode,
+        withPhotos,
+        thumbs,
         onProgress: (d, n) => setProgress(t('pdfProgress', { d, n })),
       });
       const url = URL.createObjectURL(blob);
@@ -95,6 +101,25 @@ export function PdfDialog({
               {label}
             </button>
           ))}
+        </div>
+      </div>
+      <div className="field">
+        <span>{t('pdfContent')}</span>
+        <div className="segmented">
+          <button
+            aria-pressed={!withPhotos}
+            data-testid="pdf-names-only"
+            onClick={() => setWithPhotos(false)}
+          >
+            {t('pdfNamesOnly')}
+          </button>
+          <button
+            aria-pressed={withPhotos}
+            data-testid="pdf-with-photos"
+            onClick={() => setWithPhotos(true)}
+          >
+            {t('pdfWithPhotos')}
+          </button>
         </div>
       </div>
       <div className="muted" data-testid="pdf-estimate">

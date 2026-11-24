@@ -37,6 +37,7 @@ function sanitizePerson(v: Record<string, unknown>): Person {
   const p: Person = { name, gender };
   const generation = int(v.generation, 1, 60);
   if (generation !== undefined) p.generation = generation;
+  if (typeof v.place === 'string' && v.place.trim()) p.place = v.place.trim().slice(0, 120);
   const order = int(v.order, 0, 99);
   if (order !== undefined) p.order = order;
   if (v.deceased === true) p.deceased = true;

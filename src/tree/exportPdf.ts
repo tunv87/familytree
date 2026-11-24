@@ -2,7 +2,7 @@ import { jsPDF } from 'jspdf';
 import type { People } from '../data/people';
 import { createLogger } from '../lib/logger';
 import { drawTree, FONT } from './drawTree';
-import { layoutTree } from './layout';
+import { CARD_W, layoutTree, PHOTO_CARD_W } from './layout';
 import { HEADER_MM, MARGIN_MM, PAPER_MM, planPdf, type Paper, type PdfMode } from './pdfPlan';
 
 const log = createLogger('pdf');
@@ -15,6 +15,10 @@ export interface PdfOptions {
   title: string;
   paper: Paper;
   mode: PdfMode;
+  /** cards with a small photo (kiểu B) — "Có ảnh" — or names only */
+  withPhotos?: boolean;
+  /** small photos by person id (JPEG data URLs) */
+  thumbs?: Record<string, string>;
   onProgress?: (done: number, total: number) => void;
 }
 
@@ -25,7 +29,16 @@ export async function exportTreePdf(o: PdfOptions): Promise<{ blob: Blob; pages:
     document.fonts.load(`800 15px Nunito`, 'Nguyễn Việt'),
     document.fonts.load(`400 12px Nunito`, 'Nguyễn Việt'),
   ]);
-  const layout = layoutTree(o.people, { rootId: o.rootId });
+  const layout = layoutTree(o.people, {
+    rootId: o.rootId,
+    cardW: o.withPhotos ? PHOTO_CARD_W : CARD_W,
+  });
+  const photos = o.withPhotos
+    ? await decodeThumbs(
+        layout.nodes.map((n) => n.id),
+        o.thumbs ?? {},
+      )
+    : {};
   const plan = planPdf(layout.width, layout.height, o.paper, o.mode);
   const [pw, ph] = PAPER_MM[o.paper];
   const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: o.paper, compress: true });
@@ -66,7 +79,7 @@ export async function exportTreePdf(o: PdfOptions): Promise<{ blob: Blob; pages:
     ctx.translate(ax + offX, ay);
     ctx.scale(plan.scale, plan.scale);
     ctx.translate(-pg.x, -pg.y);
-    drawTree(ctx, layout, o.people);
+    drawTree(ctx, layout, o.people, photos);
     ctx.restore();
 
     if (i > 0) pdf.addPage(o.paper, 'landscape');
@@ -76,4 +89,24 @@ export async function exportTreePdf(o: PdfOptions): Promise<{ blob: Blob; pages:
     await new Promise((r) => setTimeout(r, 0));
   }
   return { blob: pdf.output('blob'), pages: total };
+}
+
+/** Decodes the photos of the people being printed; one that fails just gets the default picture. */
+async function decodeThumbs(ids: string[], thumbs: Record<string, string>) {
+  const out: Record<string, HTMLImageElement> = {};
+  await Promise.all(
+    ids
+      .filter((id) => thumbs[id])
+      .map(async (id) => {
+        const img = new Image();
+        img.src = thumbs[id];
+        try {
+          await img.decode();
+          out[id] = img;
+        } catch {
+          log.warn('photo not drawn', id);
+        }
+      }),
+  );
+  return out;
 }

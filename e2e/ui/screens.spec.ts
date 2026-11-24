@@ -5,7 +5,18 @@
  */
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
-import { pageErrors, sampleFamily, seedFamily, signInAdmin, trackErrors } from '../helpers';
+import { readFileSync } from 'node:fs';
+import {
+  pageErrors,
+  sampleFamily,
+  seedFamily,
+  seedRaw,
+  signInAdmin,
+  trackErrors,
+} from '../helpers';
+
+/** a small photo for a few people, so the screens show photos and default pictures side by side */
+const THUMB = `data:image/jpeg;base64,${readFileSync('e2e/fixtures/thumb.jpg').toString('base64')}`;
 
 const LONG_FAMILY = 'Họ Nguyễn Văn — chi trưởng, làng Đông Ngạc, huyện Từ Liêm, Hà Nội (1900–2026)';
 const LONG_PERSON =
@@ -31,7 +42,13 @@ async function prepare(page: Page): Promise<Screen[]> {
     note: 'Ghi chú dài: '.repeat(20),
   };
   people.nospace001 = { name: NO_SPACE_NAME, gender: 'f', generation: 2, fatherId: 'to00000001' };
+  people.to00000001.place = 'Hoài Nhơn, Bình Định';
+  people.p000000002.place = 'Thành phố Hồ Chí Minh';
   const fid = await seedFamily(LONG_FAMILY, people, { admins: [uid] });
+  for (const pid of ['to00000001', 'p000000001', 'p000000002', 'long000001']) {
+    await seedRaw(`thumbs/${fid}/${pid}`, THUMB);
+    await seedRaw(`photos/${fid}/${pid}`, THUMB);
+  }
   const go = (hash: string) => async (p: Page) => {
     await p.goto(`/#${hash}`);
   };

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { applyFamilyUpdates } from '../data/families';
 import {
@@ -21,7 +21,10 @@ import type { FamilyDate } from '../data/types';
 import { useT } from '../i18n';
 import { createLogger } from '../lib/logger';
 import { Modal, TopBar } from '../ui/components';
-import { GENDER_ICON, PersonRow } from '../ui/PersonRow';
+import { makeAvatar, savePhoto } from '../data/photos';
+import { BigAvatar } from '../ui/Avatar';
+import { PersonRow } from '../ui/PersonRow';
+import { showToast } from '../ui/toast';
 import { KinshipCard } from './KinshipCard';
 import { FamilyGate } from './useFamilyGate';
 
@@ -115,9 +118,10 @@ function PersonView({
         }
       />
       <div className="profile-head">
-        <span className="avatar big" aria-hidden>
-          {GENDER_ICON[p.gender]}
-        </span>
+        <div className="profile-photo">
+          <BigAvatar id={pid} person={p} />
+          {isAdmin && <ChangePhoto familyId={familyId} pid={pid} t={t} />}
+        </div>
         <h2 data-testid="person-name">{p.name}</h2>
         <div className="muted">
           {[
@@ -132,6 +136,12 @@ function PersonView({
       <div className="detail-card">
         <DateLine label={t('born')} date={p.birth} />
         <DateLine label={t('died')} date={p.death} />
+        {p.place && (
+          <div className="detail highlight" data-testid="person-place">
+            <span className="label">📍 {t('place')}</span>
+            <span>{p.place}</span>
+          </div>
+        )}
         {gio && (
           <div className="detail highlight" data-testid="next-gio">
             <span className="label">🕯️ {t('gio')}</span>
@@ -243,6 +253,8 @@ function PersonView({
               onClick={async () => {
                 try {
                   await applyFamilyUpdates(familyId, deletePersonUpdates(people, pid));
+                  // their photo goes too (kept outside the family node)
+                  savePhoto(familyId, pid, null).catch((e) => log.warn('photo not removed', e));
                   navigate(-1);
                 } catch (e) {
                   log.error('delete failed', e);
@@ -278,5 +290,54 @@ function Relatives({
         <PersonRow key={id} id={id} person={people[id]} label={label?.(id)} />
       ))}
     </section>
+  );
+}
+
+/** "Đổi ảnh" on the photo (admins): pick a picture and save it straight away. */
+function ChangePhoto({
+  familyId,
+  pid,
+  t,
+}: {
+  familyId: string;
+  pid: string;
+  t: ReturnType<typeof useT>;
+}) {
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [busy, setBusy] = useState(false);
+  return (
+    <>
+      <button
+        className="photo-change"
+        disabled={busy}
+        data-testid="change-photo"
+        onClick={() => fileRef.current?.click()}
+      >
+        📷 {busy ? t('photoWorking') : t('changePhoto')}
+      </button>
+      <input
+        ref={fileRef}
+        type="file"
+        accept="image/*"
+        hidden
+        data-testid="profile-photo-file"
+        onChange={async (e) => {
+          const file = e.target.files?.[0];
+          e.target.value = '';
+          if (!file) return;
+          setBusy(true);
+          try {
+            const r = await makeAvatar(file);
+            if (typeof r === 'string') showToast(t(`photo_${r}`));
+            else if ((await savePhoto(familyId, pid, r)) === 'saved') showToast(t('photoSaved'));
+          } catch (err) {
+            log.error('photo save failed', err);
+            showToast(t('saveError'));
+          } finally {
+            setBusy(false);
+          }
+        }}
+      />
+    </>
   );
 }

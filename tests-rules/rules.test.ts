@@ -231,6 +231,41 @@ describe('SEC-01 more attacks', () => {
     );
   });
 
+  it('LG-15 photos: only admins of that family write them, JPEG only, size-limited', async () => {
+    const [a, other] = [await google(), await google()];
+    await adminWrite('PUT', `families/${FID}`, family(a.uid));
+    const jpeg = 'data:image/jpeg;base64,' + 'A'.repeat(1000);
+    const thumb = (u: U) => ref(u.db, `thumbs/${FID}/p0000001`);
+    const photo = (u: U) => ref(u.db, `photos/${FID}/p0000001`);
+    await ok(set(thumb(a), jpeg));
+    await ok(set(photo(a), jpeg));
+    // everyone who opened the link can see them
+    const v = await viewer();
+    await ok(get(thumb(v)));
+    await ok(get(photo(v)));
+    // but not change them: a viewer, or the admin of another family
+    await denied(set(thumb(v), jpeg));
+    await denied(set(photo(v), null));
+    await denied(set(thumb(other), jpeg));
+    // only JPEG data URLs within the limits
+    await denied(set(thumb(a), 'data:image/svg+xml;base64,PHN2Zz4='));
+    await denied(set(thumb(a), 'https://example.com/a.jpg'));
+    await denied(set(thumb(a), 'data:image/jpeg;base64,' + 'A'.repeat(16_000)));
+    await denied(set(photo(a), 'data:image/jpeg;base64,' + 'A'.repeat(100_000)));
+    await denied(set(ref(a.db, `thumbs/${FID}/bad id`), jpeg));
+    // the admin can remove a photo
+    await ok(set(photo(a), null));
+  });
+
+  it('LG-16 nơi ở is text up to 120 characters', async () => {
+    const a = await google();
+    await adminWrite('PUT', `families/${FID}`, family(a.uid));
+    const p = ref(a.db, `families/${FID}/people/p0000001`);
+    await ok(set(p, { ...person(), place: 'Hoài Nhơn, Bình Định' }));
+    await denied(set(p, { ...person(), place: 'x'.repeat(121) }));
+    await denied(set(p, { ...person(), place: 12 }));
+  });
+
   it('LG-14 top generation: whole number 1–60, only admins set it', async () => {
     const a = await google();
     await adminWrite('PUT', `families/${FID}`, family(a.uid));
