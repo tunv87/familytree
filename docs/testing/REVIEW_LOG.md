@@ -128,3 +128,5 @@ Kết quả: run-12, run-13, run-14 xanh liên tiếp trên `5dcea33` (202 unit,
 | ---- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | R-41 | LG-13 | 4 điểm ⚠️: giữ ba/má, giữ cô/cậu/dì không theo vai; **đổi** 4 đời trên → ông kỵ/bà kỵ; **đổi** em của chồng/vợ → chú/cô (gọi thay con). Chỉ cột Trung (Bình Định). Test sửa trước, đỏ đúng 4 chỗ rồi mới sửa code                      |
 | R-42 | LG-13 | Test bắt được lỗi logic: "xưng = cách người kia gọi mình" sai với gọi thay con (chị dâu gọi tôi "chú" nhưng tôi vẫn xưng "em") → thêm `theirSelf` cho trường hợp này; một kỳ vọng test viết sai (em chồng xưng "cô") đã sửa thành "em" |
+
+Kết quả: run-15, run-16, run-17 xanh liên tiếp trên cùng code `992d2df` (208 unit, 22 rules, 66 e2e; LG-13 79/79). Bằng chứng UI mới nhất ở `runs/run-17/`.
