@@ -98,6 +98,16 @@ describe('LG-17 nhãn danh xưng (K1)', () => {
     expect(badge(id)).toBe(label);
   });
 
+  it.each([
+    ['lap', 'Em chồng'],
+    ['long', 'Em rể'],
+    ['thuan', 'Má'],
+    ['thanhB', 'Ba'],
+    ['thanh', 'Bà nội'],
+  ])('as Hải Trà: %s → "%s"', (id, label) => {
+    expect(kinBadge(kinship(F, 'tra', id))).toBe(label);
+  });
+
   it('no label for strangers', () => {
     expect(badge('la')).toBeNull();
     expect(kinBadge(null)).toBeNull();

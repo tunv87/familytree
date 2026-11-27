@@ -80,6 +80,16 @@ export function cardSubtitle(p: Person, cardW: number): string {
 export function kinBadge(k: Kinship | null): string | null {
   if (!k) return null;
   const generic = /^(anh|chị|em|con|anh\/chị hoặc em|chị hoặc em|anh hoặc em)$/;
+  // a brother / sister of my husband or wife: "Em chồng", "Chị vợ" (shorter and clearer than
+  // "Em gái" on a card of someone who isn't my own sister)
+  const inLawSibling = k.relation.match(
+    /^(anh|chị|em)(?: trai| gái)?(?: ruột| \(cùng .*\))? \(bên (vợ|chồng)\)$/,
+  );
+  if (inLawSibling)
+    return fit(
+      `${inLawSibling[1]} ${inLawSibling[2]}`.replace(/^./, (c) => c.toUpperCase()),
+      14,
+    );
   const relation = k.relation
     .replace(/\s*\(.*\)$/, '') // "(bên vợ)", "(3 đời trên)"
     .replace(/ ruột$/, '')

@@ -23,7 +23,9 @@ Duyệt thêm (user, 23/11/2026):
 - Bố / mẹ: **ba / má** (giữ).
 - Chị của bố, anh / chị của mẹ: **cô / cậu / dì, không theo vai** (giữ — không gọi bác).
 - 4 đời trên: **ông kỵ / bà kỵ** (đổi, trước là ông sơ / bà sơ).
-- Em của chồng / em của vợ: **chú / cô — gọi thay con** (đổi, trước là "em"). Người em vẫn gọi lại "anh / chị" và xưng "em".
+- Em của chồng / em của vợ: gọi **em**, xưng anh / chị (sửa 27/11 sau khi thử trên gia phả thật: Hải Trà gọi Lập — em chồng — là "em", xưng "chị"). Gọi thay con chỉ là **ghi chú**: "Trước mặt con cháu có thể gọi là cô".
+- Ghi chú gọi thay con áp dụng cho mọi người cùng vai bên vợ/chồng hoặc là vợ/chồng của anh chị em (em chồng, chị vợ, em rể, chị dâu…): từ trong ghi chú là đúng từ con mình gọi người đó (cô, chú, cậu, dì, dượng, mợ, bác).
+- Dòng giải thích quan hệ dùng từ của miền: "em gái của ba", "má (bên chồng)" (miền Bắc: bố/mẹ). Ông bà bên vợ/chồng: "bà nội của vợ".
 
 ## Bảng đầy đủ
 
@@ -79,7 +81,7 @@ Trung (Bình Định): chị của bố, anh/chị của mẹ **không** gọi b
 ### Họ hàng bên vợ / bên chồng
 
 Gọi **theo cách vợ/chồng mình gọi**: bố mẹ vợ → ba/má, anh của chồng → anh, cậu của vợ → cậu…
-Riêng **em** của chồng / của vợ (Bình Định, đã duyệt): gọi **chú / cô** thay con; người em gọi lại anh/chị, xưng em.
+Riêng **em** của chồng / của vợ: gọi **em** (sửa 27/11); trước mặt con cháu có thể gọi chú / cô / cậu / dì như con — app ghi chú dưới từ gọi.
 Bắc / Nam vẫn gọi "em".
 
 ### Người chưa xác định

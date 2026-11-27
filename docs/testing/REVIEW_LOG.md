@@ -202,3 +202,16 @@ User: "Hiện luôn. Check và apply cho all screens" (nút "Xong, vào gia ph�
 Kết quả: run-31, run-32, run-33 xanh liên tiếp trên `074e9b5` (263 unit, 24 rules, 78 e2e; UI-10 20/20). Các lượt trước đó
 trên `3c7e141`/`8175ae5` không tính: bước static đỏ vì định dạng bảng của chính file này, và UI-10 chưa có trong tên test.
 Bằng chứng UI mới nhất ở `runs/run-33/`.
+
+## Vòng 14 — Xưng hô kiểm trên gia phả thật (LG-13, LG-17, 27/11/2026)
+
+User: "Hải Trà thấy má Thuần là cô". Đọc gia phả thật (11 người, chỉ xem), đặt "Đây là tôi" cho từng người, kiểm 110 cặp
+trên cây + hồ sơ bằng bản build giống bản đang chạy. Má Thuần hiện đúng "má"; "cô" Hải Trà thấy là ở Lập (em chồng).
+
+| #    | Case  | Quyết định                                                                                                                                                                                                                                      |
+| ---- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R-64 | LG-13 | Gia đình sửa quy tắc 23/11: em chồng/em vợ gọi **em**, xưng anh/chị; "gọi thay con" thành ghi chú "Trước mặt con cháu có thể gọi là …", áp dụng cho mọi người cùng vai bên vợ/chồng; từ ghi chú = từ con mình gọi (tính bằng một người con giả) |
+| R-65 | LG-13 | Màn "Gọi nhau thế nào" suy chiều ngược bằng cách tráo 2 từ → sai khi không đối xứng ("xưng ông nội", gọi thay con). Sửa: tính riêng từng chiều; e2e kiểm "Ông Nội gọi Tôi là cháu, xưng ông"                                                    |
+| R-66 | LG-13 | Dòng quan hệ dùng bố/mẹ dù từ gọi là ba/má → đổi theo miền; ông bà bên vợ/chồng ghi "bà nội của vợ"                                                                                                                                             |
+| R-67 | LG-17 | Nhãn trên cây cho anh chị em bên vợ/chồng: "Em chồng", "Anh vợ" thay vì "Em gái"/"Anh" (dễ nhầm là ruột)                                                                                                                                        |
+| R-68 | LG-13 | Chạy lại 110 cặp trên dữ liệu thật sau khi sửa: chỉ những dòng dự kiến thay đổi; 6 ghi chú gọi thay con đúng (cô, dượng ×2, cậu, mợ ×2)                                                                                                         |

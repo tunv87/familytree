@@ -63,6 +63,8 @@ function KinshipView({
   );
 
   const k = a && b && a !== b ? kinship(people, a, b, region) : null;
+  // the other way round is worked out on its own: the words aren't always a mirror image
+  const back = a && b && a !== b ? kinship(people, b, a, region) : null;
   return (
     <main className="screen">
       <TopBar title={t('howToCall')} />
@@ -82,12 +84,20 @@ function KinshipView({
             {t('callsAs', { a: people[a].name, b: people[b].name })}{' '}
             <strong className="kin-word">{k.call}</strong>, {t('selfAs')}{' '}
             <strong className="kin-word">{k.self}</strong>
+            {k.childCall && (
+              <div className="muted small">{t('childCallNote', { word: k.childCall })}</div>
+            )}
           </div>
-          <div data-testid="kin-b-calls-a">
-            {t('callsAs', { a: people[b].name, b: people[a].name })}{' '}
-            <strong className="kin-word">{k.self}</strong>, {t('selfAs')}{' '}
-            <strong className="kin-word">{k.call}</strong>
-          </div>
+          {back && (
+            <div data-testid="kin-b-calls-a">
+              {t('callsAs', { a: people[b].name, b: people[a].name })}{' '}
+              <strong className="kin-word">{back.call}</strong>, {t('selfAs')}{' '}
+              <strong className="kin-word">{back.self}</strong>
+              {back.childCall && (
+                <div className="muted small">{t('childCallNote', { word: back.childCall })}</div>
+              )}
+            </div>
+          )}
           <div className="muted small">
             {people[b].name}: {k.relation}
           </div>

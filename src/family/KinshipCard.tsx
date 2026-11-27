@@ -56,6 +56,11 @@ export function KinshipCard({
           <div className="muted small" data-testid="kinship-relation">
             {k.relation}
           </div>
+          {k.childCall && (
+            <div className="muted small" data-testid="kinship-child-call">
+              {t('childCallNote', { word: k.childCall })}
+            </div>
+          )}
         </>
       ) : (
         <div className="muted" data-testid="kinship-none">

@@ -101,6 +101,7 @@ export const vi = {
   personB: 'Người thứ hai',
   callsAs: '{a} gọi {b} là',
   selfAs: 'xưng',
+  childCallNote: 'Trước mặt con cháu có thể gọi là {word}',
   relationPath: 'Đường quan hệ',
   pickTwo: 'Chọn hai người để xem họ gọi nhau thế nào.',
   samePerson: 'Hai ô đang là cùng một người.',

@@ -78,22 +78,22 @@ type Row = [them: string, call: string, self: string, relation?: string];
 /** Miền Trung — Bình Định (default). */
 const TRUNG: Row[] = [
   // the four pairs the family settled on (cô–dượng, dì–dượng, chú–thím, cậu–mợ)
-  ['coUt', 'cô', 'cháu', 'em gái của bố'],
+  ['coUt', 'cô', 'cháu', 'em gái của ba'],
   ['duongUt', 'dượng', 'cháu', 'chồng của cô'],
-  ['diLon', 'dì', 'cháu', 'chị của mẹ'],
+  ['diLon', 'dì', 'cháu', 'chị của má'],
   ['duongNgoai', 'dượng', 'cháu', 'chồng của dì'],
-  ['chu', 'chú', 'cháu', 'em trai của bố'],
+  ['chu', 'chú', 'cháu', 'em trai của ba'],
   ['thim', 'thím', 'cháu', 'vợ của chú'],
-  ['cau', 'cậu', 'cháu', 'em trai của mẹ'],
+  ['cau', 'cậu', 'cháu', 'em trai của má'],
   ['mo', 'mợ', 'cháu', 'vợ của cậu'],
   // the rest of the cô chú bác row
-  ['bacTrai', 'bác', 'cháu', 'anh của bố'],
+  ['bacTrai', 'bác', 'cháu', 'anh của ba'],
   ['bacGai', 'bác', 'cháu', 'vợ của bác'],
-  ['coLon', 'cô', 'cháu', 'chị của bố'],
+  ['coLon', 'cô', 'cháu', 'chị của ba'],
   ['duongLon', 'dượng', 'cháu'],
   // direct line up
-  ['bo', 'ba', 'con', 'bố'],
-  ['me', 'má', 'con', 'mẹ'],
+  ['bo', 'ba', 'con', 'ba'],
+  ['me', 'má', 'con', 'má'],
   ['ongNoi', 'ông nội', 'cháu', 'ông nội'],
   ['baNoi', 'bà nội', 'cháu'],
   ['ongNgoai', 'ông ngoại', 'cháu', 'ông ngoại'],
@@ -111,13 +111,13 @@ const TRUNG: Row[] = [
   ['chuaRo', 'anh/chị hoặc em', 'anh hoặc em'],
   ['vo', 'em', 'anh', 'vợ'],
   // bên vợ: called the way my wife calls them
-  ['boVo', 'ba', 'con', 'bố (bên vợ)'],
+  ['boVo', 'ba', 'con', 'ba (bên vợ)'],
   ['meVo', 'má', 'con'],
   ['chiVo', 'chị', 'em', 'chị ruột (bên vợ)'],
   ['anhCotCheo', 'anh', 'em'],
-  // em của vợ / chồng: gọi thay con (gia đình duyệt)
-  ['emVo', 'cô', 'anh', 'em gái ruột (bên vợ)'],
-  ['emTraiVo', 'chú', 'anh'],
+  // em của vợ / chồng: gọi "em" (gia đình sửa 27/11); "gọi thay con" chỉ là ghi chú
+  ['emVo', 'em', 'anh', 'em gái ruột (bên vợ)'],
+  ['emTraiVo', 'em', 'anh'],
   // down
   ['conTrai', 'con', 'ba', 'con trai'],
   ['conGai', 'con', 'ba', 'con gái'],
@@ -185,8 +185,8 @@ describe('LG-13 xưng hô — other directions and edge cases', () => {
     expect(kinship(F, 'conChu', 'conBac')).toMatchObject({ call: 'anh', self: 'em' });
   });
 
-  it('the wife calls her husband’s younger sister cô (Trung), em (Bắc); the sister still calls her chị and says em', () => {
-    expect(kinship(F, 'vo', 'emGai')).toMatchObject({ call: 'cô', self: 'chị' });
+  it('the wife calls her husband’s younger sister em and says chị (cô only in front of the children); the sister calls her chị and says em', () => {
+    expect(kinship(F, 'vo', 'emGai')).toMatchObject({ call: 'em', self: 'chị', childCall: 'cô' });
     expect(kinship(F, 'vo', 'emGai', 'bac')).toMatchObject({ call: 'em', self: 'chị' });
     expect(kinship(F, 'emGai', 'vo')).toMatchObject({ call: 'chị', self: 'em' });
   });
@@ -259,5 +259,47 @@ describe('LG-13 properties on random families', () => {
     const t0 = performance.now();
     for (let i = 0; i < 20; i++) kinship(big, ids2[i * 37], ids2[999 - i * 11]);
     expect((performance.now() - t0) / 20).toBeLessThan(50);
+  });
+});
+
+describe('LG-13 gọi thay con chỉ là ghi chú (gia đình sửa 27/11)', () => {
+  it.each([
+    // [me, them, call, self, in front of the children]
+    ['toi', 'emVo', 'em', 'anh', 'dì'], // em gái vợ: con gọi dì
+    ['toi', 'emTraiVo', 'em', 'anh', 'cậu'], // em trai vợ: con gọi cậu
+    ['toi', 'emRe', 'em', 'anh', 'dượng'], // chồng của em gái: con gọi dượng
+    ['vo', 'emGai', 'em', 'chị', 'cô'], // em gái chồng: con gọi cô
+  ])('%s → %s: gọi "%s", xưng "%s", trước mặt con gọi "%s"', (me, them, call, self, child) => {
+    const k = kinship(F, me, them, 'trung')!;
+    expect({ call: k.call, self: k.self, childCall: k.childCall }).toEqual({
+      call,
+      self,
+      childCall: child,
+    });
+  });
+
+  it('older in-laws too: chị vợ → con gọi dì, chồng chị vợ → con gọi dượng', () => {
+    expect(kinship(F, 'toi', 'chiVo', 'trung')!).toMatchObject({ call: 'chị', childCall: 'dì' });
+    expect(kinship(F, 'toi', 'anhCotCheo', 'trung')!).toMatchObject({
+      call: 'anh',
+      childCall: 'dượng',
+    });
+  });
+
+  it('no note for my spouse, blood relatives or elders', () => {
+    for (const them of ['vo', 'emGai', 'anhRuot', 'conBac', 'boVo', 'conTrai', 'chu'])
+      expect(kinship(F, 'toi', them, 'trung')!.childCall, them).toBeNull();
+  });
+
+  it('the in-laws of my spouse\'s grandparents read "của vợ"', () => {
+    const G: People = {
+      baNoiVo: P('Bà Nội Vợ', 'f'),
+      boVo: P('Bố Vợ', 'm', { motherId: 'baNoiVo' }),
+      vo: P('Vợ', 'f', { fatherId: 'boVo', spouses: { toi: true } }),
+      toi: P('Tôi', 'm', { spouses: { vo: true } }),
+    };
+    expect(kinship(G, 'toi', 'baNoiVo', 'trung')!.relation).toBe('bà nội của vợ');
+    expect(kinship(G, 'toi', 'boVo', 'trung')!.relation).toBe('ba (bên vợ)');
+    expect(kinship(G, 'toi', 'boVo', 'bac')!.relation).toBe('bố (bên vợ)');
   });
 });

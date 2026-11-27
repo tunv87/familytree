@@ -92,7 +92,15 @@ test('LG-13 a relative picks "this is me" and sees how to call everyone (Bình �
   // vai beats age: the son of bác is younger but still anh
   expect(await callOf(page, 'conbac01')).toBe('Bạn gọi là anh · xưng em');
   // gia đình duyệt: em của vợ gọi thay con là cô
-  expect(await callOf(page, 'emvo0001')).toBe('Bạn gọi là cô · xưng anh');
+  // em vợ: gọi "em"; "gọi thay con" is only a note (gia đình sửa 27/11)
+  expect(await callOf(page, 'emvo0001')).toBe('Bạn gọi là em · xưng anh');
+  await expect(page.getByTestId('kinship-child-call')).toHaveText(
+    'Trước mặt con cháu có thể gọi là dì',
+  );
+  // relations read in the Trung words: ba / má, not bố / mẹ
+  await openPerson(page, 'co000001');
+  await expect(page.getByTestId('kinship-relation')).toHaveText('em gái của ba');
+  await expect(page.getByTestId('kinship-child-call')).toHaveCount(0);
 
   // remembered after a reload
   await page.reload();
@@ -117,6 +125,12 @@ test('LG-13 a relative picks "this is me" and sees how to call everyone (Bình �
     'Ông Nội',
     'Chú Tư',
   ]);
+  // the other way round is worked out on its own, not mirrored: ông nội says "ông"
+  await page.getByTestId('kin-b').selectOption({ label: 'Ông Nội (đời 1)' });
+  await expect(page.getByTestId('kin-a-calls-b')).toHaveText(
+    'Tôi gọi Ông Nội là ông nội, xưng cháu',
+  );
+  await expect(page.getByTestId('kin-b-calls-a')).toHaveText('Ông Nội gọi Tôi là cháu, xưng ông');
   // pick two other people
   await page.getByTestId('kin-a').selectOption({ label: 'Thím Tư (đời 2)' });
   await page.getByTestId('kin-b').selectOption({ label: 'Con Bác (đời 3)' });
@@ -160,6 +174,7 @@ test('LG-17 tree cards: giỗ line for those who passed away, labels once "this 
       birth: { cal: 's', y: 1987 },
     },
     lap00001: { name: 'Nguyễn Thị Lập', gender: 'f', fatherId: 'thanhb01', order: 2 },
+    tra00001: { name: 'Nguyễn Thị Hải Trà', gender: 'f', spouses: { tu000001: true } },
   });
   const page = await newDevice(browser);
   await page.goto(`/#/f/${fid}`);
@@ -189,4 +204,19 @@ test('LG-17 tree cards: giỗ line for those who passed away, labels once "this 
     const c = (await card(id).locator('> rect').boundingBox())!;
     expect(b.y + b.height).toBeLessThanOrEqual(c.y + 4);
   }
+
+  // the wife (found on the real family, 27/11): her husband's younger sister is "Em chồng",
+  // called "em" — "cô" is only how she may call her in front of the children
+  await page.goto('/#/settings');
+  await page.getByTestId('settings-unset-me').click();
+  await page.goto('/#/p/tra00001');
+  await page.getByTestId('set-me').click();
+  await page.goto('/#/tree');
+  await expect(page.getByTestId('badge-lap00001')).toHaveText('Em chồng');
+  await expect(page.getByTestId('badge-thanhb01')).toHaveText('Ba');
+  await page.goto('/#/p/lap00001');
+  await expect(page.getByTestId('kinship-call')).toHaveText(/gọi là em · xưng chị/);
+  await expect(page.getByTestId('kinship-child-call')).toHaveText(
+    'Trước mặt con cháu có thể gọi là cô',
+  );
 });

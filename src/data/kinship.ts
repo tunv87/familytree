@@ -205,9 +205,6 @@ export interface Terms {
   call: string;
   /** how they are related to me, e.g. "em trai của bố" */
   relation: string;
-  /** what THEY would call themselves to me, when that differs from what I call them
-   *  (gọi thay con: I call my husband's younger brother "chú", he still says "em") */
-  theirSelf?: string;
 }
 
 const g3 = (g: Gender, m: string, f: string, u = `${m}/${f}`) =>
@@ -309,7 +306,7 @@ function bloodTerms(people: People, b: BloodLink, them: string, region: Region):
   // collateral relatives
   if (gap === 0) {
     const call = sameGenWord(g, b.senior);
-    const ruot = b.up === 1 ? (b.half ? ' (cùng cha hoặc mẹ)' : ' ruột') : ' họ';
+    const ruot = b.up === 1 ? (b.half ? ' (cùng bố hoặc cùng mẹ)' : ' ruột') : ' họ';
     const who =
       call === 'em'
         ? g3(g, 'em trai', 'em gái', 'em')
@@ -396,19 +393,51 @@ export function addressTerms(
   if (rel.viaTheirSpouse) terms = spouseOfRelative(region, terms, b, people[them].gender);
   if (rel.viaMySpouse) {
     const side = people[rel.viaMySpouse].gender === 'f' ? 'vợ' : 'chồng';
-    let call = terms.call;
-    // Bình Định (gia đình duyệt): the younger siblings of my husband / wife are called the way
-    // our children call them — chú / cô (gọi thay con)
-    if (region === 'trung' && !rel.viaTheirSpouse && b.up === b.down && b.senior === 'younger')
-      call = g3(people[them].gender, 'chú', 'cô');
+    // my spouse's grandparents and above: "bà nội của vợ" (not "bà nội (bên vợ)")
+    const ancestor = !rel.viaTheirSpouse && b.down === 0 && b.up >= 2;
     terms = {
-      call,
-      relation: `${terms.relation} (bên ${side})`,
-      ...(call !== terms.call ? { theirSelf: terms.call } : {}),
+      call: terms.call,
+      relation: ancestor ? `${terms.relation} của ${side}` : `${terms.relation} (bên ${side})`,
     };
   }
+  // the relation reads in the region's own words: "em gái của ba" in the Trung and the Nam
+  if (region !== 'bac')
+    terms = {
+      ...terms,
+      relation: terms.relation
+        .replace(/(^|[\s(/])bố(?=$|[\s)/])/g, '$1ba')
+        .replace(/(^|[\s(/])mẹ(?=$|[\s)/])/g, '$1má'),
+    };
   return terms;
 }
+
+/**
+ * Gọi thay con (gia đình duyệt 27/11): an in-law of my own generation (the younger sister of my
+ * husband, the husband of my younger sister, my wife's older brother…) is called anh / chị /
+ * em as usual; in front of the children people often call them the way the children do. Returns that word —
+ * what a child of mine (and my spouse) would call them — or null when it doesn't apply.
+ */
+function childCall(people: People, rel: Relation, call: string, them: string, region: Region) {
+  if (rel.kind !== 'blood' || !['em', 'anh', 'chị'].includes(call)) return null;
+  if (!rel.viaMySpouse && !rel.viaTheirSpouse) return null;
+  if (rel.blood.up !== rel.blood.down) return null;
+  const me = rel.path[0];
+  const spouse = rel.viaMySpouse ?? indexOf(people).spouses[me]?.[0] ?? null;
+  const mine = people[me].gender;
+  const child: Person = {
+    name: '',
+    gender: 'u',
+    ...(mine === 'f'
+      ? { motherId: me, ...(spouse ? { fatherId: spouse } : {}) }
+      : { fatherId: me, ...(spouse ? { motherId: spouse } : {}) }),
+  };
+  const withChild: People = { ...people, [CHILD]: child };
+  const there = relationPath(withChild, CHILD, them);
+  if (!there) return null;
+  const word = addressTerms(withChild, there, them, region).call;
+  return word && word !== call ? word : null;
+}
+const CHILD = '__child_for_goi_thay_con__';
 
 export interface Kinship {
   /** I call them … */
@@ -417,6 +446,8 @@ export interface Kinship {
   self: string;
   relation: string;
   path: string[];
+  /** gọi thay con: in front of the children, people may call them this instead */
+  childCall: string | null;
 }
 
 /** Everything the person page and the "Gọi nhau thế nào" screen show; null if unrelated. */
@@ -432,6 +463,12 @@ export function kinship(
   const t = addressTerms(people, there, them, region);
   const s = addressTerms(people, back, me, region);
   // "ông nội" calls himself "ông", not "ông nội"
-  const self = (s.theirSelf ?? s.call).replace(/ (nội|ngoại)$/, '');
-  return { call: t.call, self, relation: t.relation, path: there.path };
+  const self = s.call.replace(/ (nội|ngoại)$/, '');
+  return {
+    call: t.call,
+    self,
+    relation: t.relation,
+    path: there.path,
+    childCall: childCall(people, there, t.call, them, region),
+  };
 }
