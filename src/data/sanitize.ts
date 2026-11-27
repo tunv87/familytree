@@ -52,6 +52,10 @@ function sanitizePerson(v: Record<string, unknown>): Person {
     const s = Object.keys(v.spouses).filter((k) => (v.spouses as Record<string, unknown>)[k]);
     if (s.length) p.spouses = Object.fromEntries(s.map((k) => [k, true as const]));
   }
+  if (isObj(v.siblings)) {
+    const s = Object.keys(v.siblings).filter((k) => (v.siblings as Record<string, unknown>)[k]);
+    if (s.length) p.siblings = Object.fromEntries(s.map((k) => [k, true as const]));
+  }
   if (typeof v.updatedAt === 'number') p.updatedAt = v.updatedAt;
   return p;
 }
@@ -66,6 +70,10 @@ function repairLinks(people: People): People {
     if (p.spouses) {
       for (const s of Object.keys(p.spouses)) if (s === id || !people[s]) delete p.spouses[s];
       if (Object.keys(p.spouses).length === 0) delete p.spouses;
+    }
+    if (p.siblings) {
+      for (const s of Object.keys(p.siblings)) if (s === id || !people[s]) delete p.siblings[s];
+      if (Object.keys(p.siblings).length === 0) delete p.siblings;
     }
   }
   // parent loops (A is B's father and B is A's father): cut the link that closes the loop

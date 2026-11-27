@@ -241,7 +241,9 @@ export const vi = {
   sibAfter: '➜ Xếp sau {name} trong thứ tự con',
   pickSibKind: 'Chọn Anh, Chị, Em trai hoặc Em gái',
   sibNeedParents: 'Chưa có ba má của {name}',
-  sibNeedParentsHint: 'Anh chị em được nối qua ba má. Thêm ba hoặc má trước, rồi thêm anh/chị/em.',
+  sibNeedParentsHint:
+    'Có thể thêm anh/chị/em luôn, hoặc thêm ba/má trước để cây có đủ cả nhà (không bắt buộc).',
+  sibAddDirect: 'Thêm anh/chị/em luôn',
   otherParent: 'Cha/mẹ còn lại',
   saveError: 'Không lưu được. Kiểm tra mạng hoặc quyền quản trị.',
   required: 'Cần nhập họ tên',

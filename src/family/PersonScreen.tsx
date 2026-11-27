@@ -258,20 +258,27 @@ function PersonView({
           <div className="stack">
             <button
               className="btn"
+              data-testid="sib-add-direct"
+              onClick={() => navigate(`/add?sibling=${pid}`)}
+            >
+              👫 {t('sibAddDirect')}
+            </button>
+            <button
+              className="btn secondary"
               data-testid="sib-add-father"
               onClick={() => navigate(`/add?child=${pid}&gender=m`)}
             >
               👨 {t('addFather')}
             </button>
             <button
-              className="btn"
+              className="btn secondary"
               data-testid="sib-add-mother"
               onClick={() => navigate(`/add?child=${pid}&gender=f`)}
             >
               👩 {t('addMother')}
             </button>
-            <button className="btn secondary" onClick={() => setNeedParents(false)}>
-              {t('later')}
+            <button className="link-btn" onClick={() => setNeedParents(false)}>
+              {t('cancel')}
             </button>
           </div>
         </Modal>

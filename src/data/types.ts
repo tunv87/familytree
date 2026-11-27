@@ -24,6 +24,8 @@ export interface Person {
   fatherId?: string;
   motherId?: string;
   spouses?: Record<string, true>;
+  /** brothers / sisters linked directly, when their parents aren't in the family */
+  siblings?: Record<string, true>;
   /** thứ tự con trong nhà (con trưởng = 1) */
   order?: number;
   note?: string;

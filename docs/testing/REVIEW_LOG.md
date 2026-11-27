@@ -230,3 +230,15 @@ gái) và N1 (chưa có ba má thì thêm ba/má trước).
 | R-71 | LG-19 | Người xem không thấy nút; người chưa có ba má → hộp N1 dẫn sang "Thêm cha" với giới tính chọn sẵn                                                                                 |
 
 Kết quả: run-37, run-38, run-39 xanh liên tiếp trên `eb4321d` (281 unit, 24 rules, 80 e2e; LG-19 7/7). Bằng chứng UI mới nhất ở `runs/run-39/`.
+
+### Vòng 15b — Anh chị em nối thẳng (LG-19, 27/11/2026)
+
+User (ảnh chụp hộp "Chưa có ba má của Nguyễn Thận"): "Bị block. Bước này optional thôi"; chọn **nối thẳng**, xưng hô suy
+ra từ người được nối vào (không tạo ô ba má).
+
+| #    | Case  | Quyết định                                                                                                                                                                             |
+| ---- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R-72 | LG-19 | Lưu `siblings` hai chiều (như `spouses`); mọi phép tính (xưng hô, đời, thứ tự con, danh sách anh chị em) dùng bản "đổi link thẳng thành ba má chung" — một ba má ảo không bao giờ hiện |
+| R-73 | LG-19 | Unit test theo đúng ca thật: em trai của ông Thận → con ông gọi "chú", cháu gọi "ông chú", vợ em là "thím", con hai bên là anh em họ theo vai; ảo không có trong đường quan hệ/cây     |
+| R-74 | LG-19 | Khi một người trong nhóm được thêm ba/má, những người còn lại dùng chung ba má đó (và đứng chung trên cây); sửa/xoá giữ/gỡ link hai chiều; dữ liệu hỏng được dọn khi tải               |
+| R-75 | SEC   | Rules: `siblings/$id` chỉ nhận `true`, chỉ admin ghi — **cần deploy lại rules** (`firebase deploy --only database`)                                                                    |

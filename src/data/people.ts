@@ -3,6 +3,7 @@
  * multi-path updates that keep links consistent (both sides of a marriage, a deleted
  * person removed from parents/children/spouses).
  */
+import { isVirtual, withSiblingLinks } from './siblings';
 import type { Person } from './types';
 
 export type People = Record<string, Person>;
@@ -58,6 +59,13 @@ export function parentsOf(people: People, id: string): string[] {
 }
 
 export function siblingsOf(people: People, id: string): string[] {
+  // brothers and sisters linked directly count too (see siblings.ts)
+  const all = withSiblingLinks(people);
+  if (all !== people) return siblingsByParents(all, id).filter((s) => !isVirtual(s) && people[s]);
+  return siblingsByParents(people, id);
+}
+
+function siblingsByParents(people: People, id: string): string[] {
   const p = people[id];
   if (!p) return [];
   const parents = parentsOf(people, id);
@@ -143,6 +151,8 @@ export interface NewPersonLinks {
   spouseId?: string;
   /** this new person is the father/mother of this child */
   childId?: string;
+  /** brother / sister of this person, linked directly (their parents aren't in the family) */
+  siblingId?: string;
 }
 
 /**
@@ -166,6 +176,10 @@ export function addPersonUpdates(
     u[`people/${b}/spouses/${a}`] = true;
   };
   if (links.spouseId && people[links.spouseId]) marry(id, links.spouseId);
+  if (links.siblingId && people[links.siblingId]) {
+    p.siblings = { ...(p.siblings ?? {}), [links.siblingId]: true };
+    u[`people/${links.siblingId}/siblings/${id}`] = true;
+  }
   if (links.childId && people[links.childId]) {
     const child = people[links.childId];
     const asFather = person.gender !== 'f' && !child.fatherId;
@@ -223,6 +237,7 @@ export function editPersonUpdates(
     fatherId: old?.fatherId,
     motherId: old?.motherId,
     spouses: old?.spouses,
+    siblings: old?.siblings,
     // older data: keep the typed-in "đời thứ" (only used to keep the family's numbering)
     generation: old?.generation,
     updatedAt: now,
@@ -254,6 +269,7 @@ export function deletePersonUpdates(people: People, id: string): Updates {
     if (o.fatherId === id) u[`people/${oid}/fatherId`] = null;
     if (o.motherId === id) u[`people/${oid}/motherId`] = null;
     if (o.spouses?.[id]) u[`people/${oid}/spouses/${id}`] = null;
+    if (o.siblings?.[id]) u[`people/${oid}/siblings/${id}`] = null;
   }
   return u;
 }

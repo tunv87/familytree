@@ -8,6 +8,7 @@
  *    they call me, so it's computed from the reverse path, never written separately.
  */
 import { linkIndex, type LinkIndex, type People } from './people';
+import { isVirtual, withSiblingLinks } from './siblings';
 import type { Gender, Person } from './types';
 
 export type Region = 'trung' | 'bac' | 'nam';
@@ -457,6 +458,8 @@ export function kinship(
   them: string,
   region: Region = 'trung',
 ): Kinship | null {
+  // brothers and sisters linked directly are related through a parent nobody sees
+  people = withSiblingLinks(people);
   const there = relationPath(people, me, them);
   const back = relationPath(people, them, me);
   if (!there || !back) return null;
@@ -468,7 +471,7 @@ export function kinship(
     call: t.call,
     self,
     relation: t.relation,
-    path: there.path,
+    path: there.path.filter((id) => !isVirtual(id)),
     childCall: childCall(people, there, t.call, them, region),
   };
 }

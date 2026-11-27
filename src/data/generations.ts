@@ -9,6 +9,7 @@
  */
 import { findRoots } from '../tree/layout';
 import { linkIndex, type People } from './people';
+import { siblingGroups } from './siblings';
 import type { Family } from './types';
 
 export type Generations = Record<string, number>;
@@ -56,6 +57,34 @@ export function computeGenerations(people: People, top = 1): Generations {
       for (const p of parents(id)) if (gens[p] === undefined) later.push([p, g - 1]);
     }
     queue = next;
+  }
+  // brothers and sisters linked directly share a generation, and so do their own families
+  let more = true;
+  while (more) {
+    more = false;
+    for (const group of siblingGroups(people)) {
+      const known = group.find((id) => gens[id] !== undefined);
+      if (!known) continue;
+      let wave = group.filter((id) => gens[id] === undefined);
+      if (wave.length) more = true;
+      for (const id of wave) gens[id] = gens[known];
+      while (wave.length) {
+        const next: string[] = [];
+        for (const id of wave) {
+          for (const s of index.spouses[id] ?? [])
+            if (gens[s] === undefined) {
+              gens[s] = gens[id];
+              next.push(s);
+            }
+          for (const c of index.children[id] ?? [])
+            if (gens[c] === undefined) {
+              gens[c] = gens[id] + 1;
+              next.push(c);
+            }
+        }
+        wave = next;
+      }
+    }
   }
   // an in-law's own family can reach above generation 1: leave those people unnumbered
   for (const id of Object.keys(gens)) if (gens[id] < 1) delete gens[id];

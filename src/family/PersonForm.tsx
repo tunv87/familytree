@@ -194,8 +194,11 @@ function PersonForm({
         const links: NewPersonLinks = { spouseId, childId };
         let orderUpdates = {};
         if (sibling && siblingId && sibKind) {
-          links.fatherId = sibling.fatherId;
-          links.motherId = sibling.motherId;
+          // through their parents; or, when those aren't in the family, linked directly
+          if (sibling.fatherId || sibling.motherId) {
+            links.fatherId = sibling.fatherId;
+            links.motherId = sibling.motherId;
+          } else links.siblingId = siblingId;
           const placed = siblingOrder(people, siblingId, SIB_OLDER[sibKind]);
           person.order = placed.order;
           orderUpdates = placed.updates;

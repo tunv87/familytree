@@ -98,15 +98,35 @@ test('LG-19 add a brother or sister: Anh/Chị/Em, same parents, right birth ord
   await page.locator('.person-row', { hasText: 'Nguyễn Văn Hùng' }).click();
   await expect(page.getByTestId('kinship-call')).toHaveText(/gọi là em · xưng chị/);
 
-  // someone with no parents in the tree: add the father or mother first (N1)
+  // someone with no parents in the tree: adding the parents first is offered, not required
   await page.goto('/#/p/tra00001');
   await page.getByTestId('add-sibling').click();
   await expect(page.getByRole('dialog')).toContainText('Chưa có ba má của Nguyễn Thị Hải Trà');
+  await expect(page.getByTestId('sib-add-father')).toBeVisible();
   await page.waitForTimeout(400); // let the dialog finish appearing
   await page.screenshot({ path: 'test-results/screens/add-sibling-no-parents.png' });
-  await page.getByTestId('sib-add-father').click();
-  await expect(page.getByTestId('form-context')).toHaveText('Cha/mẹ của Nguyễn Thị Hải Trà');
-  await expect(page.getByTestId('gender-m')).toHaveAttribute('aria-pressed', 'true');
+  await page.getByTestId('sib-add-direct').click();
+  await expect(page.getByTestId('form-context')).toHaveText('Anh/chị/em của Nguyễn Thị Hải Trà');
+  await page.getByTestId('sib-emTrai').click();
+  await page.getByTestId('name').fill('Nguyễn Hải Phong');
+  await page.getByTestId('save').click();
+  await expect(page.getByTestId('person-name')).toHaveText('Nguyễn Hải Phong');
+  // linked straight to her: listed as her brother, and xưng hô follows from her
+  await page.goto('/#/p/tra00001');
+  await expect(page.locator('section.list', { hasText: 'Anh chị em' })).toContainText(
+    'Nguyễn Hải Phong',
+  );
+  await page.goto('/#/settings');
+  await page.getByTestId('settings-unset-me').click();
+  await page.goto('/#/p/tu000001');
+  await page.getByTestId('set-me').click();
+  await page.goto('/#/people');
+  await page.locator('.person-row', { hasText: 'Nguyễn Hải Phong' }).click();
+  await expect(page.getByTestId('kinship-call')).toHaveText(/gọi là em · xưng anh/);
+  await expect(page.getByTestId('kinship-relation')).toHaveText('em trai ruột (bên vợ)');
+  await expect(page.getByTestId('kinship-child-call')).toHaveText(
+    'Trước mặt con cháu có thể gọi là cậu',
+  );
   expect(pageErrors(page)).toEqual([]);
 });
 

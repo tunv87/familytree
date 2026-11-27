@@ -257,6 +257,16 @@ describe('SEC-01 more attacks', () => {
     await ok(set(photo(a), null));
   });
 
+  it('LG-19 anh chị em nối thẳng: plain true links, admins only', async () => {
+    const a = await google();
+    await adminWrite('PUT', `families/${FID}`, family(a.uid));
+    const p = ref(a.db, `families/${FID}/people/p0000001`);
+    await ok(set(p, { ...person(), siblings: { p0000002: true } }));
+    await denied(set(p, { ...person(), siblings: { p0000002: 'yes' } }));
+    const v = await viewer();
+    await denied(set(ref(v.db, `families/${FID}/people/p0000001/siblings/p0000003`), true));
+  });
+
   it('LG-16 nơi ở is text up to 120 characters', async () => {
     const a = await google();
     await adminWrite('PUT', `families/${FID}`, family(a.uid));

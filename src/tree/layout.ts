@@ -6,6 +6,7 @@
  * order. Every person is drawn once, even when two relatives married each other.
  */
 import { childrenOf, linkIndex, spousesOf, type LinkIndex, type People } from '../data/people';
+import { withSiblingLinks } from '../data/siblings';
 import type { Person } from '../data/types';
 
 export const CARD_W = 150;
@@ -182,6 +183,9 @@ export function layoutTree(
   people: People,
   opts: { collapsed?: ReadonlySet<string>; rootId?: string; cardW?: number } = {},
 ): TreeLayout {
+  // a brother or sister linked directly stands with the others under their parents, when one of
+  // them has parents in the family (siblings.ts); no made-up parent is ever drawn
+  people = withSiblingLinks(people, false);
   const CARD_W = opts.cardW ?? 150;
   const collapsed = opts.collapsed ?? new Set<string>();
   const placed = new Set<string>();
