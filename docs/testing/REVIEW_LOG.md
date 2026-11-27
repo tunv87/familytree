@@ -215,3 +215,5 @@ trên cây + hồ sơ bằng bản build giống bản đang chạy. Má Thuần
 | R-66 | LG-13 | Dòng quan hệ dùng bố/mẹ dù từ gọi là ba/má → đổi theo miền; ông bà bên vợ/chồng ghi "bà nội của vợ"                                                                                                                                             |
 | R-67 | LG-17 | Nhãn trên cây cho anh chị em bên vợ/chồng: "Em chồng", "Anh vợ" thay vì "Em gái"/"Anh" (dễ nhầm là ruột)                                                                                                                                        |
 | R-68 | LG-13 | Chạy lại 110 cặp trên dữ liệu thật sau khi sửa: chỉ những dòng dự kiến thay đổi; 6 ghi chú gọi thay con đúng (cô, dượng ×2, cậu, mợ ×2)                                                                                                         |
+
+Kết quả: run-34, run-35, run-36 xanh liên tiếp trên `23dd0ab` (275 unit, 24 rules, 78 e2e). Bằng chứng UI mới nhất ở `runs/run-36/`.
