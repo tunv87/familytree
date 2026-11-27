@@ -1431,3 +1431,11 @@ select.text-input {
     0 -8px 0 0 var(--surface),
     0 -14px 12px -10px rgba(0, 0, 0, 0.35);
 }
+.banner-sub {
+  font-weight: 600;
+  font-size: 0.85em;
+}
+.segmented.sib-kind {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}

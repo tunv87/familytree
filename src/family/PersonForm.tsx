@@ -8,6 +8,7 @@ import {
   addPersonUpdates,
   editPersonUpdates,
   inverseUpdates,
+  siblingOrder,
   spousesOf,
   type NewPersonLinks,
   type People,
@@ -20,6 +21,13 @@ import { GENDER_ICON } from '../ui/Avatar';
 import { DiscardConfirm, TopBar } from '../ui/components';
 import { showToast } from '../ui/toast';
 import { FamilyGate } from './useFamilyGate';
+
+type SibKind = 'anh' | 'chi' | 'emTrai' | 'emGai';
+const SIB_KINDS: SibKind[] = ['anh', 'chi', 'emTrai', 'emGai'];
+const SIB_GENDER: Record<SibKind, Gender> = { anh: 'm', chi: 'f', emTrai: 'm', emGai: 'f' };
+const SIB_OLDER: Record<SibKind, boolean> = { anh: true, chi: true, emTrai: false, emGai: false };
+/** "Nguyễn Thị Lập" → "Lập" */
+const shortName = (name: string) => name.trim().split(/\s+/).pop() ?? name;
 
 const log = createLogger('person-form');
 
@@ -98,6 +106,10 @@ function PersonForm({
   const parentId = params.get('parent') ?? undefined;
   const spouseId = params.get('spouse') ?? undefined;
   const childId = params.get('child') ?? undefined;
+  const siblingId = params.get('sibling') ?? undefined;
+  const sibling = siblingId ? people[siblingId] : undefined;
+  /** "Thêm anh/chị/em": Anh / Chị / Em trai / Em gái — gender and older/younger in one tap */
+  const [sibKind, setSibKind] = useState<SibKind | null>(null);
   const first = params.get('first') === '1';
   const parent = parentId ? people[parentId] : undefined;
   const parentSpouses = parentId ? spousesOf(people, parentId) : [];
@@ -133,11 +145,20 @@ function PersonForm({
       ? t('spouseOf', { name: people[spouseId]?.name ?? '' })
       : childId
         ? t('parentOf', { name: people[childId]?.name ?? '' })
-        : null;
+        : sibling
+          ? t('siblingOf', { name: sibling.name })
+          : null;
+  const siblingParents = sibling
+    ? [sibling.fatherId, sibling.motherId]
+        .filter((x): x is string => Boolean(x && people[x]))
+        .map((x) => people[x].name)
+    : [];
 
   const problem = !form.name.trim()
     ? t('required')
-    : (dateError(form.birth) ?? (form.deceased ? dateError(form.death) : null));
+    : sibling && !sibKind
+      ? t('pickSibKind')
+      : (dateError(form.birth) ?? (form.deceased ? dateError(form.death) : null));
 
   const save = async () => {
     if (problem) {
@@ -171,12 +192,23 @@ function PersonForm({
       } else {
         const id = randomId(12);
         const links: NewPersonLinks = { spouseId, childId };
+        let orderUpdates = {};
+        if (sibling && siblingId && sibKind) {
+          links.fatherId = sibling.fatherId;
+          links.motherId = sibling.motherId;
+          const placed = siblingOrder(people, siblingId, SIB_OLDER[sibKind]);
+          person.order = placed.order;
+          orderUpdates = placed.updates;
+        }
         if (parentId) {
           const isMother = parent?.gender === 'f';
           links.fatherId = isMother ? otherParent || undefined : parentId;
           links.motherId = isMother ? parentId : otherParent || undefined;
         }
-        await applyFamilyUpdates(familyId, addPersonUpdates(people, id, person, links, now));
+        await applyFamilyUpdates(familyId, {
+          ...orderUpdates,
+          ...addPersonUpdates(people, id, person, links, now),
+        });
         if (photo) await savePhoto(familyId, id, photo);
         navigate(`/p/${id}`, { replace: true });
       }
@@ -193,7 +225,16 @@ function PersonForm({
         title={editId ? t('editPerson') : first ? t('addFirst') : t('newPerson')}
         onBack={() => (dirty ? setConfirmLeave(true) : nav.up())}
       />
-      {context && <div className="banner">{context}</div>}
+      {context && (
+        <div className="banner" data-testid="form-context">
+          {context}
+          {siblingParents.length > 0 && (
+            <div className="banner-sub">
+              {t('childOfNames', { names: siblingParents.join(t('and')) })}
+            </div>
+          )}
+        </div>
+      )}
       <form
         className="stack"
         onSubmit={(e) => {
@@ -201,6 +242,41 @@ function PersonForm({
           void save();
         }}
       >
+        {sibling && (
+          <div className="field">
+            <span>{t('sibKindLabel', { name: shortName(sibling.name) })}</span>
+            <div className="segmented sib-kind">
+              {SIB_KINDS.map((k) => (
+                <button
+                  type="button"
+                  key={k}
+                  aria-pressed={sibKind === k}
+                  data-testid={`sib-${k}`}
+                  onClick={() => {
+                    setSibKind(k);
+                    set({ gender: SIB_GENDER[k] });
+                    if (error === t('pickSibKind')) setError(null);
+                  }}
+                >
+                  {t(`sib_${k}`)}
+                </button>
+              ))}
+            </div>
+            {sibKind && (
+              <span className="muted small" data-testid="sib-order-hint">
+                {t(SIB_OLDER[sibKind] ? 'sibBefore' : 'sibAfter', {
+                  name: shortName(sibling.name),
+                })}
+              </span>
+            )}
+            {error === t('pickSibKind') && (
+              <span className="error" role="alert" data-testid="sib-error">
+                {error}
+              </span>
+            )}
+          </div>
+        )}
+
         <label className="field">
           <span>{t('fullName')} *</span>
           <input
@@ -276,63 +352,67 @@ function PersonForm({
           )}
         </div>
 
-        <div className="field">
-          <span>{t('gender')}</span>
-          <div className="segmented">
-            {(
-              [
-                ['m', t('male')],
-                ['f', t('female')],
-                ['u', t('unknown')],
-              ] as const
-            ).map(([g, label]) => (
-              <button
-                type="button"
-                key={g}
-                aria-pressed={form.gender === g}
-                data-testid={`gender-${g}`}
-                onClick={() => set({ gender: g })}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
+        {!sibling && (
+          <>
+            <div className="field">
+              <span>{t('gender')}</span>
+              <div className="segmented">
+                {(
+                  [
+                    ['m', t('male')],
+                    ['f', t('female')],
+                    ['u', t('unknown')],
+                  ] as const
+                ).map(([g, label]) => (
+                  <button
+                    type="button"
+                    key={g}
+                    aria-pressed={form.gender === g}
+                    data-testid={`gender-${g}`}
+                    onClick={() => set({ gender: g })}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-        {parentId && parentSpouses.length > 0 && (
-          <label className="field">
-            <span>{t('otherParent')}</span>
-            <select
-              className="text-input"
-              value={otherParent}
-              data-testid="other-parent"
-              onChange={(e) => setOtherParent(e.target.value)}
-            >
-              {parentSpouses.map((s) => (
-                <option key={s} value={s}>
-                  {people[s].name}
-                </option>
-              ))}
-              <option value="">{t('unknown')}</option>
-            </select>
-          </label>
+            {parentId && parentSpouses.length > 0 && (
+              <label className="field">
+                <span>{t('otherParent')}</span>
+                <select
+                  className="text-input"
+                  value={otherParent}
+                  data-testid="other-parent"
+                  onChange={(e) => setOtherParent(e.target.value)}
+                >
+                  {parentSpouses.map((s) => (
+                    <option key={s} value={s}>
+                      {people[s].name}
+                    </option>
+                  ))}
+                  <option value="">{t('unknown')}</option>
+                </select>
+              </label>
+            )}
+
+            <label className="field">
+              <span>{t('order')}</span>
+              <input
+                className="text-input short"
+                inputMode="numeric"
+                maxLength={2}
+                value={form.order}
+                data-testid="order"
+                aria-describedby="order-hint"
+                onChange={(e) => set({ order: e.target.value.replace(/\D/g, '') })}
+              />
+              <span className="muted small" id="order-hint">
+                {t('orderHint')}
+              </span>
+            </label>
+          </>
         )}
-
-        <label className="field">
-          <span>{t('order')}</span>
-          <input
-            className="text-input short"
-            inputMode="numeric"
-            maxLength={2}
-            value={form.order}
-            data-testid="order"
-            aria-describedby="order-hint"
-            onChange={(e) => set({ order: e.target.value.replace(/\D/g, '') })}
-          />
-          <span className="muted small" id="order-hint">
-            {t('orderHint')}
-          </span>
-        </label>
 
         <div className="field">
           <span>{t('birthDate')}</span>

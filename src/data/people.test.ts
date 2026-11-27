@@ -7,6 +7,7 @@ import {
   deletePersonUpdates,
   editPersonUpdates,
   inverseUpdates,
+  siblingOrder,
   descendantsAndSelf,
   lifespan,
   relinkUpdates,
@@ -217,5 +218,45 @@ describe('UX-17 inverseUpdates (Hoàn tác)', () => {
     expect(inverseUpdates(before, { 'people/new': { name: 'Mới' } })).toEqual({
       'people/new': null,
     });
+  });
+});
+
+describe('LG-19 thêm anh/chị/em: thứ tự con', () => {
+  const fam = (): People => ({
+    ba: { name: 'Ba', gender: 'm' },
+    tu: { name: 'Tự', gender: 'm', fatherId: 'ba', order: 1 },
+    lap: { name: 'Lập', gender: 'f', fatherId: 'ba', order: 2 },
+    khongRo: { name: 'Không Rõ', gender: 'm', fatherId: 'ba' },
+  });
+
+  it('em of Lập goes right after her', () => {
+    expect(siblingOrder(fam(), 'lap', false)).toEqual({ order: 3, updates: {} });
+  });
+
+  it('anh of Lập goes before her; she and those after move down one', () => {
+    expect(siblingOrder(fam(), 'lap', true)).toEqual({
+      order: 2,
+      updates: { 'people/lap/order': 3 },
+    });
+  });
+
+  it('anh of the eldest becomes number 1, everyone else moves down', () => {
+    expect(siblingOrder(fam(), 'tu', true)).toEqual({
+      order: 1,
+      updates: { 'people/tu/order': 2, 'people/lap/order': 3 },
+    });
+  });
+
+  it('someone with no order gets one after the ordered siblings; unknowns are left alone', () => {
+    const r = siblingOrder(fam(), 'khongRo', false);
+    expect(r).toEqual({ order: 4, updates: { 'people/khongRo/order': 3 } });
+  });
+
+  it('works with no other siblings', () => {
+    const p: People = {
+      ba: { name: 'Ba', gender: 'm' },
+      x: { name: 'X', gender: 'm', fatherId: 'ba' },
+    };
+    expect(siblingOrder(p, 'x', true)).toEqual({ order: 1, updates: { 'people/x/order': 2 } });
   });
 });

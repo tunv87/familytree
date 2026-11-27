@@ -20,6 +20,7 @@ describe('UX-13 nút ← về màn cha (sơ đồ đã duyệt trên mock)', () 
     ['/add', '?parent=a1', '/p/a1'],
     ['/add', '?spouse=a1', '/p/a1'],
     ['/add', '?child=a1&gender=m', '/p/a1'],
+    ['/add', '?sibling=a1', '/p/a1'],
     ['/add', '?first=1', '/'],
     ['/add', '', '/people'],
     ['/kinship', '?a=me&b=a1', '/p/a1'],

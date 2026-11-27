@@ -33,7 +33,7 @@ export function parentPath(
       return id ? `/p/${id}` : '/people';
     case 'add': {
       if (q.get('first') === '1') return '/';
-      const of = q.get('parent') ?? q.get('spouse') ?? q.get('child');
+      const of = q.get('parent') ?? q.get('spouse') ?? q.get('child') ?? q.get('sibling');
       return of ? `/p/${of}` : '/people';
     }
     case 'tree': {

@@ -217,3 +217,14 @@ trên cây + hồ sơ bằng bản build giống bản đang chạy. Má Thuần
 | R-68 | LG-13 | Chạy lại 110 cặp trên dữ liệu thật sau khi sửa: chỉ những dòng dự kiến thay đổi; 6 ghi chú gọi thay con đúng (cô, dượng ×2, cậu, mợ ×2)                                                                                                         |
 
 Kết quả: run-34, run-35, run-36 xanh liên tiếp trên `23dd0ab` (275 unit, 24 rules, 78 e2e). Bằng chứng UI mới nhất ở `runs/run-36/`.
+
+## Vòng 15 — Thêm anh/chị/em (LG-19, 27/11/2026)
+
+User: "Thiếu option thêm anh/chị/em". Mock trước (trang "Thêm anh/chị/em"); user chọn S1 (4 nút Anh / Chị / Em trai / Em
+gái) và N1 (chưa có ba má thì thêm ba/má trước).
+
+| #    | Case  | Quyết định                                                                                                                                                                        |
+| ---- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R-69 | LG-19 | Thứ tự con là hàm thuần `siblingOrder` → unit test: em sau, anh trước (dời số), anh của con trưởng thành số 1, người chưa có số, không có anh chị em; người chưa có số giữ nguyên |
+| R-70 | LG-19 | e2e kiểm thứ tự thật trên hồ sơ cha (Tự, Nam, Lập, Hùng) và xưng hô ngay sau khi thêm (Lập gọi Nam "anh", Hùng "em"), không chỉ kiểm có người mới                                 |
+| R-71 | LG-19 | Người xem không thấy nút; người chưa có ba má → hộp N1 dẫn sang "Thêm cha" với giới tính chọn sẵn                                                                                 |

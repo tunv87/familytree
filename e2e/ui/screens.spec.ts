@@ -132,6 +132,13 @@ async function prepare(page: Page): Promise<Screen[]> {
       },
     },
     {
+      name: 'add-sibling',
+      open: async (p) => {
+        await p.goto('/#/add?sibling=p000000001');
+        await p.getByTestId('sib-anh').click();
+      },
+    },
+    {
       name: 'relations',
       open: async (p) => {
         await p.goto('/#/relations/to00000001');

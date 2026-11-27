@@ -81,6 +81,7 @@ function PersonView({
   const navigate = useNavigate();
   const nav = useNav();
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [needParents, setNeedParents] = useState(false);
   const [error, setError] = useState(false);
   const p = people[pid];
   if (!p)
@@ -227,6 +228,15 @@ function PersonView({
           )}
           <button
             className="btn secondary"
+            data-testid="add-sibling"
+            onClick={() =>
+              p.fatherId || p.motherId ? navigate(`/add?sibling=${pid}`) : setNeedParents(true)
+            }
+          >
+            👫 {t('addSibling')}
+          </button>
+          <button
+            className="btn secondary"
             data-testid="edit-relations"
             onClick={() => navigate(`/relations/${pid}`)}
           >
@@ -240,6 +250,31 @@ function PersonView({
             🗑️ {t('delete')}
           </button>
         </div>
+      )}
+      {needParents && (
+        <Modal onClose={() => setNeedParents(false)}>
+          <h2>{t('sibNeedParents', { name: p.name })}</h2>
+          <div className="muted">{t('sibNeedParentsHint')}</div>
+          <div className="stack">
+            <button
+              className="btn"
+              data-testid="sib-add-father"
+              onClick={() => navigate(`/add?child=${pid}&gender=m`)}
+            >
+              👨 {t('addFather')}
+            </button>
+            <button
+              className="btn"
+              data-testid="sib-add-mother"
+              onClick={() => navigate(`/add?child=${pid}&gender=f`)}
+            >
+              👩 {t('addMother')}
+            </button>
+            <button className="btn secondary" onClick={() => setNeedParents(false)}>
+              {t('later')}
+            </button>
+          </div>
+        </Modal>
       )}
       {confirmDelete && (
         <Modal onClose={() => setConfirmDelete(false)}>

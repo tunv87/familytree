@@ -178,6 +178,38 @@ export function addPersonUpdates(
   return u;
 }
 
+/**
+ * "Thêm anh/chị/em": where a new brother or sister of `of` goes in the birth order, so that
+ * seniority (vai) is right straight away. The siblings that already have an order, and `of`,
+ * are renumbered 1…n with the new one just before `of` (older) or just after (younger);
+ * siblings with no order stay as they are. Returns the new one's order and the updates.
+ */
+export function siblingOrder(
+  people: People,
+  of: string,
+  older: boolean,
+): { order: number; updates: Updates } {
+  const ordered = sortSiblings(
+    people,
+    siblingsOf(people, of).filter((s) => people[s].order),
+  );
+  // where `of` stands: by their order if they have one, otherwise after the ordered ones
+  const ofOrder = people[of]?.order;
+  let at = ofOrder ? ordered.findIndex((s) => (people[s].order ?? 0) > ofOrder) : -1;
+  if (at < 0) at = ordered.length;
+  const line = [...ordered.slice(0, at), of, ...ordered.slice(at)];
+  const i = line.indexOf(of);
+  const NEW = '\u0000new';
+  line.splice(older ? i : i + 1, 0, NEW);
+  const updates: Updates = {};
+  let order = 0;
+  line.forEach((id, n) => {
+    if (id === NEW) order = n + 1;
+    else if (people[id].order !== n + 1) updates[`people/${id}/order`] = n + 1;
+  });
+  return { order, updates };
+}
+
 /** Updates that save edits to an existing person, keeping their links. */
 export function editPersonUpdates(
   people: People,
