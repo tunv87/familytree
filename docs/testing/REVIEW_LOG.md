@@ -228,3 +228,5 @@ gái) và N1 (chưa có ba má thì thêm ba/má trước).
 | R-69 | LG-19 | Thứ tự con là hàm thuần `siblingOrder` → unit test: em sau, anh trước (dời số), anh của con trưởng thành số 1, người chưa có số, không có anh chị em; người chưa có số giữ nguyên |
 | R-70 | LG-19 | e2e kiểm thứ tự thật trên hồ sơ cha (Tự, Nam, Lập, Hùng) và xưng hô ngay sau khi thêm (Lập gọi Nam "anh", Hùng "em"), không chỉ kiểm có người mới                                 |
 | R-71 | LG-19 | Người xem không thấy nút; người chưa có ba má → hộp N1 dẫn sang "Thêm cha" với giới tính chọn sẵn                                                                                 |
+
+Kết quả: run-37, run-38, run-39 xanh liên tiếp trên `eb4321d` (281 unit, 24 rules, 80 e2e; LG-19 7/7). Bằng chứng UI mới nhất ở `runs/run-39/`.
