@@ -244,3 +244,4 @@ ra từ người được nối vào (không tạo ô ba má).
 | R-75 | SEC   | Rules: `siblings/$id` chỉ nhận `true`, chỉ admin ghi — **cần deploy lại rules** (`firebase deploy --only database`)                                                                    |
 
 Kết quả: run-40, run-41, run-42 xanh liên tiếp trên `8215465` (290 unit, 25 rules, 80 e2e; LG-19 17/17). Bằng chứng UI mới nhất ở `runs/run-42/`.
+R-76 (SEC-05): CI đỏ 1 lần trên `eb601ee` (chỉ đổi tài liệu) — test mở hồ sơ ngay sau link gia phả, đua với việc tải gia phả. Sửa test: chờ trang chủ hiện trước (như test người xem của LG-19); chạy lặp 5 lần xanh. Lỗi của test, không phải app.

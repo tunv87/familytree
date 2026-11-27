@@ -85,6 +85,8 @@ test('SEC-05 signing out removes editing at once; viewers cannot create a family
   const uid = await signInAdmin(page, 'sec05');
   const fid = await seedFamily('Họ Phiên', sampleFamily(), { admins: [uid] });
   await page.goto(`/#/f/${fid}`);
+  // let the family open first (going straight on raced it: flaky on CI, 27/11)
+  await expect(page.getByTestId('home-people')).toBeVisible();
   await page.goto('/#/p/to00000001');
   await expect(page.getByTestId('edit-person')).toBeVisible();
   await page.goto('/#/settings');
