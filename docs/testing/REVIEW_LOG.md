@@ -242,3 +242,5 @@ ra từ người được nối vào (không tạo ô ba má).
 | R-73 | LG-19 | Unit test theo đúng ca thật: em trai của ông Thận → con ông gọi "chú", cháu gọi "ông chú", vợ em là "thím", con hai bên là anh em họ theo vai; ảo không có trong đường quan hệ/cây     |
 | R-74 | LG-19 | Khi một người trong nhóm được thêm ba/má, những người còn lại dùng chung ba má đó (và đứng chung trên cây); sửa/xoá giữ/gỡ link hai chiều; dữ liệu hỏng được dọn khi tải               |
 | R-75 | SEC   | Rules: `siblings/$id` chỉ nhận `true`, chỉ admin ghi — **cần deploy lại rules** (`firebase deploy --only database`)                                                                    |
+
+Kết quả: run-40, run-41, run-42 xanh liên tiếp trên `8215465` (290 unit, 25 rules, 80 e2e; LG-19 17/17). Bằng chứng UI mới nhất ở `runs/run-42/`.
